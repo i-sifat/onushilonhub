@@ -1,14 +1,17 @@
 import { Suspense } from 'react';
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import BackButton from '@/components/common/BackButton';
-import TopicGrammarItemsClient from '@/components/grammar-items/TopicGrammarItemsClient';
+import GrammarRulesDisplay from '@/components/grammar-items/GrammarRulesDisplay';
 import { BookOpen, Loader2 } from 'lucide-react';
+import { getGrammarTopics, getGrammarRules, formatTopicName } from '@/lib/content-loader';
 
 export async function generateStaticParams() {
   const levels = ['hsc', 'ssc'];
-  const topics = ['tense', 'voice', 'narration', 'modifiers', 'articles', 'prepositions', 'conditionals', 'clauses', 'completing-sentence', 'right-form-of-verbs', 'transformation', 'punctuation'];
-  
   const params = [];
+  
   for (const level of levels) {
+    const topics = getGrammarTopics(level as 'hsc' | 'ssc');
     for (const topic of topics) {
       params.push({ level, topic });
     }
@@ -17,25 +20,32 @@ export async function generateStaticParams() {
   return params;
 }
 
-function formatTopicName(topic: string) {
-  return topic
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+export async function generateMetadata({ params }: { params: Promise<{ level: string; topic: string }> }): Promise<Metadata> {
+  const { level, topic } = await params;
+  const levelUpper = level.toUpperCase();
+  const topicFormatted = formatTopicName(topic);
+  
+  return {
+    title: `${topicFormatted} - Grammar Rules - ${levelUpper} | OnushilonHub`,
+    description: `Master ${topicFormatted} grammar rules for ${levelUpper} examinations. Comprehensive explanations, examples, and practice materials.`,
+    openGraph: {
+      title: `${topicFormatted} - Grammar Rules - ${levelUpper} | OnushilonHub`,
+      description: `Master ${topicFormatted} grammar rules for ${levelUpper} examinations.`,
+    },
+  };
 }
 
-export default async function TopicGrammarItemsPage({ params }: { params: Promise<{ level: string; topic: string }> }) {
+export default async function TopicGrammarRulesPage({ params }: { params: Promise<{ level: string; topic: string }> }) {
   const { level, topic } = await params;
 
   if (!['hsc', 'ssc'].includes(level)) {
-    return (
-      <div className="min-h-screen bg-sf-bg pt-20 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-sf-text-bold mb-4">Invalid Level</h1>
-          <p className="text-sf-text-subtle">Please select either HSC or SSC level.</p>
-        </div>
-      </div>
-    );
+    notFound();
+  }
+
+  const grammarData = getGrammarRules(level as 'hsc' | 'ssc', topic);
+  
+  if (!grammarData) {
+    notFound();
   }
 
   return (
@@ -54,23 +64,23 @@ export default async function TopicGrammarItemsPage({ params }: { params: Promis
             </div>
             <div>
               <h1 className="text-3xl font-bold text-sf-text-bold">
-                {formatTopicName(topic)}
+                {grammarData.topic}
               </h1>
               <p className="text-sf-text-muted text-sm">
-                {level.toUpperCase()} Level Grammar Items
+                {level.toUpperCase()} Level Grammar Rules
               </p>
             </div>
           </div>
         </div>
 
-        {/* Client Content */}
+        {/* Grammar Rules Content */}
         <Suspense fallback={
           <div className="flex items-center justify-center py-12">
             <Loader2 className="h-8 w-8 animate-spin text-sf-button" />
-            <span className="ml-2 text-sf-text-subtle">Loading grammar items...</span>
+            <span className="ml-2 text-sf-text-subtle">Loading grammar rules...</span>
           </div>
         }>
-          <TopicGrammarItemsClient level={level} topic={topic} />
+          <GrammarRulesDisplay grammarData={grammarData} level={level} topic={topic} />
         </Suspense>
       </div>
     </div>
