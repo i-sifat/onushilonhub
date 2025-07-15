@@ -7,11 +7,13 @@ import { BookOpen, Loader2 } from 'lucide-react';
 import { getGrammarTopics, getGrammarRules, formatTopicName } from '@/lib/content-loader';
 
 export async function generateStaticParams() {
-  // Only generate static params for available topics
+  // Only generate static params for the 3 available topics
   return [
     { level: 'hsc', topic: 'completing-sentence' },
     { level: 'hsc', topic: 'modifier' },
-    { level: 'hsc', topic: 'connector' }
+    { level: 'hsc', topic: 'connector' },
+    // SSC topics when available
+    // { level: 'ssc', topic: 'completing-sentence' },
   ];
 }
 
@@ -37,12 +39,13 @@ export default async function TopicGrammarRulesPage({ params }: { params: Promis
     notFound();
   }
 
-  // Check if topic is available for the level
+  // Check if topic is one of the 3 available topics
   const availableTopics = getGrammarTopics(level as 'hsc' | 'ssc');
   if (!availableTopics.includes(topic)) {
     notFound();
   }
-  const grammarData = getGrammarRules(level as 'hsc' | 'ssc', topic);
+  
+  const grammarData = await getGrammarRules(level as 'hsc' | 'ssc', topic);
   
   if (!grammarData) {
     notFound();

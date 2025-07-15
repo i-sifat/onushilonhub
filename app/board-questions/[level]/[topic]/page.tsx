@@ -12,17 +12,14 @@ import {
 } from '@/lib/content-loader';
 
 export async function generateStaticParams() {
-  const levels = ['hsc', 'ssc'];
-  const params = [];
-  
-  for (const level of levels) {
-    const topics = getQuestionTopics(level as 'hsc' | 'ssc');
-    for (const topic of topics) {
-      params.push({ level, topic });
-    }
-  }
-  
-  return params;
+  // Only generate static params for available question topics
+  return [
+    { level: 'hsc', topic: 'modifier' },
+    { level: 'hsc', topic: 'connector' },
+    { level: 'hsc', topic: 'completing-sentence' },
+    // SSC topics when available
+    // { level: 'ssc', topic: 'completing-sentence' },
+  ];
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ level: string; topic: string }> }): Promise<Metadata> {
@@ -47,7 +44,7 @@ export default async function TopicQuestionsPage({ params }: { params: Promise<{
     notFound();
   }
 
-  // Verify topic exists
+  // Verify topic is available
   const topics = getQuestionTopics(level as 'hsc' | 'ssc');
   if (!topics.includes(topic)) {
     notFound();

@@ -1,60 +1,93 @@
-@@ .. @@
-         {/* Grammar Topics Grid */}
-         <Suspense fallback={
-           <div className="flex items-center justify-center py-12">
-             <Loader2 className="h-8 w-8 animate-spin text-sf-button" />
-             <span className="ml-2 text-sf-text-subtle">Loading grammar topics...</span>
-           
-           </div>
-         }>
--          <GrammarTopicsGrid level={level as 'hsc' | 'ssc'} topics={topics} />
-+          <GrammarTopicsGrid level={level as 'hsc' | 'ssc'} />
-         </Suspense>
+import { Suspense } from 'react';
+import { Metadata } from 'next';
+import BackButton from '@/components/common/BackButton';
+import { GrammarTopicsGrid } from '@/components/grammar-items/GrammarTopicsGrid';
+import { BookOpen, Loader2 } from 'lucide-react';
+import { getAllGrammarTopics } from '@/lib/content-loader';
 
--        {/* Upload Instructions */}
--        {topics.length === 0 && (
--                    <div className="mt-8 bg-sf-highlight/10 rounded-lg p-6 border border-sf-button/20">
--            <h3 className="text-lg font-semibold text-sf-text-bold mb-2">
--              Ready to Add Grammar Topics?
--            </h3>
--            <p className="text-sf-text-subtle mb-4">
--              To populate this section with grammar topics, create topic folders and upload your files:
--            </p>
--            <div className="space-y-2">
--              <code className="block bg-sf-bg border border-sf-text-muted/20 rounded p-3 text-sm text-sf-text-subtle">
--                /content/grammar-items/{level}/[topic-name]/rules.json
--              </code>
--              <p className="text-sf-text-muted text-sm">
--                Example: <code>/content/grammar-items/{level}/tense/rules.json</code>
--              </p>
--              <p className="text-sf-text-muted text-sm">
--                Example: <code>/content/grammar-items/{level}/voice/rules.json</code>
--              </p>
--            </div>
--            <div className="mt-4 p-4 bg-sf-bg border border-sf-text-muted/20 rounded">
--              <h4 className="font-semibold text-sf-text-bold mb-2">Sample JSON Structure:</h4>
--              <pre className="text-xs text-sf-text-subtle overflow-x-auto">
--{`{
--  "topic": "Tense",
--  "rules": [
--    {
--      "title": "Present Simple Tense",
--      "content": "Used for habitual actions and general truths...",
--      "examples": [
--        "I go to school every day.",
--        "The sun rises in the east."
--      ],
--      "tips": [
--        "Use base form of verb for I, you, we, they",
--        "Add -s/-es for he, she, it"
--      ]
--    }
--  ]
--}`}
--              </pre>
--            </div>
--          </div>
--        )}
+export async function generateStaticParams() {
+  return [
+    { level: 'hsc' },
+    { level: 'ssc' }
+  ];
+}
 
-         {/* Call to Action */}
-         <div className="mt-16 text-center bg-sf-highlight/10 rounded-xl p-8">
+export async function generateMetadata({ params }: { params: Promise<{ level: string }> }): Promise<Metadata> {
+  const { level } = await params;
+  
+  const levelName = level === 'hsc' ? 'HSC' : 'SSC';
+  
+  return {
+    title: `${levelName} Grammar Items - StudyForge`,
+    description: `Comprehensive grammar topics and rules for ${levelName} students. Master essential grammar concepts with detailed explanations and examples.`,
+    keywords: `${levelName} grammar, grammar rules, English grammar, ${levelName} English, grammar topics, StudyForge`,
+    openGraph: {
+      title: `${levelName} Grammar Items - StudyForge`,
+      description: `Comprehensive grammar topics and rules for ${levelName} students`,
+      type: 'website',
+    },
+  };
+}
+
+export default async function GrammarItemsLevelPage({ params }: { params: Promise<{ level: string }> }) {
+  const { level } = await params;
+  
+  // Validate level parameter
+  if (!['hsc', 'ssc'].includes(level)) {
+    return (
+      <div className="min-h-screen bg-sf-bg pt-20">
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-sf-text-bold mb-4">Invalid Level</h1>
+            <p className="text-sf-text-subtle">Please select a valid level (HSC or SSC).</p>
+            <BackButton />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const allTopics = getAllGrammarTopics(level as 'hsc' | 'ssc');
+
+  return (
+    <div className="min-h-screen bg-sf-bg pt-20">
+      <div className="container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="mb-8">
+          <BackButton />
+          <div className="flex items-center gap-3 mb-4">
+            <BookOpen className="h-8 w-8 text-sf-button" />
+            <h1 className="text-3xl font-bold text-sf-text-bold">
+              {level.toUpperCase()} Grammar Items
+            </h1>
+          </div>
+          <p className="text-sf-text-subtle text-lg max-w-3xl">
+            Master essential grammar concepts with comprehensive rules, examples, and practice materials 
+            tailored for {level.toUpperCase()} students.
+          </p>
+        </div>
+
+        {/* Grammar Topics Grid */}
+        <Suspense fallback={
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin text-sf-button" />
+            <span className="ml-2 text-sf-text-subtle">Loading grammar topics...</span>
+          </div>
+        }>
+          <GrammarTopicsGrid level={level as 'hsc' | 'ssc'} topics={allTopics} />
+        </Suspense>
+
+        {/* Call to Action */}
+        <div className="mt-16 text-center bg-sf-highlight/10 rounded-xl p-8">
+          <h2 className="text-2xl font-bold text-sf-text-bold mb-4">
+            Ready to Master Grammar?
+          </h2>
+          <p className="text-sf-text-subtle mb-6 max-w-2xl mx-auto">
+            Explore our comprehensive grammar topics designed specifically for {level.toUpperCase()} students. 
+            Each topic includes detailed rules, examples, and practice exercises.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}

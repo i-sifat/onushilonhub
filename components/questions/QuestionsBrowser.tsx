@@ -56,9 +56,9 @@ export default function QuestionsBrowser({
         let result: Question[];
         
         if (searchTerm.trim()) {
-          result = searchQuestions(level, topic, searchTerm, filters.year, filters.board);
+          result = await searchQuestions(level, topic, searchTerm, filters.year, filters.board);
         } else {
-          result = getQuestions(level, topic, filters.year, filters.board);
+          result = await getQuestions(level, topic, filters.year, filters.board);
         }
         
         setQuestions(result);

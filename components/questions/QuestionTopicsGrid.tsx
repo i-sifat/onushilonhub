@@ -18,10 +18,6 @@ export default function QuestionTopicsGrid({ level, topics }: QuestionTopicsGrid
         <p className="text-sf-text-subtle mb-4">
           No question topics are available for {level.toUpperCase()} level yet.
         </p>
-        <div className="text-sm text-sf-text-muted">
-          <p>To add question topics:</p>
-          <p>Upload your files to <code className="bg-sf-text-muted/20 px-2 py-1 rounded">/content/questions/{level}/</code></p>
-        </div>
       </div>
     );
   }
