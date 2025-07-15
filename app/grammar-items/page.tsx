@@ -82,41 +82,32 @@ export default function GrammarItemsPage() {
                 {level.description}
               </p>
               
-              {/* Chapters Button */}
-              <div className="mb-6">
-                <Link
-                  href={`/chapters?level=${level.id}`}
-                  className="inline-flex items-center bg-sf-highlight/20 hover:bg-sf-highlight/30 text-sf-text-bold px-4 py-2 rounded-lg font-medium transition-all duration-200 border border-sf-button/30"
-                >
-                  <BookOpen className="h-4 w-4 mr-2" />
-                  📘 Explore {level.id.toUpperCase()} Chapters
-                </Link>
-              </div>
-
               {/* Stats */}
-              <div className="grid grid-cols-3 gap-4 mb-6">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-sf-button">
-                    {level.stats.topics}
+              <div className="mb-6">
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-sf-button">
+                      {level.stats.topics}
+                    </div>
+                    <div className="text-sm text-sf-text-muted">Topics</div>
                   </div>
-                  <div className="text-sm text-sf-text-muted">Topics</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-sf-button">
-                    {level.stats.rules}
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-sf-button">
+                      {level.stats.rules}
+                    </div>
+                    <div className="text-sm text-sf-text-muted">Rules</div>
                   </div>
-                  <div className="text-sm text-sf-text-muted">Rules</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-sf-button">
-                    {level.stats.examples}
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-sf-button">
+                      {level.stats.examples}
+                    </div>
+                    <div className="text-sm text-sf-text-muted">Examples</div>
                   </div>
-                  <div className="text-sm text-sf-text-muted">Examples</div>
                 </div>
               </div>
 
               {/* Features */}
-              <div className="mb-6">
+              <div className="mb-8">
                 <h3 className="text-lg font-semibold text-sf-text-bold mb-3">Features:</h3>
                 <ul className="space-y-2">
                   {level.features.map((feature, index) => (

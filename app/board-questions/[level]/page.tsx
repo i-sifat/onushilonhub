@@ -8,14 +8,6 @@ import FilterBar from '@/components/questions/FilterBar';
 import QuestionList from '@/components/questions/QuestionList';
 import { FileText, Loader2 } from 'lucide-react';
 
-// Required for static export
-export function generateStaticParams() {
-  return [
-    { level: 'hsc' },
-    { level: 'ssc' }
-  ];
-}
-
 interface Question {
   id: string;
   topic: string;
@@ -23,6 +15,13 @@ interface Question {
   answer?: string;
   marks?: number;
   difficulty?: 'easy' | 'medium' | 'hard';
+}
+
+export async function generateStaticParams() {
+  return [
+    { level: 'hsc' },
+    { level: 'ssc' }
+  ];
 }
 
 export default function QuestionsPage({ params }: { params: Promise<{ level: string }> }) {
