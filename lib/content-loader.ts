@@ -65,9 +65,6 @@ export function getGrammarTopics(level: 'hsc' | 'ssc'): string[] {
       } else if (item.endsWith('.json')) {
         // Direct JSON file
         topics.push(item.replace('.json', ''));
-      } else if (item.endsWith('.js') || item.endsWith('.ts')) {
-        // Warn about incorrect file types but don't crash
-        console.warn(`Found ${item} in grammar-items/${level}/. Please rename to ${item.replace(/\.(js|ts)$/, '.json')}`);
       }
     });
     
@@ -96,19 +93,6 @@ export function getGrammarRules(level: 'hsc' | 'ssc', topic: string): GrammarIte
     if (fs.existsSync(directFile)) {
       filePath = directFile;
     } else {
-      // Check for JS/TS files and provide helpful error
-      const jsFile = path.join(grammarPath, `${topic}.js`);
-      const tsFile = path.join(grammarPath, `${topic}.ts`);
-      
-      if (fs.existsSync(jsFile)) {
-        console.error(`Found ${topic}.js. Please rename to ${topic}.json`);
-        return null;
-      }
-      if (fs.existsSync(tsFile)) {
-        console.error(`Found ${topic}.ts. Please rename to ${topic}.json`);
-        return null;
-      }
-      
       return null;
     }
   }
@@ -161,11 +145,8 @@ export function getQuestionTopics(level: 'hsc' | 'ssc'): string[] {
         const hasQuestions = hasQuestionFiles(itemPath);
         if (hasQuestions) {
           topics.push(item);
+        
         }
-      } else if (item.endsWith('.json')) {
-        topics.push(item.replace('.json', ''));
-      } else if (item.endsWith('.js') || item.endsWith('.ts')) {
-        console.warn(`Found ${item} in questions/${level}/. Please rename to ${item.replace(/\.(js|ts)$/, '.json')}`);
       }
     });
     
@@ -181,6 +162,7 @@ function hasQuestionFiles(dirPath: string): boolean {
   try {
     const items = fs.readdirSync(dirPath);
     
+    
     for (const item of items) {
       const itemPath = path.join(dirPath, item);
       const stat = fs.statSync(itemPath);
@@ -189,10 +171,11 @@ function hasQuestionFiles(dirPath: string): boolean {
         if (hasQuestionFiles(itemPath)) {
           return true;
         }
-      } else if (item.endsWith('.json') || item.endsWith('.js')) {
+      } else if (item.endsWith('.json')) {
         return true;
       }
     }
+    
     
     return false;
   } catch {
@@ -237,16 +220,13 @@ export function getAvailableBoards(level: 'hsc' | 'ssc', topic: string, year: nu
   }
   
   try {
-    const items = fs.readdirSync(yearPath);
+    const items = fs.read
+    DirSync(yearPath);
     const boards: string[] = [];
     
     items.forEach(item => {
       if (item.endsWith('.json')) {
         boards.push(item.replace('.json', ''));
-      } else if (item.endsWith('.js')) {
-        const boardName = item.replace('.js', '');
-        boards.push(boardName);
-        console.warn(`Found ${item}. Please rename to ${boardName}.json`);
       }
     });
     
@@ -266,6 +246,7 @@ export function getQuestions(
 ): Question[] {
   const topicPath = path.join(process.cwd(), 'content', 'questions', level, topic);
   
+  
   if (!fs.existsSync(topicPath)) {
     return [];
   }
@@ -276,27 +257,17 @@ export function getQuestions(
     if (year && board) {
       // Get specific year and board
       const filePath = path.join(topicPath, year.toString(), `${board}.json`);
-      const jsFilePath = path.join(topicPath, year.toString(), `${board}.js`);
       
       if (fs.existsSync(filePath)) {
         const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
         questions.push(...normalizeQuestions(data, year, board));
-      } else if (fs.existsSync(jsFilePath)) {
-        console.warn(`Found ${board}.js. Please rename to ${board}.json`);
-        // Try to load JS file as fallback
-        try {
-          delete require.cache[require.resolve(jsFilePath)];
-          const data = require(jsFilePath);
-          questions.push(...normalizeQuestions(data, year, board));
-        } catch (error) {
-          console.error(`Error loading JS file ${jsFilePath}:`, error);
-        }
       }
     } else if (year) {
       // Get all boards for a specific year
       const yearPath = path.join(topicPath, year.toString());
       if (fs.existsSync(yearPath)) {
-        const boards = getAvailableBoards(level, topic, year);
+        const boards =
+         getAvailableBoards(level, topic, year);
         boards.forEach(boardName => {
           const boardQuestions = getQuestions(level, topic, year, boardName);
           questions.push(...boardQuestions);
@@ -305,7 +276,8 @@ export function getQuestions(
     } else {
       // Get all questions for the topic
       const years = getAvailableYears(level, topic);
-      years.forEach(yearNum => {
+      years.forEach(yearNum =>
+       {
         const yearQuestions = getQuestions(level, topic, yearNum);
         questions.push(...yearQuestions);
       });
@@ -369,6 +341,8 @@ export function searchQuestions(
       question.question?.toLowerCase().includes(searchLower) ||
       question.passage?.toLowerCase().includes(searchLower) ||
       question.blanks?.some(blank => 
+        
+         
         blank.answer?.toLowerCase().includes(searchLower) ||
         blank.instruction?.toLowerCase().includes(searchLower)
       )
@@ -391,7 +365,8 @@ export function formatBoardName(board: string): string {
 
 // Get all years across all topics for a level
 export function getAllAvailableYears(level: 'hsc' | 'ssc'): number[] {
-  const topics = getQuestionTopics(level);
+  const topics =
+   getQuestionTopics(level);
   const allYears = new Set<number>();
   
   topics.forEach(topic => {
@@ -410,7 +385,8 @@ export function getAllAvailableBoards(level: 'hsc' | 'ssc'): string[] {
   topics.forEach(topic => {
     const years = getAvailableYears(level, topic);
     years.forEach(year => {
-      const boards = getAvailableBoards(level, topic, year);
+      const boards =
+       getAvailableBoards(level, topic, year);
       boards.forEach(board => allBoards.add(board));
     });
   });
