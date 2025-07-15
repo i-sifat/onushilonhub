@@ -1,0 +1,42 @@
+# SSC Grammar Rules
+
+Upload your SSC grammar rules here following this structure:
+
+```
+/content/rules/ssc/
+├── completing-sentence/
+│   └── rules.json
+├── right-form-of-verbs/
+│   └── rules.json
+├── articles/
+│   └── rules.json
+├── prepositions/
+│   └── rules.json
+└── ...
+```
+
+## JSON File Format
+
+Each rules.json file should contain:
+
+```json
+{
+  "topic": "Completing Sentence",
+  "rules": [
+    {
+      "title": "Conditional Sentences",
+      "content": "Conditional sentences express hypothetical situations and their consequences...",
+      "examples": [
+        "If I study hard, I will pass the exam.",
+        "If it rains, we will stay home.",
+        "If you help me, I will help you."
+      ],
+      "tips": [
+        "Use 'if' to introduce the condition",
+        "Use future tense in the main clause",
+        "Present tense in the if-clause"
+      ]
+    }
+  ]
+}
+```

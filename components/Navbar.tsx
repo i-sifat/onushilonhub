@@ -13,8 +13,22 @@ export default function Navbar() {
     { href: '/', label: 'Home' },
     { href: '/about', label: 'About Us' },
     { href: '/chapters', label: 'Chapters' },
-    { href: '/board-questions', label: 'Board Questions' },
-    { href: '/rules', label: 'Rules' },
+    { 
+      href: '/board-questions', 
+      label: 'Board Questions',
+      submenu: [
+        { href: '/board-questions/hsc', label: 'HSC Questions' },
+        { href: '/board-questions/ssc', label: 'SSC Questions' }
+      ]
+    },
+    { 
+      href: '/rules', 
+      label: 'Rules',
+      submenu: [
+        { href: '/rules/hsc', label: 'HSC Rules' },
+        { href: '/rules/ssc', label: 'SSC Rules' }
+      ]
+    },
   ];
 
   useEffect(() => {
@@ -56,13 +70,29 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-sf-text-subtle hover:text-sf-button transition-colors font-medium"
-              >
-                {link.label}
-              </Link>
+              <div key={link.href} className="relative group">
+                <Link
+                  href={link.href}
+                  className="text-sf-text-subtle hover:text-sf-button transition-colors font-medium"
+                >
+                  {link.label}
+                </Link>
+                {link.submenu && (
+                  <div className="absolute top-full left-0 mt-2 w-48 bg-sf-bg border border-sf-text-muted/20 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <div className="py-2">
+                      {link.submenu.map((sublink) => (
+                        <Link
+                          key={sublink.href}
+                          href={sublink.href}
+                          className="block px-4 py-2 text-sf-text-subtle hover:text-sf-button hover:bg-sf-text-muted/10 transition-colors"
+                        >
+                          {sublink.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             ))}
           </div>
 
@@ -98,14 +128,29 @@ export default function Navbar() {
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-sf-bg rounded-lg mt-2">
               {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="block px-3 py-2 text-sf-text-subtle hover:text-sf-button transition-colors font-medium"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.label}
-                </Link>
+                <div key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="block px-3 py-2 text-sf-text-subtle hover:text-sf-button transition-colors font-medium"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                  {link.submenu && (
+                    <div className="ml-4 space-y-1">
+                      {link.submenu.map((sublink) => (
+                        <Link
+                          key={sublink.href}
+                          href={sublink.href}
+                          className="block px-3 py-2 text-sf-text-muted hover:text-sf-button transition-colors text-sm"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          {sublink.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
               <div className="border-t border-sf-text-muted/20 pt-3 mt-3">
                 <Link
