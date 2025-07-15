@@ -9,8 +9,8 @@ export async function generateStaticParams() {
   ];
 }
 
-export default function GrammarItemsLevelPage({ params }: { params: { level: string } }) {
-  const level = params.level as 'hsc' | 'ssc';
+export default async function GrammarItemsLevelPage({ params }: { params: Promise<{ level: string }> }) {
+  const { level } = await params;
 
   if (!['hsc', 'ssc'].includes(level)) {
     return (
@@ -70,7 +70,7 @@ export default function GrammarItemsLevelPage({ params }: { params: { level: str
         </div>
 
         {/* Client Content */}
-        <GrammarItemsLevelClientContent level={level} chapters={chapters} />
+        <GrammarItemsLevelClientContent level={level as 'hsc' | 'ssc'} chapters={chapters} />
       </div>
     </div>
   );

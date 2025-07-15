@@ -9,8 +9,8 @@ export async function generateStaticParams() {
   ];
 }
 
-export default function RulesLevelPage({ params }: { params: { level: string } }) {
-  const level = params.level as 'hsc' | 'ssc';
+export default async function RulesLevelPage({ params }: { params: Promise<{ level: string }> }) {
+  const { level } = await params;
 
   if (!['hsc', 'ssc'].includes(level)) {
     return (
@@ -48,7 +48,7 @@ export default function RulesLevelPage({ params }: { params: { level: string } }
             <span className="ml-2 text-sf-text-subtle">Loading topics...</span>
           </div>
         }>
-          <RulesLevelClient level={level} />
+          <RulesLevelClient level={level as 'hsc' | 'ssc'} />
         </Suspense>
       </div>
     </div>

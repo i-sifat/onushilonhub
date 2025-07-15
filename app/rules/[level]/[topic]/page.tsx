@@ -25,8 +25,8 @@ function formatTopicName(topic: string) {
     .join(' ');
 }
 
-export default function TopicRulesPage({ params }: { params: { level: string; topic: string } }) {
-  const { level, topic } = params;
+export default async function TopicRulesPage({ params }: { params: Promise<{ level: string; topic: string }> }) {
+  const { level, topic } = await params;
 
   if (!['hsc', 'ssc'].includes(level)) {
     return (

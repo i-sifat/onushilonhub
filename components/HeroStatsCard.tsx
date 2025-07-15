@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import CountUp from 'react-countup';
 import { Typewriter } from 'react-simple-typewriter';
@@ -50,20 +52,22 @@ export default function HeroStatsCard() {
         </div>
       </div>
       
-      {/* Motivational Text with Typewriter Effect */}
+      {/* Motivational Text with Typewriter Effect - Fixed Height */}
       <div className="text-center flex-1 flex items-center justify-center">
-        <h2 className="text-xl font-extrabold text-sf-bg h-16 flex items-center justify-center break-words whitespace-normal overflow-hidden leading-tight px-2">
-          <Typewriter
-            words={motivationalTexts}
-            loop={0}
-            cursor
-            cursorStyle='|'
-            typeSpeed={70}
-            deleteSpeed={50}
-            delaySpeed={2000}
-            cursorColor="#212121"
-          />
-        </h2>
+        <div className="h-16 overflow-hidden flex items-center justify-center px-2">
+          <h2 className="text-xl font-extrabold text-sf-bg text-center leading-tight">
+            <Typewriter
+              words={motivationalTexts}
+              loop={0}
+              cursor
+              cursorStyle='|'
+              typeSpeed={70}
+              deleteSpeed={50}
+              delaySpeed={2000}
+              cursorColor="#212121"
+            />
+          </h2>
+        </div>
       </div>
       
       {/* Animated Stats */}

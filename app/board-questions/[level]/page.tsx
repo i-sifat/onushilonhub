@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import BackButton from '@/components/common/BackButton';
 import SearchInput from '@/components/common/SearchInput';
@@ -24,11 +24,13 @@ export async function generateStaticParams() {
   ];
 }
 
-export default function QuestionsPage({ params }: { params: Promise<{ level: string }> }) {
-  const resolvedParams = use(params);
+interface QuestionsPageProps {
+  params: Promise<{ level: string }>;
+}
+
+export default function QuestionsPage({ params }: QuestionsPageProps) {
   const searchParams = useSearchParams();
-  const level = resolvedParams.level as 'hsc' | 'ssc';
-  
+  const [level, setLevel] = useState<string>('');
   const [questions, setQuestions] = useState<Question[]>([]);
   const [metadata, setMetadata] = useState<{ board: string; year: number }[]>([]);
   const [loading, setLoading] = useState(true);
@@ -38,6 +40,13 @@ export default function QuestionsPage({ params }: { params: Promise<{ level: str
     board?: string;
     year?: number;
   }>({});
+
+  // Resolve params
+  useEffect(() => {
+    params.then(({ level }) => {
+      setLevel(level);
+    });
+  }, [params]);
 
   // Available options for filters (these would normally come from scanning the content directory)
   const availableTopics = [
@@ -71,6 +80,8 @@ export default function QuestionsPage({ params }: { params: Promise<{ level: str
 
   // Simulate loading questions (in real app, this would fetch from API or read files)
   useEffect(() => {
+    if (!level) return;
+
     const loadQuestions = async () => {
       setLoading(true);
       
@@ -99,6 +110,14 @@ export default function QuestionsPage({ params }: { params: Promise<{ level: str
     const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
     window.history.replaceState({}, '', newUrl);
   };
+
+  if (!level) {
+    return (
+      <div className="min-h-screen bg-sf-bg pt-20 flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-sf-button" />
+      </div>
+    );
+  }
 
   if (!['hsc', 'ssc'].includes(level)) {
     return (
@@ -145,7 +164,7 @@ export default function QuestionsPage({ params }: { params: Promise<{ level: str
 
         {/* Filters */}
         <FilterBar
-          level={level}
+          level={level as 'hsc' | 'ssc'}
           availableTopics={availableTopics}
           availableBoards={availableBoards}
           availableYears={availableYears}
@@ -166,7 +185,7 @@ export default function QuestionsPage({ params }: { params: Promise<{ level: str
           <QuestionList
             questions={questions}
             metadata={metadata}
-            level={level}
+            level={level as 'hsc' | 'ssc'}
           />
         )}
 
