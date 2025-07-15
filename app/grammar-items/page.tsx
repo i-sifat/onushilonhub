@@ -1,39 +1,39 @@
 import BackButton from '@/components/common/BackButton';
 import Link from 'next/link';
-import { FileText, ArrowRight, GraduationCap } from 'lucide-react';
+import { BookOpen, ArrowRight, GraduationCap } from 'lucide-react';
 
-export default function BoardQuestionsPage() {
+export default function GrammarItemsPage() {
   const levels = [
     {
       id: 'hsc',
       name: 'HSC (Higher Secondary Certificate)',
-      description: 'Access comprehensive HSC board questions from all major boards across Bangladesh. Filter by year, board, and grammar topic.',
+      description: 'Comprehensive HSC grammar items with detailed rules, examples, and explanations for advanced English grammar concepts.',
       features: [
-        'Questions from 2016-2025',
-        'All major boards included',
-        'Advanced filtering options',
+        'Advanced grammar concepts',
+        'Detailed rule explanations',
+        'Comprehensive examples',
         'Topic-wise organization'
       ],
       stats: {
-        questions: '3000+',
-        boards: '8',
-        years: '10'
+        topics: '12+',
+        rules: '200+',
+        examples: '500+'
       }
     },
     {
       id: 'ssc',
       name: 'SSC (Secondary School Certificate)',
-      description: 'Comprehensive SSC board questions collection with smart filtering and search capabilities for effective preparation.',
+      description: 'Essential SSC grammar items covering fundamental English grammar rules with clear explanations and practical examples.',
       features: [
-        'Complete question database',
-        'Board-wise categorization',
-        'Year-wise filtering',
-        'Grammar topic sorting'
+        'Fundamental grammar rules',
+        'Clear explanations',
+        'Practical examples',
+        'Easy-to-understand format'
       ],
       stats: {
-        questions: '2000+',
-        boards: '8',
-        years: '10'
+        topics: '8+',
+        rules: '150+',
+        examples: '300+'
       }
     }
   ];
@@ -50,15 +50,15 @@ export default function BoardQuestionsPage() {
         <div className="text-center mb-16">
           <div className="flex justify-center mb-6">
             <div className="p-4 bg-sf-button/20 rounded-full">
-              <FileText className="h-12 w-12 text-sf-button" />
+              <BookOpen className="h-12 w-12 text-sf-button" />
             </div>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-sf-text-bold mb-6">
-            Board <span className="text-sf-button">Questions</span>
+            Grammar <span className="text-sf-button">Items</span>
           </h1>
           <p className="text-xl text-sf-text-subtle max-w-3xl mx-auto">
-            Access thousands of board questions from HSC and SSC examinations. 
-            Practice with real questions from all major education boards in Bangladesh.
+            Master English grammar with comprehensive items, detailed explanations, 
+            and practical examples for both HSC and SSC levels.
           </p>
         </div>
 
@@ -81,26 +81,37 @@ export default function BoardQuestionsPage() {
               <p className="text-sf-text-subtle mb-6 leading-relaxed">
                 {level.description}
               </p>
+              
+              {/* Chapters Button */}
+              <div className="mb-6">
+                <Link
+                  href={`/chapters?level=${level.id}`}
+                  className="inline-flex items-center bg-sf-highlight/20 hover:bg-sf-highlight/30 text-sf-text-bold px-4 py-2 rounded-lg font-medium transition-all duration-200 border border-sf-button/30"
+                >
+                  <BookOpen className="h-4 w-4 mr-2" />
+                  📘 Explore {level.id.toUpperCase()} Chapters
+                </Link>
+              </div>
 
               {/* Stats */}
               <div className="grid grid-cols-3 gap-4 mb-6">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-sf-button">
-                    {level.stats.questions}
+                    {level.stats.topics}
                   </div>
-                  <div className="text-sm text-sf-text-muted">Questions</div>
+                  <div className="text-sm text-sf-text-muted">Topics</div>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-sf-button">
-                    {level.stats.boards}
+                    {level.stats.rules}
                   </div>
-                  <div className="text-sm text-sf-text-muted">Boards</div>
+                  <div className="text-sm text-sf-text-muted">Rules</div>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-sf-button">
-                    {level.stats.years}
+                    {level.stats.examples}
                   </div>
-                  <div className="text-sm text-sf-text-muted">Years</div>
+                  <div className="text-sm text-sf-text-muted">Examples</div>
                 </div>
               </div>
 
@@ -119,10 +130,10 @@ export default function BoardQuestionsPage() {
 
               {/* Action Button */}
               <Link
-                href={`/board-questions/${level.id}`}
+                href={`/grammar-items/${level.id}`}
                 className="inline-flex items-center justify-center w-full bg-sf-button hover:bg-sf-button/90 text-sf-bg px-6 py-3 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg group"
               >
-                <span>Explore {level.id.toUpperCase()} Questions</span>
+                <span>Explore {level.id.toUpperCase()} Grammar Items</span>
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
@@ -132,7 +143,7 @@ export default function BoardQuestionsPage() {
         {/* How to Use */}
         <div className="bg-sf-bg border border-sf-text-muted/20 rounded-xl p-8">
           <h2 className="text-2xl font-bold text-sf-text-bold mb-6 text-center">
-            How to Use Board Questions
+            How to Use Grammar Items
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
             <div className="text-center">
@@ -148,18 +159,18 @@ export default function BoardQuestionsPage() {
               <div className="w-12 h-12 bg-sf-button/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-sf-button font-bold text-lg">2</span>
               </div>
-              <h3 className="font-semibold text-sf-text-bold mb-2">Apply Filters</h3>
+              <h3 className="font-semibold text-sf-text-bold mb-2">Select Topic</h3>
               <p className="text-sf-text-subtle text-sm">
-                Filter by grammar topic, board, year, or search for specific content
+                Browse through grammar topics and select the one you want to study
               </p>
             </div>
             <div className="text-center">
               <div className="w-12 h-12 bg-sf-button/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-sf-button font-bold text-lg">3</span>
               </div>
-              <h3 className="font-semibold text-sf-text-bold mb-2">Practice</h3>
+              <h3 className="font-semibold text-sf-text-bold mb-2">Study & Practice</h3>
               <p className="text-sf-text-subtle text-sm">
-                Study the questions and answers to improve your grammar skills
+                Learn the rules, study examples, and practice with board questions
               </p>
             </div>
           </div>

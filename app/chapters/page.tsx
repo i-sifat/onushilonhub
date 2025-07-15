@@ -1,7 +1,12 @@
+import { useSearchParams } from 'next/navigation';
+import BackButton from '@/components/common/BackButton';
 import Link from 'next/link';
 import { BookOpen, ArrowRight, GraduationCap } from 'lucide-react';
 
 export default function ChaptersPage() {
+  const searchParams = useSearchParams();
+  const level = searchParams.get('level') || 'both';
+  
   const hscChapters = [
     { id: 'tense', name: 'Tense', description: 'Master all tenses with comprehensive rules and examples' },
     { id: 'voice', name: 'Voice', description: 'Active and passive voice transformation techniques' },
@@ -58,6 +63,11 @@ export default function ChaptersPage() {
   return (
     <div className="min-h-screen bg-sf-bg pt-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Back Button */}
+        <div className="mb-6">
+          <BackButton />
+        </div>
+        
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex justify-center mb-6">
@@ -75,7 +85,8 @@ export default function ChaptersPage() {
         </div>
 
         {/* HSC Chapters */}
-        <div className="mb-16">
+        {(level === 'both' || level === 'hsc') && (
+        <div className={level === 'both' ? 'mb-16' : ''}>
           <div className="flex items-center space-x-3 mb-8">
             <div className="p-2 bg-sf-button/20 rounded-lg">
               <GraduationCap className="h-6 w-6 text-sf-button" />
@@ -88,8 +99,10 @@ export default function ChaptersPage() {
             ))}
           </div>
         </div>
+        )}
 
         {/* SSC Chapters */}
+        {(level === 'both' || level === 'ssc') && (
         <div>
           <div className="flex items-center space-x-3 mb-8">
             <div className="p-2 bg-sf-button/20 rounded-lg">
@@ -103,6 +116,7 @@ export default function ChaptersPage() {
             ))}
           </div>
         </div>
+        )}
 
         {/* Call to Action */}
         <div className="mt-16 text-center bg-sf-highlight/10 rounded-xl p-8">

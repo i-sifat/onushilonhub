@@ -159,7 +159,7 @@ export function getFilteredQuestions(
 
 // Get available grammar topics for rules
 export function getAvailableRuleTopics(level: 'hsc' | 'ssc'): string[] {
-  const rulesPath = path.join(process.cwd(), 'content', 'rules', level);
+  const rulesPath = path.join(process.cwd(), 'content', 'grammar-items', level);
   
   if (!fs.existsSync(rulesPath)) {
     return [];
@@ -178,7 +178,7 @@ export function getAvailableRuleTopics(level: 'hsc' | 'ssc'): string[] {
 
 // Get rules for a specific topic
 export function getRulesForTopic(level: 'hsc' | 'ssc', topic: string): RulesData | null {
-  const rulesFile = path.join(process.cwd(), 'content', 'rules', level, topic, 'rules.json');
+  const rulesFile = path.join(process.cwd(), 'content', 'grammar-items', level, topic, 'rules.json');
   
   if (!fs.existsSync(rulesFile)) {
     return null;

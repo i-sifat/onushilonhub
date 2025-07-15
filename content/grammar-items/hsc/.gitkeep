@@ -1,0 +1,12 @@
+@@ .. @@
+ # HSC Grammar Rules
+
+-Upload your HSC grammar rules here following this structure:
++Upload your HSC grammar items here following this structure:
+
+ ```
+-/content/rules/hsc/
++/content/grammar-items/hsc/
+ ├── tense/
+ │   └── rules.json
+ ├── voice/

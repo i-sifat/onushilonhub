@@ -22,11 +22,11 @@ export default function TopicList({ level, topics }: TopicListProps) {
         <BookOpen className="h-16 w-16 text-sf-text-muted mx-auto mb-4" />
         <h3 className="text-xl font-semibold text-sf-text-bold mb-2">No Grammar Rules Available</h3>
         <p className="text-sf-text-subtle mb-4">
-          No grammar rules have been uploaded for {level.toUpperCase()} level yet.
+          No grammar items have been uploaded for {level.toUpperCase()} level yet.
         </p>
         <div className="text-sm text-sf-text-muted">
-          <p>To add rules:</p>
-          <p>Upload your rules files to <code className="bg-sf-text-muted/20 px-2 py-1 rounded">/content/rules/{level}/[topic]/rules.json</code></p>
+          <p>To add grammar items:</p>
+          <p>Upload your files to <code className="bg-sf-text-muted/20 px-2 py-1 rounded">/content/grammar-items/{level}/[topic]/rules.json</code></p>
         </div>
       </div>
     );
@@ -36,10 +36,10 @@ export default function TopicList({ level, topics }: TopicListProps) {
     <div className="space-y-4">
       <div className="mb-8">
         <h2 className="text-2xl font-bold text-sf-text-bold mb-2">
-          {level.toUpperCase()} Grammar Rules
+          {level.toUpperCase()} Grammar Items
         </h2>
         <p className="text-sf-text-subtle">
-          Select a grammar topic to view detailed rules and examples.
+          Select a grammar topic to view detailed items and examples.
         </p>
       </div>
 
@@ -47,7 +47,7 @@ export default function TopicList({ level, topics }: TopicListProps) {
         {topics.map((topic) => (
           <Link
             key={topic}
-            href={`/rules/${level}/${topic}`}
+            href={`/grammar-items/${level}/${topic}`}
             className="group bg-sf-bg border border-sf-text-muted/20 rounded-lg p-6 hover:border-sf-button/50 transition-all duration-300 hover:shadow-lg hover:shadow-sf-button/10"
           >
             <div className="flex items-center justify-between">
@@ -60,7 +60,7 @@ export default function TopicList({ level, topics }: TopicListProps) {
                     {formatTopicName(topic)}
                   </h3>
                   <p className="text-sm text-sf-text-muted">
-                    Grammar rules and examples
+                    Grammar items and examples
                   </p>
                 </div>
               </div>
