@@ -4,65 +4,7 @@ import { useState, useMemo } from 'react';
 import { Search, Filter, Calendar, MapPin, BookOpen, RotateCcw } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-
-interface Question {
-  id: string;
-  question: string;
-  ruleId?: number;
-}
-
-const allConnectorQuestions: Question[] = [
-  {
-    id: "dhaka-2023-a",
-    question: "We take physical exercise so that we can keep our body fit.",
-    ruleId: 1
-  },
-  {
-    id: "chittagong-2023-b", 
-    question: "He worked hard. As a result, he succeeded in life.",
-    ruleId: 1
-  },
-  {
-    id: "rajshahi-2022-c",
-    question: "Bangladesh has many problems. In short, it needs proper planning.",
-    ruleId: 2
-  },
-  {
-    id: "sylhet-2023-d",
-    question: "He is intelligent. Moreover, he is hardworking.",
-    ruleId: 3
-  },
-  {
-    id: "barisal-2022-e",
-    question: "He is not only intelligent but also sincere.",
-    ruleId: 4
-  },
-  {
-    id: "cumilla-2023-f",
-    question: "Though he is poor, he is honest.",
-    ruleId: 5
-  },
-  {
-    id: "mymensingh-2023-g",
-    question: "The weather was bad. Therefore, we cancelled our trip.",
-    ruleId: 1
-  },
-  {
-    id: "jashore-2022-h",
-    question: "He has many qualities. Besides, he is very humble.",
-    ruleId: 3
-  },
-  {
-    id: "dinajpur-2023-i",
-    question: "She is not only beautiful but also intelligent.",
-    ruleId: 4
-  },
-  {
-    id: "rangpur-2022-j",
-    question: "Although it was raining, we went out.",
-    ruleId: 5
-  }
-];
+import { connectorsQuestions } from '@/data/questions/connectors';
 
 const boards = ['All Boards', 'Dhaka', 'Chittagong', 'Rajshahi', 'Sylhet', 'Barisal', 'Cumilla', 'Mymensingh', 'Jashore', 'Dinajpur', 'Rangpur'];
 const years = ['All Years', '2022', '2023', '2024'];
@@ -73,7 +15,7 @@ export default function ConnectorsQuestionsPage() {
   const [selectedYear, setSelectedYear] = useState('All Years');
 
   const filteredQuestions = useMemo(() => {
-    return allConnectorQuestions.filter(question => {
+    return connectorsQuestions.filter(question => {
       const matchesSearch = question.question.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesBoard = selectedBoard === 'All Boards' || question.id.toLowerCase().includes(selectedBoard.toLowerCase());
       const matchesYear = selectedYear === 'All Years' || question.id.includes(selectedYear);

@@ -4,65 +4,7 @@ import { useState, useMemo } from 'react';
 import { Search, Filter, Calendar, MapPin, BookOpen, RotateCcw } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-
-interface Question {
-  id: string;
-  question: string;
-  ruleId?: number;
-}
-
-const allModifierQuestions: Question[] = [
-  {
-    id: "dhaka-2023-a",
-    question: "He is a (brave) soldier who fought in the war.",
-    ruleId: 1
-  },
-  {
-    id: "chittagong-2023-b", 
-    question: "The (old) man sitting there is my grandfather.",
-    ruleId: 1
-  },
-  {
-    id: "rajshahi-2022-c",
-    question: "She bought (some) books from the market.",
-    ruleId: 2
-  },
-  {
-    id: "sylhet-2023-d",
-    question: "The weather is (very) hot today.",
-    ruleId: 3
-  },
-  {
-    id: "barisal-2022-e",
-    question: "He is a (computer) engineer working in a multinational company.",
-    ruleId: 4
-  },
-  {
-    id: "cumilla-2023-f",
-    question: "(My) brother is studying at Dhaka University.",
-    ruleId: 5
-  },
-  {
-    id: "mymensingh-2023-g",
-    question: "She (quickly) finished her homework.",
-    ruleId: 6
-  },
-  {
-    id: "jashore-2022-h",
-    question: "(This) book is very interesting to read.",
-    ruleId: 7
-  },
-  {
-    id: "dinajpur-2023-i",
-    question: "(Running) fast, he reached the station on time.",
-    ruleId: 8
-  },
-  {
-    id: "rangpur-2022-j",
-    question: "The (crying) baby needs attention.",
-    ruleId: 9
-  }
-];
+import { modifierQuestions } from '@/data/questions/modifier';
 
 const boards = ['All Boards', 'Dhaka', 'Chittagong', 'Rajshahi', 'Sylhet', 'Barisal', 'Cumilla', 'Mymensingh', 'Jashore', 'Dinajpur', 'Rangpur'];
 const years = ['All Years', '2022', '2023', '2024'];
@@ -73,7 +15,7 @@ export default function ModifierQuestionsPage() {
   const [selectedYear, setSelectedYear] = useState('All Years');
 
   const filteredQuestions = useMemo(() => {
-    return allModifierQuestions.filter(question => {
+    return modifierQuestions.filter(question => {
       const matchesSearch = question.question.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesBoard = selectedBoard === 'All Boards' || question.id.toLowerCase().includes(selectedBoard.toLowerCase());
       const matchesYear = selectedYear === 'All Years' || question.id.includes(selectedYear);
