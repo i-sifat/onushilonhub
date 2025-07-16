@@ -17,13 +17,13 @@ const HSC_GRAMMAR_TOPICS = [
     id: 'modifier',
     name: 'Modifier',
     description: 'Learn to use pre-modifiers and post-modifiers to enhance noun phrases and verb phrases effectively.',
-    available: false,
+    available: true,
   },
   {
     id: 'connectors',
     name: 'Connectors',
     description: 'Master the use of linking words and phrases to create coherent and well-connected sentences.',
-    available: false,
+    available: true,
   },
   {
     id: 'transformation',
