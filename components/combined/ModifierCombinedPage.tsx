@@ -3,23 +3,23 @@
 import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { connectorsRules } from '@/data/grammar-rules/connectors';
-import { connectorsQuestions } from '@/data/questions/connectors';
+import { modifierRules } from '@/data/grammar-rules/modifier';
+import { modifierQuestions } from '@/data/questions/modifier';
 import { Search, Filter, Calendar, MapPin, BookOpen, RotateCcw } from 'lucide-react';
 
 const boards = ['All Boards', 'Dhaka', 'Chittagong', 'Rajshahi', 'Sylhet', 'Barisal', 'Cumilla', 'Mymensingh', 'Jashore', 'Dinajpur', 'Rangpur'];
-const years = ['All Years', '2022', '2023', '2024'];
+const years = ['All Years', '2016'];
 
-export default function ConnectorsCombinedPage() {
+export default function ModifierCombinedPage() {
   const [selectedRuleId, setSelectedRuleId] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedBoard, setSelectedBoard] = useState('All Boards');
   const [selectedYear, setSelectedYear] = useState('All Years');
 
   // Filter questions based on selected rule and other filters
-  const filteredQuestions = connectorsQuestions.filter(question => {
+  const filteredQuestions = modifierQuestions.filter(question => {
     const matchesRule = selectedRuleId === null || question.ruleId === selectedRuleId;
-    const matchesSearch = question.question?.toLowerCase().includes(searchTerm.toLowerCase()) || false;
+    const matchesSearch = question.passage?.toLowerCase().includes(searchTerm.toLowerCase()) || false;
     const matchesBoard = selectedBoard === 'All Boards' || question.id?.toLowerCase().includes(selectedBoard.toLowerCase()) || false;
     const matchesYear = selectedYear === 'All Years' || question.id?.includes(selectedYear) || false;
     
@@ -44,7 +44,7 @@ export default function ConnectorsCombinedPage() {
     };
   };
 
-  const selectedRule = selectedRuleId ? connectorsRules.find(rule => rule.id === selectedRuleId) : null;
+  const selectedRule = selectedRuleId ? modifierRules.find(rule => rule.id === selectedRuleId) : null;
 
   return (
     <div className="grid lg:grid-cols-2 gap-8">
@@ -53,12 +53,12 @@ export default function ConnectorsCombinedPage() {
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold text-sf-text-bold">Grammar Rules</h2>
           <Badge variant="secondary" className="bg-sf-button/20 text-sf-button">
-            {connectorsRules.length} Rules
+            {modifierRules.length} Rules
           </Badge>
         </div>
 
         <div className="space-y-4 max-h-[80vh] overflow-y-auto">
-          {connectorsRules.map((rule) => (
+          {modifierRules.map((rule) => (
             <div
               key={rule.id}
               onClick={() => setSelectedRuleId(selectedRuleId === rule.id ? null : rule.id)}
@@ -110,6 +110,15 @@ export default function ConnectorsCombinedPage() {
             <p className="text-sf-text-subtle mb-4 leading-relaxed">
               <span className="font-medium">Usage:</span> {selectedRule.description}
             </p>
+
+            <div className="mb-4">
+              <h5 className="text-md font-semibold text-sf-text-bold mb-2">Structure:</h5>
+              <div className="bg-sf-highlight/10 border-l-4 border-sf-button p-3 rounded-r-lg">
+                <p className="text-sf-text-subtle text-sm font-mono leading-relaxed">
+                  {selectedRule.structure}
+                </p>
+              </div>
+            </div>
 
             <div>
               <h5 className="text-md font-semibold text-sf-text-bold mb-3">Examples:</h5>
@@ -251,9 +260,30 @@ export default function ConnectorsCombinedPage() {
                         </div>
                       </div>
                       
-                      <p className="text-sf-text-subtle leading-relaxed text-sm">
-                        {question.question}
-                      </p>
+                      <div className="text-sf-text-subtle leading-relaxed text-sm">
+                        <p className="mb-2 font-medium">Passage:</p>
+                        <p className="mb-3 text-xs leading-relaxed">
+                          {question.passage}
+                        </p>
+                        
+                        {question.blanks && question.blanks.length > 0 && (
+                          <div>
+                            <p className="font-medium mb-2">Instructions:</p>
+                            <div className="space-y-1">
+                              {question.blanks.slice(0, 3).map((blank, idx) => (
+                                <p key={blank.id} className="text-xs">
+                                  <span className="font-medium">({blank.id})</span> {blank.instruction}
+                                </p>
+                              ))}
+                              {question.blanks.length > 3 && (
+                                <p className="text-xs text-sf-text-muted">
+                                  ... and {question.blanks.length - 3} more
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </CardContent>
                   </Card>
                 );

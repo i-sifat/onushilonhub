@@ -3,21 +3,21 @@
 import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { connectorsRules } from '@/data/grammar-rules/connectors';
-import { connectorsQuestions } from '@/data/questions/connectors';
+import { completingSentenceRules } from '@/data/grammar-rules/completing-sentence';
+import { completingSentenceQuestions } from '@/data/questions/completing-sentence';
 import { Search, Filter, Calendar, MapPin, BookOpen, RotateCcw } from 'lucide-react';
 
-const boards = ['All Boards', 'Dhaka', 'Chittagong', 'Rajshahi', 'Sylhet', 'Barisal', 'Cumilla', 'Mymensingh', 'Jashore', 'Dinajpur', 'Rangpur'];
+const boards = ['All Boards', 'Barisal', 'Chattogram', 'Cumilla', 'Dhaka', 'Dinajpur', 'Jashore', 'Mymensingh', 'Rajshahi', 'Sylhet'];
 const years = ['All Years', '2022', '2023', '2024'];
 
-export default function ConnectorsCombinedPage() {
+export default function CompletingSentenceCombinedPage() {
   const [selectedRuleId, setSelectedRuleId] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedBoard, setSelectedBoard] = useState('All Boards');
   const [selectedYear, setSelectedYear] = useState('All Years');
 
   // Filter questions based on selected rule and other filters
-  const filteredQuestions = connectorsQuestions.filter(question => {
+  const filteredQuestions = completingSentenceQuestions.filter(question => {
     const matchesRule = selectedRuleId === null || question.ruleId === selectedRuleId;
     const matchesSearch = question.question?.toLowerCase().includes(searchTerm.toLowerCase()) || false;
     const matchesBoard = selectedBoard === 'All Boards' || question.id?.toLowerCase().includes(selectedBoard.toLowerCase()) || false;
@@ -44,7 +44,7 @@ export default function ConnectorsCombinedPage() {
     };
   };
 
-  const selectedRule = selectedRuleId ? connectorsRules.find(rule => rule.id === selectedRuleId) : null;
+  const selectedRule = selectedRuleId ? completingSentenceRules.find(rule => rule.id === selectedRuleId) : null;
 
   return (
     <div className="grid lg:grid-cols-2 gap-8">
@@ -53,12 +53,12 @@ export default function ConnectorsCombinedPage() {
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold text-sf-text-bold">Grammar Rules</h2>
           <Badge variant="secondary" className="bg-sf-button/20 text-sf-button">
-            {connectorsRules.length} Rules
+            {completingSentenceRules.length} Rules
           </Badge>
         </div>
 
         <div className="space-y-4 max-h-[80vh] overflow-y-auto">
-          {connectorsRules.map((rule) => (
+          {completingSentenceRules.map((rule) => (
             <div
               key={rule.id}
               onClick={() => setSelectedRuleId(selectedRuleId === rule.id ? null : rule.id)}
@@ -70,7 +70,7 @@ export default function ConnectorsCombinedPage() {
             >
               <div className="flex items-start justify-between mb-2">
                 <Badge variant="outline" className="text-sf-button border-sf-button/30">
-                  {rule.ruleNo}
+                  Rule {rule.id}
                 </Badge>
                 {selectedRuleId === rule.id && (
                   <Badge variant="secondary" className="bg-sf-button text-sf-bg">
@@ -82,6 +82,10 @@ export default function ConnectorsCombinedPage() {
               <h3 className="text-lg font-semibold text-sf-text-bold mb-2 leading-relaxed">
                 {rule.title}
               </h3>
+              
+              <p className="text-sf-text-muted text-xs mb-1">
+                Bengali: {rule.bengali}
+              </p>
               
               <p className="text-sf-text-subtle text-sm leading-relaxed">
                 {rule.description}
@@ -98,7 +102,7 @@ export default function ConnectorsCombinedPage() {
           <div className="bg-sf-bg border border-sf-button/30 rounded-lg p-6">
             <div className="flex items-center space-x-3 mb-4">
               <Badge variant="outline" className="text-sf-button border-sf-button/30">
-                {selectedRule.ruleNo}
+                Rule {selectedRule.id}
               </Badge>
               <h3 className="text-xl font-bold text-sf-text-bold">Rule Details</h3>
             </div>
@@ -107,9 +111,29 @@ export default function ConnectorsCombinedPage() {
               {selectedRule.title}
             </h4>
             
+            <p className="text-sf-text-muted mb-2 text-sm">
+              <span className="font-medium">Bengali:</span> {selectedRule.bengali}
+            </p>
+            
             <p className="text-sf-text-subtle mb-4 leading-relaxed">
               <span className="font-medium">Usage:</span> {selectedRule.description}
             </p>
+
+            <div className="mb-4">
+              <h5 className="text-md font-semibold text-sf-text-bold mb-2">Structures:</h5>
+              <div className="space-y-2">
+                {selectedRule.structures.map((structure, index) => (
+                  <div
+                    key={index}
+                    className="bg-sf-highlight/10 border-l-4 border-sf-button p-3 rounded-r-lg"
+                  >
+                    <p className="text-sf-text-subtle text-sm font-mono leading-relaxed">
+                      {structure}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
 
             <div>
               <h5 className="text-md font-semibold text-sf-text-bold mb-3">Examples:</h5>

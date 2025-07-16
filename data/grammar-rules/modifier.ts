@@ -11,269 +11,297 @@ export interface ModifierRule {
 }
 
 export const modifierRules: ModifierRule[] = [
-   {
+  {
     id: 1,
     ruleNo: "Rule 1",
-    title: "Adjective to pre-modify the noun",
-    description: "Adjective noun-এর গুণ বা বৈশিষ্ট্য বর্ণনা করে। অতএব, noun-এর পূর্বে adjective বসিয়ে noun-কে pre-modify করতে হয়।",
-    structure: "adjective + noun",
+    title: "Pre-modify the noun",
+    description: "Use adjectives, determiners, or noun adjectives before the noun to describe or specify it.",
+    structure: "Determiner/Adjective/Noun adjective + Noun",
     examples: [
-      "a famous poet",
-      "a hot day", 
-      "an international language",
-      "a liquid substance"
+      "A beautiful girl (সুন্দর মেয়ে)",
+      "The rich man (ধনী লোক)",
+      "My favorite book (আমার প্রিয় বই)",
+      "A school building (একটি স্কুল ভবন)"
     ]
   },
   {
     id: 2,
-    ruleNo: "Rule 2", 
-    title: "Determiner to pre-modify the noun",
-    description: "Determiners: 'this', 'that', 'some', 'other', 'any'. Determiner noun-এর পরিমাণ বা নির্দিষ্টতা নির্দেশ করে। সুতরাং, noun-এর পূর্বে determiner বসিয়ে noun-কে pre-modify করতে হয়।",
-    structure: "determiner + noun",
+    ruleNo: "Rule 2",
+    title: "Use a determiner to pre-modify the noun",
+    description: "Use articles (a, an, the), demonstratives (this, that), possessives (my, his), or quantifiers (some, many) before nouns.",
+    structure: "Determiner + Noun",
     examples: [
-      "the day",
-      "some boys", 
-      "another problem",
-      "every student"
+      "The book (বইটি)",
+      "This house (এই বাড়ি)",
+      "My friend (আমার বন্ধু)",
+      "Some people (কিছু লোক)",
+      "Many students (অনেক ছাত্র)"
     ]
   },
   {
     id: 3,
     ruleNo: "Rule 3",
-    title: "Intensifier to pre-modify the adjective", 
-    description: "Intensifier (e.g., very, too, so, quite) adjective-এর তীব্রতা বা মাত্রা বৃদ্ধি বা হ্রাস করে। তাই, adjective-এর পূর্বে intensifier বসিয়ে adjective-কে pre-modify করতে হয়।",
-    structure: "intensifier + adjective",
+    title: "Use an intensifier to pre-modify the adjective",
+    description: "Use words like very, quite, rather, extremely, too before adjectives to show degree or intensity.",
+    structure: "Intensifier + Adjective",
     examples: [
-      "very happy",
-      "quite difficult",
-      "too hot", 
-      "really beautiful"
+      "Very beautiful (খুব সুন্দর)",
+      "Quite intelligent (বেশ বুদ্ধিমান)",
+      "Rather difficult (বেশ কঠিন)",
+      "Extremely hot (অত্যন্ত গরম)",
+      "Too expensive (খুব দামি)"
     ]
   },
   {
     id: 4,
     ruleNo: "Rule 4",
-    title: "Noun adjective to pre-modify the noun",
-    description: "একটি noun অন্য একটি noun-এর গুণ বা বৈশিষ্ট্য নির্দেশ করতে পারে। এই ক্ষেত্রে, প্রথম noun-টি adjective-এর মতো কাজ করে এবং দ্বিতীয় noun-কে pre-modify করে।",
-    structure: "noun adjective + noun",
+    title: "Use a noun adjective to pre-modify the noun",
+    description: "Use one noun to modify another noun, where the first noun acts as an adjective.",
+    structure: "Noun (as adjective) + Noun",
     examples: [
-      "language skill",
-      "career development",
-      "Bengali literature",
-      "summer day"
+      "School bag (স্কুলের ব্যাগ)",
+      "Tea cup (চায়ের কাপ)",
+      "Book store (বইয়ের দোকান)",
+      "Water bottle (পানির বোতল)",
+      "Cricket match (ক্রিকেট খেলা)"
     ]
   },
   {
     id: 5,
     ruleNo: "Rule 5",
-    title: "Possessive to pre-modify the noun",
-    description: "A possessive pronoun (my, our, your, his, her, its, their) মালিকানা বা সম্পর্ক নির্দেশ করে। সুতরাং, noun-এর পূর্বে possessive pronoun বসিয়ে noun-কে pre-modify করতে হয়।",
-    structure: "possessive + noun",
+    title: "Use possessive to pre-modify the noun",
+    description: "Use possessive adjectives (my, your, his, her, its, our, their) or possessive nouns before nouns.",
+    structure: "Possessive + Noun",
     examples: [
-      "his dream",
-      "our country",
-      "their effort",
-      "your teacher"
+      "My book (আমার বই)",
+      "His car (তার গাড়ি)",
+      "Our school (আমাদের স্কুল)",
+      "John's house (জনের বাড়ি)",
+      "The cat's tail (বিড়ালের লেজ)"
     ]
   },
   {
     id: 6,
     ruleNo: "Rule 6",
-    title: "Adverb to pre-modify the verb",
-    description: "Adverb (e.g., quickly, slowly, easily) verb-এর কার্যপ্রণালী, সময়, স্থান বা মাত্রা নির্দেশ করে। তাই, verb-এর পূর্বে adverb বসিয়ে verb-কে pre-modify করতে হয়।",
-    structure: "adverb + verb",
+    title: "Pre-modify the verb",
+    description: "Use adverbs before verbs to describe how, when, or to what extent the action is performed.",
+    structure: "Adverb + Verb",
     examples: [
-      "easily win",
-      "finally arrived", 
-      "happily accepted",
-      "quietly entered"
+      "Quickly run (দ্রুত দৌড়ানো)",
+      "Carefully write (সাবধানে লেখা)",
+      "Always help (সর্বদা সাহায্য করা)",
+      "Never lie (কখনো মিথ্যা বলা না)",
+      "Often visit (প্রায়ই দেখা করা)"
     ]
   },
   {
     id: 7,
     ruleNo: "Rule 7",
-    title: "Demonstrative to pre-modify the noun",
-    description: "Demonstratives pronoun (this, that, these, those) নির্দিষ্ট noun বা pronoun-এর প্রতি ইঙ্গিত করে। সুতরাং, noun-এর পূর্বে demonstrative pronoun বসিয়ে noun-কে pre-modify করতে হয়।",
-    structure: "demonstrative + noun",
+    title: "Use a demonstrative to pre-modify the noun",
+    description: "Use demonstrative adjectives (this, that, these, those) before nouns to point out specific items.",
+    structure: "Demonstrative + Noun",
     examples: [
-      "this book",
-      "that road",
-      "these questions", 
-      "those days"
+      "This book (এই বই)",
+      "That house (ওই বাড়ি)",
+      "These flowers (এই ফুলগুলো)",
+      "Those students (ওই ছাত্রছাত্রীরা)",
+      "This problem (এই সমস্যা)"
     ]
   },
   {
     id: 8,
     ruleNo: "Rule 8",
-    title: "Participle to pre-modify the verb",
-    description: "Participle (present: -ing or past: -ed) verb-এর কার্যপ্রণালী বা সময় নির্দেশ করে। তাই, verb-এর পূর্বে participle বসিয়ে verb-কে pre-modify করতে হয়।",
-    structure: "participle + verb",
+    title: "Use a participle to pre-modify the verb",
+    description: "Use present participles (-ing) or past participles (-ed/-en) before verbs to show ongoing or completed actions.",
+    structure: "Participle + Verb",
     examples: [
-      "Looking around, she saw the thief",
-      "Hearing the news, he cried",
-      "Opening the door, he entered",
-      "Terrified by fear, the boy could not speak"
+      "Running fast (দৌড়াতে দৌড়াতে)",
+      "Singing loudly (জোরে গান গাইতে গাইতে)",
+      "Having finished (শেষ করে)",
+      "Being tired (ক্লান্ত হয়ে)",
+      "Looking around (চারদিকে তাকিয়ে)"
     ]
   },
   {
     id: 9,
-    ruleNo: "Rule 9", 
-    title: "Participle to pre-modify the noun",
-    description: "Participles noun-এর গুণ বা বৈশিষ্ট্য নির্দেশ করে। সুতরাং, noun-এর পূর্বে participle বসিয়ে noun-কে pre-modify করতে হয়।",
-    structure: "participle + noun",
+    ruleNo: "Rule 9",
+    title: "Use participle to post-modify the noun",
+    description: "Use present or past participles after nouns to provide additional information about them.",
+    structure: "Noun + Participle",
     examples: [
-      "a crying baby",
-      "a broken chair",
-      "a standing man",
-      "the running water"
+      "The man walking (হাঁটতে থাকা লোকটি)",
+      "The book written (লেখা বইটি)",
+      "A girl singing (গান গাইতে থাকা মেয়েটি)",
+      "The house built (নির্মিত বাড়িটি)",
+      "Students studying (অধ্যয়নরত ছাত্রছাত্রীরা)"
     ]
   },
   {
     id: 10,
     ruleNo: "Rule 10",
-    title: "Article to pre-modify the noun phrase",
-    description: "Articles (a, an, the) noun-এর নির্দিষ্টতা বা অনির্দিষ্টতা নির্দেশ করে। তাই, noun-এর পূর্বে article বসিয়ে noun-কে pre-modify করতে হয়।",
-    structure: "article + noun phrase",
+    title: "Use the article to pre-modify the noun phrase",
+    description: "Use definite article 'the' or indefinite articles 'a/an' before noun phrases.",
+    structure: "Article + Noun Phrase",
     examples: [
-      "a man",
-      "an idea", 
-      "the book"
+      "The beautiful garden (সুন্দর বাগানটি)",
+      "A tall building (একটি উঁচু ভবন)",
+      "The old man (বৃদ্ধ লোকটি)",
+      "An interesting story (একটি আকর্ষণীয় গল্প)",
+      "The first day (প্রথম দিনটি)"
     ]
   },
   {
     id: 11,
     ruleNo: "Rule 11",
-    title: "Quantifier to pre-modify the noun",
-    description: "Quantifiers (some, many, much, a few, several, a lot of, most, all) পরিমাণ বা সংখ্যা নির্দেশ করে। noun-এর পূর্বে quantifier বসিয়ে noun-কে pre-modify করতে হয়।",
-    structure: "quantifier + noun",
+    title: "Use an infinitive phrase to post-modify the noun",
+    description: "Use 'to + verb' after nouns to show purpose or describe the noun's function.",
+    structure: "Noun + to + Verb",
     examples: [
-      "many students",
-      "much water",
-      "a few books", 
-      "several problems"
+      "A book to read (পড়ার জন্য একটি বই)",
+      "Time to study (পড়ার সময়)",
+      "A place to live (থাকার জায়গা)",
+      "Something to eat (খাওয়ার কিছু)",
+      "A chance to win (জেতার সুযোগ)"
     ]
   },
   {
     id: 12,
     ruleNo: "Rule 12",
-    title: "Infinitive to post-modify the verb",
-    description: "Infinitive অর্থাৎ to + verb (base form) বসিয়ে verb-এর উদ্দেশ্য বোঝাতে হয়। কেন/কী জন্য কাজটি করছে—এই প্রশ্ন করলে উত্তর খুঁজে পাওয়া যায়। এটি verb-এর পরে বসে post-modify করে।",
-    structure: "verb + to + base verb",
+    title: "Post-modify the verb with an infinitive",
+    description: "Use infinitive (to + verb) after verbs to show purpose or result.",
+    structure: "Verb + to + Verb",
     examples: [
-      "Mills use fuel to produce products",
-      "He went to London to attend school",
-      "The crow tried to drink water",
-      "He visited Parliament to listen to debates"
+      "Want to go (যেতে চাওয়া)",
+      "Try to understand (বোঝার চেষ্টা করা)",
+      "Hope to succeed (সফল হওয়ার আশা করা)",
+      "Plan to visit (দেখা করার পরিকল্পনা করা)",
+      "Decide to help (সাহায্য করার সিদ্ধান্ত নেওয়া)"
     ]
   },
   {
     id: 13,
-    ruleNo: "Rule 13", 
-    title: "Infinitive phrase to post-modify the verb",
-    description: "Infinitive phrase অর্থাৎ to + verb + অতিরিক্ত শব্দ বসিয়ে কাজের উদ্দেশ্য বা বিস্তারিত প্রকাশ করা হয়। এটি মূল verb-এর পরে বসে ব্যাখ্যা করে।",
-    structure: "verb + to + verb + object/extension",
+    ruleNo: "Rule 13",
+    title: "Use an infinitive phrase to post-modify the verb",
+    description: "Use infinitive phrases after verbs to express purpose, intention, or result.",
+    structure: "Verb + Infinitive Phrase",
     examples: [
-      "He composed songs to inspire the people",
-      "He was lucky to find an English family",
-      "They stopped to buy groceries"
+      "Came to see me (আমাকে দেখতে এসেছিল)",
+      "Went to buy books (বই কিনতে গিয়েছিল)",
+      "Stopped to rest (বিশ্রাম নিতে থামল)",
+      "Called to inform (জানাতে ফোন করল)",
+      "Worked to earn money (টাকা আয় করতে কাজ করল)"
     ]
   },
   {
     id: 14,
     ruleNo: "Rule 14",
-    title: "Present participle to post-modify the verb",
-    description: "Present participle মানে verb+ing। এটি মূল verb-এর পরে বসে কাজটি কিভাবে হচ্ছে তা বোঝায়। অনেক সময় এটি অন্য কাজের পাশাপাশি ঘটে এমন ক্রিয়া প্রকাশ করে।",
-    structure: "verb + verb+ing",
+    title: "Post-modify the verb with a present participle",
+    description: "Use present participle (-ing form) after verbs to show simultaneous or continuous action.",
+    structure: "Verb + Present Participle",
     examples: [
-      "He wrote letters admiring English society",
-      "We pollute water throwing garbage",
-      "She walked singing a song"
+      "Kept working (কাজ করতে থাকল)",
+      "Went running (দৌড়াতে গেল)",
+      "Sat reading (পড়তে বসল)",
+      "Stood waiting (অপেক্ষা করে দাঁড়িয়ে রইল)",
+      "Came singing (গান গাইতে গাইতে এল)"
     ]
   },
   {
     id: 15,
     ruleNo: "Rule 15",
-    title: "Present participle phrase to post-modify the verb", 
-    description: "Present participle phrase মানে verb+ing + অতিরিক্ত শব্দ। এটি মূল verb-এর পরে বসে বিস্তারিতভাবে কার্যপদ্ধতি বা পরিবেশ বোঝায়।",
-    structure: "verb + verb+ing + object/extension",
+    title: "Use a present participle to post-modify the verb phrase",
+    description: "Use present participle after verb phrases to show manner or accompanying action.",
+    structure: "Verb Phrase + Present Participle",
     examples: [
-      "We are going there learning English",
-      "He wrote letters admiring English society",
-      "She worked washing clothes in rivers"
+      "Walked down the street singing (গান গাইতে গাইতে রাস্তা দিয়ে হাঁটল)",
+      "Sat in the garden reading (বাগানে বসে পড়ল)",
+      "Ran to school carrying books (বই নিয়ে স্কুলে দৌড়ে গেল)",
+      "Worked all night preparing (সারারাত প্রস্তুতি নিয়ে কাজ করল)",
+      "Traveled around the world learning (শিখতে শিখতে বিশ্বজুড়ে ভ্রমণ করল)"
     ]
   },
   {
     id: 16,
     ruleNo: "Rule 16",
-    title: "Adverb to post-modify the verb",
-    description: "Adverb দ্বারা verb-এর সময়, স্থান বা পদ্ধতি বোঝানো হয়। এটি verb-এর পরে বসে post-modify করে।",
-    structure: "verb + adverb",
+    title: "Post-modify the verb",
+    description: "Use adverbs, adverbial phrases, or prepositional phrases after verbs to provide additional information.",
+    structure: "Verb + Adverb/Adverbial Phrase",
     examples: [
-      "If you know English well",
-      "The crow flew quickly", 
-      "Try to learn English properly"
+      "Spoke loudly (জোরে কথা বলল)",
+      "Worked hard (কঠোর পরিশ্রম করল)",
+      "Arrived late (দেরিতে পৌঁছাল)",
+      "Left early (তাড়াতাড়ি চলে গেল)",
+      "Studied carefully (সাবধানে পড়াশোনা করল)"
     ]
   },
   {
     id: 17,
     ruleNo: "Rule 17",
-    title: "Adverbial phrase to post-modify the verb",
-    description: "Adverbial phrase একটি শব্দগুচ্ছ, যা verb-এর পরে বসে সময়, স্থান, উপায় বা উদ্দেশ্য বোঝায়।",
-    structure: "verb + adverbial phrase",
+    title: "Post-modify the adjective",
+    description: "Use adverbs, prepositional phrases, or infinitives after adjectives to modify their meaning.",
+    structure: "Adjective + Modifier",
     examples: [
-      "He sang the songs in this way",
-      "You will suffer in every stage of your life",
-      "She worked with great care"
+      "Very happy (খুব খুশি)",
+      "Quite difficult (বেশ কঠিন)",
+      "Easy to understand (বোঝা সহজ)",
+      "Hard to believe (বিশ্বাস করা কঠিন)",
+      "Good at singing (গানে ভালো)"
     ]
   },
   {
     id: 18,
     ruleNo: "Rule 18",
-    title: "Prepositional phrase to post-modify the verb",
-    description: "Prepositional phrase মানে preposition + noun phrase, যা verb-এর পরে বসে স্থান, সময় বা উপায় বোঝাতে ব্যবহৃত হয়।",
-    structure: "verb + preposition + noun phrase",
+    title: "Post-modify the verb with prepositional phrase/Adverbial",
+    description: "Use prepositional phrases or adverbials after verbs to show time, place, manner, or other circumstances.",
+    structure: "Verb + Prepositional Phrase/Adverbial",
     examples: [
-      "You will suffer in every stage of life",
-      "He walks in the morning",
-      "She studied at this time"
+      "Went to school (স্কুলে গেল)",
+      "Lived in Dhaka (ঢাকায় থাকত)",
+      "Worked at night (রাতে কাজ করত)",
+      "Traveled by train (ট্রেনে ভ্রমণ করল)",
+      "Studied for hours (ঘণ্টার পর ঘণ্টা পড়াশোনা করল)"
     ]
   },
   {
     id: 19,
     ruleNo: "Rule 19",
-    title: "Phrase to post-modify the verb",
-    description: "কোনো সাধারণ phrase বা শব্দগুচ্ছ যা verb-এর পরে বসে তার অর্থ আরও পরিষ্কার করে।",
-    structure: "verb + phrase",
+    title: "Use a phrase to post-modify the verb",
+    description: "Use various types of phrases after verbs to provide additional information about the action.",
+    structure: "Verb + Phrase",
     examples: [
-      "The crow thought for a while",
-      "He waited after some time",
-      "She handled it with great care"
+      "Worked with great enthusiasm (অসাধারণ উৎসাহের সাথে কাজ করল)",
+      "Spoke in a loud voice (জোর গলায় কথা বলল)",
+      "Walked through the forest (বনের মধ্য দিয়ে হাঁটল)",
+      "Studied until midnight (মধ্যরাত পর্যন্ত পড়াশোনা করল)",
+      "Played during the break (বিরতির সময় খেলল)"
     ]
   },
   {
     id: 20,
     ruleNo: "Rule 20",
-    title: "Relative clause to post-modify the noun",
-    description: "Relative clause মানে sub+verb সহ একটি clause, যা noun-এর পরে বসে সেটিকে বিশদভাবে ব্যাখ্যা করে। সাধারণত who, which, that ইত্যাদি দিয়ে শুরু হয়।",
-    structure: "noun + who/which/that + subject + verb",
+    title: "Use a relative clause to post-modify the noun",
+    description: "Use relative clauses (who, which, that, where, when) after nouns to provide additional information.",
+    structure: "Noun + Relative Clause",
     examples: [
-      "Arif, who is coming, is my brother",
-      "The book which I like is expensive",
-      "The man that you saw is my teacher"
+      "The man who came yesterday (যে লোকটি গতকাল এসেছিল)",
+      "The book which I bought (যে বইটি আমি কিনেছি)",
+      "The place where we met (যে জায়গায় আমরা দেখা করেছিলাম)",
+      "The day when it happened (যে দিন এটি ঘটেছিল)",
+      "The reason that he left (যে কারণে সে চলে গেছে)"
     ]
   },
   {
     id: 21,
     ruleNo: "Rule 21",
-    title: "Appositive to post-modify the noun",
-    description: "Appositive মানে noun বা pronoun-এর পরে বসা একটি অতিরিক্ত noun বা noun phrase, যা ওই noun সম্পর্কিত অতিরিক্ত তথ্য দেয়। এতে sub+verb থাকে না।",
-    structure: "noun, appositive noun/phrase,",
+    title: "Post-modify the noun with an appositive",
+    description: "Use appositives (noun phrases that rename or explain another noun) after nouns.",
+    structure: "Noun + Appositive",
     examples: [
-      "Nazrul, our national poet, won the attention",
-      "Arif, the gentleman, is a player",
-      "Dhaka, the capital city, is crowded"
+      "Mr. Rahman, our teacher (মি. রহমান, আমাদের শিক্ষক)",
+      "Dhaka, the capital city (ঢাকা, রাজধানী শহর)",
+      "My friend John (আমার বন্ধু জন)",
+      "The poet Nazrul (কবি নজরুল)",
+      "Dr. Smith, a famous scientist (ডা. স্মিথ, একজন বিখ্যাত বিজ্ঞানী)"
     ]
   }
-  // ADD MORE RULES HERE - copy from components/grammar-rules/ModifierGrammarRules.tsx
-  // Just follow the same structure as above
 ];

@@ -16,9 +16,9 @@ export default function ConnectorsQuestionsPage() {
 
   const filteredQuestions = useMemo(() => {
     return connectorsQuestions.filter(question => {
-      const matchesSearch = question.question.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesBoard = selectedBoard === 'All Boards' || question.id.toLowerCase().includes(selectedBoard.toLowerCase());
-      const matchesYear = selectedYear === 'All Years' || question.id.includes(selectedYear);
+      const matchesSearch = question.question?.toLowerCase().includes(searchTerm.toLowerCase()) || false;
+      const matchesBoard = selectedBoard === 'All Boards' || question.id?.toLowerCase().includes(selectedBoard.toLowerCase()) || false;
+      const matchesYear = selectedYear === 'All Years' || question.id?.includes(selectedYear) || false;
       
       return matchesSearch && matchesBoard && matchesYear;
     });
