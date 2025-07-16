@@ -1,16 +1,6 @@
 import BackButton from '@/components/common/BackButton';
-import CompletingSentenceQuestions from '@/components/questions/CompletingSentenceQuestions';
+import CompletingSentenceQuestionsPage from '@/components/questions/CompletingSentenceQuestionsPage';
 import { BookOpen } from 'lucide-react';
-import questions2022 from '@/content/questions/hsc/completingSentence/questions/2022/questions.json';
-import questions2023 from '@/content/questions/hsc/completingSentence/questions/2023/questions.json';
-import questions2024 from '@/content/questions/hsc/completingSentence/questions/2024/questions.json';
-import { Question } from '@/types';
-
-const allQuestions: Question[] = [...questions2022, ...questions2023, ...questions2024].map(q => ({
-  ...q,
-  year: parseInt(q.id.split('-')[1]),
-  board: q.id.split('-')[0].charAt(0).toUpperCase() + q.id.split('-')[0].slice(1)
-}));
 
 export default function HSCCompletingSentencePage() {
   return (
@@ -38,7 +28,7 @@ export default function HSCCompletingSentencePage() {
         </div>
 
         {/* Questions Component */}
-        <CompletingSentenceQuestions questions={allQuestions} />
+        <CompletingSentenceQuestionsPage />
       </div>
     </div>
   );
