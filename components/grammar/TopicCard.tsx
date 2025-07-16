@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookOpen, Clock } from 'lucide-react';
@@ -28,9 +29,11 @@ const CardWrapper = ({
   isGrammarItems?: boolean;
   children: React.ReactNode;
 }) => {
+  const pathname = usePathname();
+  
   if (available) {
-    // Special handling for get-started page
-    const isGetStartedPage = typeof window !== 'undefined' && window.location.pathname === '/get-started';
+    // Special handling for get-started page - route to combined page
+    const isGetStartedPage = pathname === '/get-started';
     const href = isGetStartedPage 
       ? `/get-started/${id}`
       : isGrammarItems 

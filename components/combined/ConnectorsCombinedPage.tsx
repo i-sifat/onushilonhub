@@ -1,12 +1,26 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Search, Filter, Calendar, MapPin, RotateCcw, BookOpen } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
+import { BookOpen, FileText, ChevronRight } from 'lucide-react';
 
-// Import the existing rules from ConnectorsGrammarRules
-const connectorsRules = [
+interface ConnectorRule {
+  id: number;
+  title: string;
+  description: string;
+  examples: string[];
+}
+
+interface Question {
+  id: string;
+  question: string;
+  ruleId?: number;
+  board: string;
+  year: string;
+}
+
+const connectorRules: ConnectorRule[] = [
   {
     id: 1,
     ruleNo: "Rule 1",
@@ -671,8 +685,9 @@ const connectorsRules = [
     ]
   }
 ];
-// Sample questions data - using the structure from ConnectorsQuestionsPage
-const allQuestions = [
+
+// Connector questions with proper board/year data
+const connectorQuestions: Question[] = [
   {
     id: "dhaka-2016-connectors",
     year: 2016,
@@ -1605,275 +1620,181 @@ const allQuestions = [
       { id: "n", answer: "Ultimately", ruleId: 14, explanation: "Ultimately concludes the importance of health, fitting Rule 14 (At the end/ finally...) for concluding events." }
     ]
   }
-  
 ];
 
-const boards = ['All Boards', 'Barisal', 'Chattogram', 'Cumilla', 'Dhaka', 'Dinajpur', 'Jashore', 'Mymensingh', 'Rajshahi', 'Sylhet'];
-const years = ['All Years', '2022', '2023', '2024'];
-
 export default function ConnectorsCombinedPage() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedBoard, setSelectedBoard] = useState('All Boards');
-  const [selectedYear, setSelectedYear] = useState('All Years');
   const [selectedRuleId, setSelectedRuleId] = useState<number | null>(null);
 
-  const filteredQuestions = useMemo(() => {
-    return allQuestions.filter(question => {
-      const matchesSearch = question.question.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesBoard = selectedBoard === 'All Boards' || question.id.toLowerCase().includes(selectedBoard.toLowerCase());
-      const matchesYear = selectedYear === 'All Years' || question.id.includes(selectedYear);
-      const matchesRule = selectedRuleId === null || question.ruleId === selectedRuleId;
-      
-      return matchesSearch && matchesBoard && matchesYear && matchesRule;
+  // Get question count for each rule
+  const ruleQuestionCounts = useMemo(() => {
+    const counts: { [key: number]: number } = {};
+    connectorQuestions.forEach(question => {
+      if (question.ruleId) {
+        counts[question.ruleId] = (counts[question.ruleId] || 0) + 1;
+      }
     });
-  }, [searchTerm, selectedBoard, selectedYear, selectedRuleId]);
+    return counts;
+  }, []);
 
-  const clearFilters = () => {
-    setSearchTerm('');
-    setSelectedBoard('All Boards');
-    setSelectedYear('All Years');
-    setSelectedRuleId(null);
-  };
+  // Get questions for selected rule
+  const selectedRuleQuestions = useMemo(() => {
+    if (!selectedRuleId) return [];
+    return connectorQuestions.filter(q => q.ruleId === selectedRuleId);
+  }, [selectedRuleId]);
 
-  const hasActiveFilters = searchTerm || selectedBoard !== 'All Boards' || selectedYear !== 'All Years' || selectedRuleId !== null;
-
-  const getQuestionMetadata = (questionId: string) => {
-    const parts = questionId.split('-');
-    return {
-      board: parts[0].charAt(0).toUpperCase() + parts[0].slice(1),
-      year: parts[1],
-      questionNumber: parts[2]
-    };
-  };
-
-  const getQuestionCountForRule = (ruleId: number) => {
-    return allQuestions.filter(q => q.ruleId === ruleId).length;
-  };
+  // Get selected rule details
+  const selectedRule = connectorRules.find(rule => rule.id === selectedRuleId);
 
   return (
-    <div className="grid lg:grid-cols-2 gap-8 h-[calc(100vh-300px)]">
-      {/* Left Side - Rules */}
-      <div className="bg-sf-bg border border-sf-text-muted/20 rounded-lg p-6">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-sf-text-bold">Grammar Rules</h2>
-          <Badge variant="outline" className="text-sf-button border-sf-button/30">
-            {connectorsRules.length} Rules
-          </Badge>
+    <div className="grid lg:grid-cols-2 gap-8 h-[calc(100vh-200px)]">
+      {/* Left Side - Rules List */}
+      <div className="space-y-4">
+        <div className="flex items-center space-x-2 mb-6">
+          <BookOpen className="h-6 w-6 text-sf-button" />
+          <h2 className="text-2xl font-bold text-sf-text-bold">Connector Rules</h2>
         </div>
         
-        <div className="space-y-4 overflow-y-auto max-h-[calc(100vh-400px)] pr-2">
-          {connectorsRules.map((rule) => {
-            const questionCount = getQuestionCountForRule(rule.id);
+        <div className="space-y-3 max-h-[calc(100vh-300px)] overflow-y-auto pr-2">
+          {connectorRules.map((rule) => {
+            const questionCount = ruleQuestionCounts[rule.id] || 0;
             const isSelected = selectedRuleId === rule.id;
             
             return (
-              <div
+              <Card
                 key={rule.id}
-                className={`border rounded-lg p-4 cursor-pointer transition-all duration-300 ${
+                className={`cursor-pointer transition-all duration-300 ${
                   isSelected 
                     ? 'border-sf-button bg-sf-button/10' 
                     : 'border-sf-text-muted/20 hover:border-sf-button/50'
                 }`}
-                onClick={() => setSelectedRuleId(isSelected ? null : rule.id)}
+                onClick={() => setSelectedRuleId(rule.id)}
               >
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex items-center space-x-3">
-                    <Badge variant="outline" className="text-sf-button border-sf-button/30">
-                      {rule.ruleNo}
-                    </Badge>
-                    {questionCount > 0 && (
-                      <Badge variant="secondary" className="bg-sf-highlight/20 text-sf-text-bold">
-                        {questionCount} questions
-                      </Badge>
-                    )}
-                  </div>
-                </div>
-                
-                <h3 className="text-lg font-semibold text-sf-text-bold mb-2 leading-tight">
-                  {rule.title}
-                </h3>
-                
-                <p className="text-sf-text-subtle text-sm mb-3">
-                  {rule.description}
-                </p>
-                
-                <div className="space-y-2">
-                  <h4 className="text-sm font-medium text-sf-text-bold">Examples:</h4>
-                  <div className="space-y-1">
-                    {rule.examples.slice(0, 2).map((example, index) => (
-                      <div
-                        key={index}
-                        className="bg-sf-highlight/10 border-l-2 border-sf-button p-2 rounded-r text-xs text-sf-text-subtle"
-                      >
-                        {example}
+                <CardContent className="p-4">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1 pr-4">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <Badge variant="outline" className="text-sf-button border-sf-button/30">
+                          Rule {rule.id}
+                        </Badge>
+                        <Badge variant="secondary" className="bg-sf-highlight/20 text-sf-text-bold">
+                          {questionCount} questions
+                        </Badge>
                       </div>
-                    ))}
-                    {rule.examples.length > 2 && (
-                      <div className="text-xs text-sf-text-muted">
-                        +{rule.examples.length - 2} more examples
-                      </div>
-                    )}
+                      <h3 className={`text-sm font-medium leading-tight line-clamp-2 ${
+                        isSelected ? 'text-sf-button' : 'text-sf-text-bold'
+                      }`}>
+                        {rule.title}
+                      </h3>
+                    </div>
+                    <ChevronRight className={`h-5 w-5 transition-transform ${
+                      isSelected ? 'rotate-90 text-sf-button' : 'text-sf-text-muted'
+                    }`} />
                   </div>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
             );
           })}
         </div>
       </div>
 
-      {/* Right Side - Questions */}
-      <div className="bg-sf-bg border border-sf-text-muted/20 rounded-lg p-6">
-        {/* Filter Section */}
-        <div className="mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center space-x-2">
-              <Filter className="h-5 w-5 text-sf-button" />
-              <h3 className="text-lg font-semibold text-sf-text-bold">Filter Questions</h3>
-            </div>
-            {hasActiveFilters && (
-              <button
-                onClick={clearFilters}
-                className="flex items-center space-x-1 text-sf-text-muted hover:text-sf-button transition-colors text-sm"
-              >
-                <RotateCcw className="h-4 w-4" />
-                <span>Clear All</span>
-              </button>
-            )}
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-4 mb-4">
-            {/* Search */}
-            <div>
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search questions..."
-                className="w-full px-3 py-2 border border-sf-text-muted/20 rounded-lg bg-sf-bg text-sf-text-subtle focus:outline-none focus:ring-2 focus:ring-sf-button focus:border-transparent text-sm"
-              />
-            </div>
-
-            {/* Board Filter */}
-            <div>
-              <select
-                value={selectedBoard}
-                onChange={(e) => setSelectedBoard(e.target.value)}
-                className="w-full px-3 py-2 border border-sf-text-muted/20 rounded-lg bg-sf-bg text-sf-text-subtle focus:outline-none focus:ring-2 focus:ring-sf-button focus:border-transparent text-sm"
-              >
-                {boards.map(board => (
-                  <option key={board} value={board}>{board}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Year Filter */}
-            <div>
-              <select
-                value={selectedYear}
-                onChange={(e) => setSelectedYear(e.target.value)}
-                className="w-full px-3 py-2 border border-sf-text-muted/20 rounded-lg bg-sf-bg text-sf-text-subtle focus:outline-none focus:ring-2 focus:ring-sf-button focus:border-transparent text-sm"
-              >
-                {years.map(year => (
-                  <option key={year} value={year}>{year}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          {/* Active Filters Display */}
-          {hasActiveFilters && (
-            <div className="pt-4 border-t border-sf-text-muted/20">
-              <div className="flex flex-wrap gap-2">
-                <span className="text-sm text-sf-text-muted">Active filters:</span>
-                {searchTerm && (
-                  <Badge variant="secondary" className="bg-sf-button/20 text-sf-button text-xs">
-                    Search: "{searchTerm}"
-                  </Badge>
-                )}
-                {selectedBoard !== 'All Boards' && (
-                  <Badge variant="secondary" className="bg-sf-button/20 text-sf-button text-xs">
-                    Board: {selectedBoard}
-                  </Badge>
-                )}
-                {selectedYear !== 'All Years' && (
-                  <Badge variant="secondary" className="bg-sf-button/20 text-sf-button text-xs">
-                    Year: {selectedYear}
-                  </Badge>
-                )}
-                {selectedRuleId && (
-                  <Badge variant="secondary" className="bg-sf-button/20 text-sf-button text-xs">
-                    Rule: {selectedRuleId}
-                  </Badge>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Results Summary */}
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-sf-text-bold">
-            {filteredQuestions.length} Question{filteredQuestions.length !== 1 ? 's' : ''} Found
+      {/* Right Side - Rule Details and Questions */}
+      <div className="space-y-6">
+        <div className="flex items-center space-x-2 mb-6">
+          <FileText className="h-6 w-6 text-sf-button" />
+          <h2 className="text-2xl font-bold text-sf-text-bold">
+            {selectedRule ? 'Rule Details & Questions' : 'Select a Rule'}
           </h2>
         </div>
 
-        {/* Questions List */}
-        <div className="overflow-y-auto max-h-[calc(100vh-500px)] pr-2">
-          {filteredQuestions.length === 0 ? (
-            <Card className="border-sf-text-muted/20">
-              <CardContent className="p-8 text-center">
-                <BookOpen className="h-12 w-12 text-sf-text-muted mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-sf-text-bold mb-2">No Questions Found</h3>
-                <p className="text-sf-text-subtle">
-                  {hasActiveFilters 
-                    ? "No questions match your current filters. Try adjusting your search criteria."
-                    : "No questions available at the moment."
-                  }
-                </p>
-              </CardContent>
-            </Card>
-          ) : (
-            <div className="space-y-4">
-              {filteredQuestions.map((question, index) => {
-                const metadata = getQuestionMetadata(question.id);
+        <div className="max-h-[calc(100vh-300px)] overflow-y-auto pr-2 space-y-6">
+          {selectedRule ? (
+            <>
+              {/* Rule Description */}
+              <Card className="border-sf-text-muted/20">
+                <CardContent className="p-6">
+                  <div className="mb-4">
+                    <Badge variant="outline" className="text-sf-button border-sf-button/30 mb-3">
+                      Rule {selectedRule.id}
+                    </Badge>
+                    <h3 className="text-lg font-bold text-sf-text-bold mb-3">
+                      {selectedRule.title}
+                    </h3>
+                    <p className="text-sf-text-subtle leading-relaxed mb-4">
+                      <span className="font-medium">Usage:</span> {selectedRule.description}
+                    </p>
+                  </div>
+
+                  {/* Examples */}
+                  <div>
+                    <h4 className="text-md font-semibold text-sf-text-bold mb-3">Examples:</h4>
+                    <div className="space-y-2">
+                      {selectedRule.examples.map((example, index) => (
+                        <div
+                          key={index}
+                          className="bg-sf-highlight/10 border-l-4 border-sf-button p-3 rounded-r-lg"
+                        >
+                          <p className="text-sf-text-subtle text-sm leading-relaxed">
+                            {example}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Associated Questions */}
+              <div>
+                <h3 className="text-lg font-semibold text-sf-text-bold mb-4">
+                  Board Questions ({selectedRuleQuestions.length})
+                </h3>
                 
-                return (
-                  <Card 
-                    key={question.id} 
-                    className="border-sf-text-muted/20 hover:border-sf-button/50 transition-all duration-300"
-                  >
-                    <CardContent className="p-4">
-                      <div className="flex items-start justify-between mb-3">
-                        <div className="flex items-center space-x-2">
-                          <Badge variant="outline" className="text-sf-button border-sf-button/30 text-xs">
-                            Q{index + 1}
-                          </Badge>
-                          {question.ruleId && (
-                            <Badge variant="secondary" className="bg-sf-highlight/20 text-sf-text-bold text-xs">
-                              Rule {question.ruleId}
-                            </Badge>
-                          )}
-                        </div>
-                        <div className="flex items-center space-x-3 text-xs text-sf-text-muted">
-                          <div className="flex items-center space-x-1">
-                            <MapPin className="h-3 w-3" />
-                            <span>{metadata.board}</span>
-                          </div>
-                          <div className="flex items-center space-x-1">
-                            <Calendar className="h-3 w-3" />
-                            <span>{metadata.year}</span>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <p className="text-sf-text-subtle leading-relaxed">
-                        {question.question}
+                {selectedRuleQuestions.length === 0 ? (
+                  <Card className="border-sf-text-muted/20">
+                    <CardContent className="p-6 text-center">
+                      <FileText className="h-12 w-12 text-sf-text-muted mx-auto mb-4" />
+                      <p className="text-sf-text-subtle">
+                        No board questions available for this rule yet.
                       </p>
                     </CardContent>
                   </Card>
-                );
-              })}
-            </div>
+                ) : (
+                  <div className="space-y-3">
+                    {selectedRuleQuestions.map((question, index) => (
+                      <Card key={question.id} className="border-sf-text-muted/20">
+                        <CardContent className="p-4">
+                          <div className="flex items-start justify-between mb-3">
+                            <Badge variant="outline" className="text-sf-button border-sf-button/30">
+                              Question {index + 1}
+                            </Badge>
+                            <div className="flex items-center space-x-2 text-sm text-sf-text-muted">
+                              <span>{question.board}</span>
+                              <span>•</span>
+                              <span>{question.year}</span>
+                            </div>
+                          </div>
+                          <p className="text-sf-text-subtle leading-relaxed">
+                            {question.question}
+                          </p>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </>
+          ) : (
+            <Card className="border-sf-text-muted/20">
+              <CardContent className="p-8 text-center">
+                <BookOpen className="h-16 w-16 text-sf-text-muted mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-sf-text-bold mb-2">
+                  Select a Connector Rule
+                </h3>
+                <p className="text-sf-text-subtle">
+                  Click on any rule from the left panel to view its description and associated board questions.
+                </p>
+              </CardContent>
+            </Card>
           )}
         </div>
       </div>

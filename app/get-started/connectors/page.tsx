@@ -2,6 +2,11 @@ import BackButton from '@/components/common/BackButton';
 import ConnectorsCombinedPage from '@/components/combined/ConnectorsCombinedPage';
 import { BookOpen } from 'lucide-react';
 
+export const metadata = {
+  title: 'HSC Connectors - Grammar Rules & Board Questions | OnushilonHub',
+  description: 'Master HSC connectors with comprehensive grammar rules and practice questions. Study rules and practice with real board questions side by side.',
+};
+
 export default function ConnectorsGetStartedPage() {
   return (
     <div className="min-h-screen bg-sf-bg pt-20">
