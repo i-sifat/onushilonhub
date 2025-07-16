@@ -15,7 +15,13 @@ interface TopicCardProps {
   questionCount?: number;
 }
 
-const CardWrapper = ({ available, level, id, children }: {
+const CardWrapper = ({ 
+  available, 
+  level, 
+  id, 
+  isGrammarItems = false, 
+  children 
+}: {
   available: boolean;
   level: 'hsc' | 'ssc';
   id: string;
