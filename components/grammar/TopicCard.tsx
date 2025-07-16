@@ -11,6 +11,7 @@ interface TopicCardProps {
   description: string;
   available: boolean;
   level: 'hsc' | 'ssc';
+  isGrammarItems?: boolean;
   questionCount?: number;
 }
 
@@ -18,10 +19,14 @@ const CardWrapper = ({ available, level, id, children }: {
   available: boolean;
   level: 'hsc' | 'ssc';
   id: string;
+  isGrammarItems?: boolean;
   children: React.ReactNode;
 }) => {
   if (available) {
-    return <Link href={`/board-questions/${level}/${id}`}>{children}</Link>;
+    const href = isGrammarItems 
+      ? `/grammar-items/${level}/${id}` 
+      : `/board-questions/${level}/${id}`;
+    return <Link href={href}>{children}</Link>;
   }
   return <div>{children}</div>;
 };
@@ -32,10 +37,11 @@ export default function TopicCard({
   description, 
   available, 
   level,
+  isGrammarItems = false,
   questionCount 
 }: TopicCardProps) {
   return (
-    <CardWrapper available={available} level={level} id={id}>
+    <CardWrapper available={available} level={level} id={id} isGrammarItems={isGrammarItems}>
       <Card className={`h-full transition-all duration-300 ${
         available 
           ? 'hover:shadow-lg hover:shadow-sf-button/10 hover:border-sf-button/50 cursor-pointer' 
@@ -77,7 +83,18 @@ export default function TopicCard({
           {available && questionCount && (
             <div className="flex items-center justify-between text-xs text-sf-text-muted">
               <span>{questionCount} questions available</span>
-              <span className="text-sf-button">Click to explore →</span>
+              <span className="text-sf-button">
+                {isGrammarItems ? 'Click to learn rules →' : 'Click to explore →'}
+              </span>
+            </div>
+          )}
+          
+          {available && !questionCount && (
+            <div className="flex items-center justify-between text-xs text-sf-text-muted">
+              <span>{isGrammarItems ? 'Grammar rules available' : 'Practice questions available'}</span>
+              <span className="text-sf-button">
+                {isGrammarItems ? 'Click to learn rules →' : 'Click to explore →'}
+              </span>
             </div>
           )}
           

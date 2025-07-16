@@ -4,6 +4,7 @@ import TopicCard from './TopicCard';
 
 interface HSCTopicsGridProps {
   level: 'hsc' | 'ssc';
+  isGrammarItems?: boolean;
 }
 
 const HSC_GRAMMAR_TOPICS = [
@@ -69,7 +70,7 @@ const HSC_GRAMMAR_TOPICS = [
   },
 ];
 
-export default function HSCTopicsGrid({ level }: HSCTopicsGridProps) {
+export default function HSCTopicsGrid({ level, isGrammarItems = false }: HSCTopicsGridProps) {
   return (
     <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {HSC_GRAMMAR_TOPICS.map((topic) => (
@@ -80,6 +81,7 @@ export default function HSCTopicsGrid({ level }: HSCTopicsGridProps) {
           description={topic.description}
           available={topic.available}
           level={level}
+          isGrammarItems={isGrammarItems}
           questionCount={topic.available ? undefined : undefined}
         />
       ))}
