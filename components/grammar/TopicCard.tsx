@@ -29,9 +29,13 @@ const CardWrapper = ({
   children: React.ReactNode;
 }) => {
   if (available) {
-    const href = isGrammarItems 
-      ? `/grammar-items/${level}/${id}` 
-      : `/board-questions/${level}/${id}`;
+    // Special handling for get-started page
+    const isGetStartedPage = typeof window !== 'undefined' && window.location.pathname === '/get-started';
+    const href = isGetStartedPage 
+      ? `/get-started/${id}`
+      : isGrammarItems 
+        ? `/grammar-items/${level}/${id}` 
+        : `/board-questions/${level}/${id}`;
     return <Link href={href}>{children}</Link>;
   }
   return <div>{children}</div>;
