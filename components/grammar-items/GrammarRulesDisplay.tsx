@@ -2,10 +2,11 @@
 
 import Link from 'next/link';
 import { FileText } from 'lucide-react';
-import { GrammarItem, formatTopicName } from '@/lib/content-loader';
+import { GrammarRule, RulesData } from '@/types';
+import { formatTopicName } from '@/lib/utils';
 
 interface GrammarRulesDisplayProps {
-  grammarData: GrammarItem;
+  grammarData: RulesData;
   level: string;
   topic: string;
 }

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { FileText, ArrowRight } from 'lucide-react';
-import { formatTopicName } from '@/lib/content-loader';
+import { formatTopicName } from '@/lib/utils';
 
 interface QuestionTopicsGridProps {
   level: 'hsc' | 'ssc';

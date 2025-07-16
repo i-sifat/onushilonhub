@@ -1,7 +1,8 @@
 'use client';
 
-import { Question } from '@/lib/content';
+import { Question } from '@/types';
 import { FileText, Calendar, MapPin, Tag } from 'lucide-react';
+import { formatTopicName, formatBoardName } from '@/lib/utils';
 
 interface QuestionListProps {
   questions: Question[];
@@ -10,29 +11,6 @@ interface QuestionListProps {
 }
 
 export default function QuestionList({ questions, metadata, level }: QuestionListProps) {
-  const formatTopicName = (topic: string) => {
-    return topic
-      .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-  };
-
-  const formatBoardName = (board: string) => {
-    return board.charAt(0).toUpperCase() + board.slice(1);
-  };
-
-  const getDifficultyColor = (difficulty?: string) => {
-    switch (difficulty) {
-      case 'easy':
-        return 'text-green-400 bg-green-400/20';
-      case 'medium':
-        return 'text-yellow-400 bg-yellow-400/20';
-      case 'hard':
-        return 'text-red-400 bg-red-400/20';
-      default:
-        return 'text-sf-text-muted bg-sf-text-muted/20';
-    }
-  };
 
   if (questions.length === 0) {
     return (

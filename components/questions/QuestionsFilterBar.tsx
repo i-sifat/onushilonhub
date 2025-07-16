@@ -1,7 +1,7 @@
 'use client';
 
 import { Filter, RotateCcw } from 'lucide-react';
-import { formatBoardName } from '@/lib/content-loader';
+import { formatBoardName } from '@/lib/utils';
 
 interface QuestionsFilterBarProps {
   availableYears: number[];

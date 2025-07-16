@@ -1,0 +1,65 @@
+ Of course. Yes, there is a much simpler way that doesn't involve the fs module or manually constructing file paths.
+
+  You can directly import your JSON files into your Next.js page. Next.js is configured to handle JSON imports out of the box, treating them as JavaScript objects.
+
+  Here’s how you would do it:
+
+   1. Place your JSON files in the data directory (e.g., /data/rules.json, /data/questions.json).
+
+   2. Import them directly in your page file (e.g., pages/index.js):
+
+    1     // pages/index.js
+    2     import rules from '../data/rules.json';
+    3     import questions from '../data/questions.json'; // Assuming this is your combined file
+    4 
+    5     export async function getStaticProps() {
+    6       // The data is already loaded and parsed by the import statements above.
+    7       // You can now pass it directly to your component's props.
+    8 
+    9       // You can also perform any necessary transformations here, just like the original project did.
+   10       const allQuestions = questions.map(q => ({
+   11         ...q,
+   12         year: parseInt(q.id.split('-')[1]), // Example: "dhaka-2023-a" -> 2023
+   13         board: q.id.split('-')[0].charAt(0).toUpperCase() + q.id.split('-')[0].slice(1) // -> "Dhaka"
+   14       }));
+   15 
+   16       const uniqueBoards = [...new Set(allQuestions.map(q => q.board))];
+   17 
+   18       return {
+   19         props: {
+   20           rules,
+   21           questions: allQuestions,
+   22           boards: uniqueBoards,
+   23         },
+   24       };
+   25     }
+   26 
+   27     // Your page component
+   28     function YourPage({ rules, questions, boards }) {
+   29       // You can now use the rules, questions, and boards props to build your UI.
+   30       // This is where you would place the logic from the App.tsx file.
+   31       // For example:
+   32       return (
+   33         <div>
+   34           <h1>Grammar Rules</h1>
+   35           <ul>
+   36             {rules.map(rule => (
+   37               <li key={rule.id}>{rule.title}</li>
+   38             ))}
+   39           </ul>
+   40           {/* ... and so on for questions */}
+   41         </div>
+   42       );
+   43     }
+   44 
+   45     export default YourPage;
+
+  Why This Works Better
+
+   * Simplicity: It's the cleanest and most direct way to include static data in your application. You don't need Node.js-specific modules like fs or path.
+   * Build-Time Optimization: When you import the JSON, Next.js includes the data in your application's JavaScript bundle at build time. When getStaticProps runs, the data is instantly available without needing to
+     read from the file system.
+   * Type Safety: If you are using TypeScript, this approach provides better type inference for your data.
+
+  This is the recommended approach for handling local, static data files in a Next.js project.
+

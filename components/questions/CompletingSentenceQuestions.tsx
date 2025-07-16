@@ -1,63 +1,60 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { getAllCompletingSentenceQuestions, searchCompletingSentenceQuestions, YearQuestions, Question } from '@/lib/content-loader';
+import { useState, useMemo } from 'react';
+import { Question, YearQuestions } from '@/types';
 import SearchInput from '@/components/common/SearchInput';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Calendar, Search, BookOpen, FileText } from 'lucide-react';
 
 interface CompletingSentenceQuestionsProps {
-  level: 'hsc' | 'ssc';
+  questions: Question[];
 }
 
-export default function CompletingSentenceQuestions({ level }: CompletingSentenceQuestionsProps) {
-  const [yearQuestions, setYearQuestions] = useState<YearQuestions[]>([]);
-  const [searchResults, setSearchResults] = useState<Question[]>([]);
+export default function CompletingSentenceQuestions({ questions }: CompletingSentenceQuestionsProps) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const loadQuestions = () => {
-      setLoading(true);
-      try {
-        const questions = getAllCompletingSentenceQuestions(level);
-        setYearQuestions(questions);
-      } catch (error) {
-        console.error('Error loading questions:', error);
-      } finally {
-        setLoading(false);
+  const yearQuestions: YearQuestions[] = useMemo(() => {
+    if (!questions) return [];
+    const groupedByYear: { [year: number]: Question[] } = questions.reduce((acc, q) => {
+      const year = q.year;
+      if (year) {
+        if (!acc[year]) {
+          acc[year] = [];
+        }
+        acc[year].push(q);
       }
-    };
+      return acc;
+    }, {} as { [year: number]: Question[] });
 
-    loadQuestions();
-  }, [level]);
+    return Object.entries(groupedByYear)
+      .map(([year, questions]) => ({
+        year: parseInt(year),
+        questions,
+      }))
+      .sort((a, b) => b.year - a.year);
+  }, [questions]);
+
+  const searchResults: Question[] = useMemo(() => {
+    if (!searchTerm.trim()) {
+      return [];
+    }
+    const searchLower = searchTerm.toLowerCase();
+    return questions.filter(question =>
+      question.question.toLowerCase().includes(searchLower) ||
+      question.id.toLowerCase().includes(searchLower)
+    );
+  }, [searchTerm, questions]);
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
-    if (term.trim()) {
-      const results = searchCompletingSentenceQuestions(level, term);
-      setSearchResults(results);
-    } else {
-      setSearchResults([]);
-    }
   };
 
-  const totalQuestions = yearQuestions.reduce((total, yearData) => total + yearData.questions.length, 0);
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sf-button"></div>
-        <span className="ml-2 text-sf-text-subtle">Loading questions...</span>
-      </div>
-    );
-  }
+  const totalQuestions = questions.length;
 
   return (
     <div className="space-y-8">
-      {/* Search */}
       <div className="max-w-md mx-auto">
         <SearchInput
           placeholder="Search completing sentence questions..."
@@ -66,7 +63,6 @@ export default function CompletingSentenceQuestions({ level }: CompletingSentenc
         />
       </div>
 
-      {/* Stats */}
       <div className="grid md:grid-cols-3 gap-4 mb-8">
         <Card className="border-sf-text-muted/20">
           <CardContent className="p-4 text-center">
@@ -90,7 +86,6 @@ export default function CompletingSentenceQuestions({ level }: CompletingSentenc
         </Card>
       </div>
 
-      {/* Search Results */}
       {searchTerm && (
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-sf-text-bold mb-4 flex items-center">
@@ -106,7 +101,7 @@ export default function CompletingSentenceQuestions({ level }: CompletingSentenc
             </Card>
           ) : (
             <div className="space-y-4">
-              {searchResults.map((question, index) => (
+              {searchResults.map((question) => (
                 <Card key={question.id} className="border-sf-text-muted/20 hover:border-sf-button/50 transition-colors">
                   <CardContent className="p-6">
                     <div className="flex items-start justify-between mb-3">
@@ -128,7 +123,6 @@ export default function CompletingSentenceQuestions({ level }: CompletingSentenc
         </div>
       )}
 
-      {/* Year-wise Questions */}
       {!searchTerm && (
         <div>
           <h2 className="text-2xl font-bold text-sf-text-bold mb-6 flex items-center">
@@ -142,7 +136,7 @@ export default function CompletingSentenceQuestions({ level }: CompletingSentenc
                 <BookOpen className="h-12 w-12 text-sf-text-muted mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-sf-text-bold mb-2">No Questions Available</h3>
                 <p className="text-sf-text-subtle">
-                  Questions for {level.toUpperCase()} completing sentence are not available yet.
+                  Questions for this topic are not available yet.
                 </p>
               </CardContent>
             </Card>

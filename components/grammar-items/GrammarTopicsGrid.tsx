@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { BookOpen, ArrowRight, Clock } from 'lucide-react';
-import { formatTopicName } from '@/lib/content-loader';
+import { formatTopicName } from '@/lib/utils';
 
 interface GrammarTopic {
   id: string;

@@ -1,7 +1,8 @@
 'use client';
 
 import { FileText, Calendar, MapPin, Tag } from 'lucide-react';
-import { Question, formatTopicName, formatBoardName } from '@/lib/content-loader';
+import { Question } from '@/types';
+import { formatTopicName, formatBoardName } from '@/lib/utils';
 
 interface QuestionsDisplayProps {
   questions: Question[];

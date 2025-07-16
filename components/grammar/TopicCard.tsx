@@ -14,6 +14,18 @@ interface TopicCardProps {
   questionCount?: number;
 }
 
+const CardWrapper = ({ available, level, id, children }: {
+  available: boolean;
+  level: 'hsc' | 'ssc';
+  id: string;
+  children: React.ReactNode;
+}) => {
+  if (available) {
+    return <Link href={`/board-questions/${level}/${id}`}>{children}</Link>;
+  }
+  return <div>{children}</div>;
+};
+
 export default function TopicCard({ 
   id, 
   name, 
@@ -22,13 +34,8 @@ export default function TopicCard({
   level,
   questionCount 
 }: TopicCardProps) {
-  const CardWrapper = available ? Link : 'div';
-  const cardProps = available 
-    ? { href: `/board-questions/${level}/${id}` }
-    : {};
-
   return (
-    <CardWrapper {...cardProps}>
+    <CardWrapper available={available} level={level} id={id}>
       <Card className={`h-full transition-all duration-300 ${
         available 
           ? 'hover:shadow-lg hover:shadow-sf-button/10 hover:border-sf-button/50 cursor-pointer' 
