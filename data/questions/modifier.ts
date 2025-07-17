@@ -8,6 +8,7 @@ export interface ModifierQuestion {
   passage?: string;
   blanks?: { id: string; instruction: string; ruleId?: number; answer: string }[];
   ruleId?: number;
+  question?: string;
 }
 
 export const modifierQuestions: ModifierQuestion[] = [

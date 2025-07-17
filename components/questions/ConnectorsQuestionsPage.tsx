@@ -16,7 +16,9 @@ export default function ConnectorsQuestionsPage() {
 
   const filteredQuestions = useMemo(() => {
     return connectorsQuestions.filter(question => {
-      const matchesSearch = question.question?.toLowerCase().includes(searchTerm.toLowerCase()) || false;
+      const matchesSearch = !searchTerm || 
+        (question.question?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+         question.passage?.toLowerCase().includes(searchTerm.toLowerCase()) || false);
       const matchesBoard = selectedBoard === 'All Boards' || question.id?.toLowerCase().includes(selectedBoard.toLowerCase()) || false;
       const matchesYear = selectedYear === 'All Years' || question.id?.includes(selectedYear) || false;
       
@@ -195,10 +197,39 @@ export default function ConnectorsQuestionsPage() {
                     </div>
                   </div>
                   
-                  <div className="prose prose-invert max-w-none">
-                    <p className="text-sf-text-subtle leading-relaxed text-lg">
-                      {question.question}
-                    </p>
+                  <div className="space-y-4">
+                    {question.passage ? (
+                      <div>
+                        <h4 className="text-md font-semibold text-sf-text-bold mb-2">Passage:</h4>
+                        <p className="text-sf-text-subtle leading-relaxed">
+                          {question.passage}
+                        </p>
+                        
+                        {question.blanks && question.blanks.length > 0 && (
+                          <div className="mt-4">
+                            <h4 className="text-md font-semibold text-sf-text-bold mb-2">Sample Answers:</h4>
+                            <div className="grid md:grid-cols-2 gap-2">
+                              {question.blanks.slice(0, 6).map((blank) => (
+                                <div key={blank.id} className="text-sm text-sf-text-subtle">
+                                  <span className="font-medium">({blank.id})</span> {blank.answer}
+                                </div>
+                              ))}
+                              {question.blanks.length > 6 && (
+                                <div className="text-sm text-sf-text-muted col-span-2">
+                                  ... and {question.blanks.length - 6} more answers
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="prose prose-invert max-w-none">
+                        <p className="text-sf-text-subtle leading-relaxed text-lg">
+                          {question.question}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>

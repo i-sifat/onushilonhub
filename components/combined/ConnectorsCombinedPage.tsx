@@ -19,7 +19,9 @@ export default function ConnectorsCombinedPage() {
   // Filter questions based on selected rule and other filters
   const filteredQuestions = connectorsQuestions.filter(question => {
     const matchesRule = selectedRuleId === null || question.ruleId === selectedRuleId;
-    const matchesSearch = question.question?.toLowerCase().includes(searchTerm.toLowerCase()) || false;
+    const matchesSearch = !searchTerm || 
+      (question.question?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+       question.passage?.toLowerCase().includes(searchTerm.toLowerCase()) || false);
     const matchesBoard = selectedBoard === 'All Boards' || question.id?.toLowerCase().includes(selectedBoard.toLowerCase()) || false;
     const matchesYear = selectedYear === 'All Years' || question.id?.includes(selectedYear) || false;
     
@@ -251,9 +253,18 @@ export default function ConnectorsCombinedPage() {
                         </div>
                       </div>
                       
-                      <p className="text-sf-text-subtle leading-relaxed text-sm">
-                        {question.question}
-                      </p>
+                      <div className="text-sf-text-subtle leading-relaxed text-sm">
+                        {question.passage ? (
+                          <div>
+                            <p className="mb-2 font-medium">Passage:</p>
+                            <p className="text-xs leading-relaxed">
+                              {question.passage}
+                            </p>
+                          </div>
+                        ) : (
+                          <p>{question.question}</p>
+                        )}
+                      </div>
                     </CardContent>
                   </Card>
                 );

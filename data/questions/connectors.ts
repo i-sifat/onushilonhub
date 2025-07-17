@@ -3,6 +3,10 @@
 
 export interface ConnectorQuestion {
   id: string;
+  year?: number;
+  board?: string;
+  passage?: string;
+  blanks?: { id: string; answer: string; ruleId?: number; explanation?: string }[];
   question: string;
   ruleId?: number;
 }
@@ -12,6 +16,7 @@ export const connectorsQuestions: ConnectorQuestion[] = [
     id: "dhaka-2016-connectors",
     year: 2016,
     board: "Dhaka Board",
+    question: "Fill in the blanks with appropriate connectors",
     passage: "A lion was drinking water from a brook. (a) ___ a lamb was also drinking water from the downstream of the same brook. The lion saw the lamb and decided to devour it. (b) ___ he was thinking about how to accomplish his evil design. (c) ___ he hit upon a plan. (d) ___ the lion complained that the lamb was disturbing him by muddying water. But the lamb said that he was drinking water from downstream. (e) ___ the questions of muddying water on his part did not arise. (f) ___ the lamb argued that it was the lion that was muddying the water for him as he was drinking water upstream. (g) ___ the lion retorted that the lamb spoke ill of him a year ago. (h) ___ the lamb said that he was not born a year ago. The lion grew into a rage. (i) ___ he said that perhaps his father spoke ill of him last year. (j) ___ the lion had the right to take revenge and kill the lamb.",
     blanks: [
       { id: "a", answer: "As", ruleId: 49, explanation: "As introduces a reason, explaining why the lamb was also drinking water, aligning with Rule 49 (As/ since/ because...), which denotes cause." },
@@ -30,6 +35,7 @@ export const connectorsQuestions: ConnectorQuestion[] = [
     id: "rajshahi-2016-connectors",
     year: 2016,
     board: "Rajshahi Board",
+    question: "Fill in the blanks with appropriate connectors",
     passage: "(a) ___ I was walking along the road the other day, I happened to notice a small brown leather purse lying on the pavement. I picked it up and opened it to see (b) ____ I could find out the owner’s name. There was nothing inside. It (c) ___ some small change and a rather old photograph a picture of a woman and a young girl about twelve years old who looked like the woman’s daughter. I put the photograph back (d) ___ took the purse to the police station. (e) ___ I handed it to the sergeant-in-charge. Before I left, the sergeant made a note of my name and address in case the owner of the purse wanted to write and thank me. That evening I went to have dinner with an uncle and aunt of mine. They had also invited another person, a young woman, (f) ____ there would be four people at the table. The young woman’s face was familiar, (g) ___ I could not remember where I had seen it. I was quite sure, (h) ___ we had not met before. (i) ___ conversation, however, the young woman happened to mark that she had lost her purse that afternoon. I at once remembered where I had seen her face. She was the young woman in the photograph (j) ___ she was now much older.",
     blanks: [
       { id: "a", answer: "While", ruleId: 26, explanation: "While indicates the simultaneous action of walking and noticing the purse, fitting Rule 26 (When/ while) for concurrent events." },
@@ -48,6 +54,7 @@ export const connectorsQuestions: ConnectorQuestion[] = [
     id: "cumilla-2016-connectors",
     year: 2016,
     board: "Cumilla Board",
+    question: "Fill in the blanks with appropriate connectors",
     passage: "Mobile phone has become an essential gadget for everybody. (a) — it has become very popular. (b) — it has created a number of problems. It has (c) — advantages (d) — disadvantages. (e) — it helps to connect people. (f) — it helps to exchange information (g) — it can be used for various purpose. (h) — it has a few disadvantages. (i) — it can cause a lot of troubles. (j) — its advantages are more than its disadvantages.",
     blanks: [
       { id: "a", answer: "As", ruleId: 49, explanation: "As explains why mobile phones are popular, fitting Rule 49 (As/ since/ because...) for indicating cause." },
@@ -66,6 +73,7 @@ export const connectorsQuestions: ConnectorQuestion[] = [
     id: "sylhet-2016-connectors",
     year: 2016,
     board: "Sylhet Board",
+    question: "Fill in the blanks with appropriate connectors",
     passage: "The gifts of science are uncountable. (a) --- we cast our eyes, we see the wonders of science. Satellite TV channels are means through (b) --- we can see and hear the events (c) --- are happening all over the world. (d) ---, today we have specialized satellite channels on almost every interest. (e) ---, people now have more choices and more freedom about television programmes. Satellite channels help us a lot by reporting on climatic conditions of different parts of the world. (f) ---, we can be aware of storms, cyclones and tidal bores, (g) --- satellite channels are helping us to a great extent to enrich our own culture and tradition. (h) --- satellite channels are playing a favourable role, it is (i) --- doing harm to our young and new generation. (j) --- still we cannot deny the immense benefits we are getting from satellite channels.",
     blanks: [
       { id: "a", answer: "Wherever", ruleId: 48, explanation: "Wherever indicates any place where science’s wonders are seen, fitting Rule 48 (Wherever) for unspecified locations." },
@@ -84,6 +92,7 @@ export const connectorsQuestions: ConnectorQuestion[] = [
     id: "chattogram-2016-connectors",
     year: 2016,
     board: "Chattogram Board",
+    question: "Fill in the blanks with appropriate connectors",
     passage: "Bangladesh is mainly an agricultural country. (a)---, her economy and prosperity depend on agriculture. (b)---, our agriculture depends on the mercy of nature. (c)---, if there is sufficient rain, people can plough their lands and sow seeds in time. (d)---, they can reap a good harvest. (e)--- if it does not rain in time, the farmers cannot grow the crops easily and they do not have a good harvest. (f)---, without water our agriculture is lifeless. The rain is not always beneficial to our agriculture (g) ---, sometimes it rains so much that it causes floods. (h) ---, our crops go underwater and most often, they are totally destroyed. (i)---, the farmers who constitute the most part of our professional people, lose everything. (j)---, we can safely conclude that our economy depends on rain.",
     blanks: [
       { id: "a", answer: "So", ruleId: 1, explanation: "So indicates the consequence of Bangladesh being an agricultural country, fitting Rule 1 (As a result/ so/ therefore...) for cause and effect." },

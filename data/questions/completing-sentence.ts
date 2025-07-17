@@ -3,6 +3,8 @@
 
 export interface CompletingSentenceQuestion {
   id: string;
+  year?: number;
+  board?: string;
   question: string;
   ruleId?: number;
 }
