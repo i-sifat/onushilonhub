@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { GraduationCap, Menu, X } from 'lucide-react';
+import AuthButton from '@/components/auth/AuthButton';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -66,19 +67,8 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Auth Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Link
-              href="/login"
-              className="text-sf-text-subtle hover:text-sf-button transition-colors font-medium"
-            >
-              Login
-            </Link>
-            <Link
-              href="/signup"
-              className="bg-sf-button hover:bg-sf-button/90 text-sf-bg px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg"
-            >
-              Sign Up
-            </Link>
+          <div className="hidden md:flex items-center">
+            <AuthButton />
           </div>
 
           {/* Mobile menu button */}
@@ -107,20 +97,9 @@ export default function Navbar() {
                 </Link>
               ))}
               <div className="border-t border-sf-text-muted/20 pt-3 mt-3">
-                <Link
-                  href="/login"
-                  className="block px-3 py-2 text-sf-text-subtle hover:text-sf-button transition-colors font-medium"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Login
-                </Link>
-                <Link
-                  href="/signup"
-                  className="block mx-3 mt-2 bg-sf-button hover:bg-sf-button/90 text-sf-bg px-4 py-2 rounded-lg font-semibold transition-all duration-200 text-center"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Sign Up
-                </Link>
+                <div className="px-3">
+                  <AuthButton />
+                </div>
               </div>
             </div>
           </div>
