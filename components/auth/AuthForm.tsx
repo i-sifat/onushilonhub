@@ -63,20 +63,21 @@ export default function AuthForm({ mode }: AuthFormProps) {
       if (isLogin) {
         const { error } = await signIn(email, password);
         if (error) {
-          setError(error.message);
+          setError(error.message || 'Login failed');
         } else {
           router.push('/dashboard');
         }
       } else {
         const { error } = await signUp(email, password);
         if (error) {
-          setError(error.message);
+          setError(error.message || 'Signup failed');
         } else {
           setSuccess('Account created! Please check your email to verify your account.');
         }
       }
     } catch (err) {
       setError('An unexpected error occurred');
+      console.error('Auth error:', err);
     } finally {
       setLoading(false);
     }

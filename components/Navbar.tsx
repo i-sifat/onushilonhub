@@ -15,6 +15,7 @@ export default function Navbar() {
     { href: '/about', label: 'About Us' },
     { href: '/board-questions', label: 'Board Questions' },
     { href: '/grammar-items', label: 'Grammar Items' },
+    { href: '/test', label: 'Test Yourself' },
   ];
 
   useEffect(() => {

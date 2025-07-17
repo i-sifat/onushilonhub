@@ -18,7 +18,7 @@ export default function ProtectedRoute({
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !user) {
+    if (!loading && !user && typeof window !== 'undefined') {
       router.push(redirectTo);
     }
   }, [user, loading, router, redirectTo]);

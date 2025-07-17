@@ -30,6 +30,8 @@ export function useProgress() {
       setTopicProgress(data.topicProgress);
     } catch (error) {
       console.error('Error loading progress data:', error);
+      setUserStats(null);
+      setTopicProgress([]);
     } finally {
       setLoading(false);
     }
@@ -44,6 +46,7 @@ export function useProgress() {
   ) => {
     if (!user) return false;
 
+    try {
     const attempt: Omit<QuestionAttempt, 'id' | 'attempted_at'> = {
       user_id: user.id,
       question_id: questionId,
@@ -61,6 +64,10 @@ export function useProgress() {
     }
 
     return success;
+    } catch (error) {
+      console.error('Error recording question attempt:', error);
+      return false;
+    }
   };
 
   const getTopicProgress = (topicName: string, level: 'hsc' | 'ssc') => {
@@ -87,6 +94,9 @@ export function useTopicAnalytics(topicName: string, level: 'hsc' | 'ssc') {
   useEffect(() => {
     if (user && topicName && level) {
       loadAnalytics();
+    } else {
+      setAnalytics(null);
+      setLoading(false);
     }
   }, [user, topicName, level]);
 
@@ -99,6 +109,7 @@ export function useTopicAnalytics(topicName: string, level: 'hsc' | 'ssc') {
       setAnalytics(data);
     } catch (error) {
       console.error('Error loading topic analytics:', error);
+      setAnalytics(null);
     } finally {
       setLoading(false);
     }

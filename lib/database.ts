@@ -55,106 +55,131 @@ export interface UserStats {
 export const database = {
   // User Profile functions
   async getUserProfile(userId: string): Promise<UserProfile | null> {
-    const { data, error } = await supabase
-      .from('user_profiles')
-      .select('*')
-      .eq('id', userId)
-      .single();
+    try {
+      const { data, error } = await supabase
+        .from('user_profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
 
-    if (error) {
-      console.error('Error fetching user profile:', error);
+      if (error) {
+        console.error('Error fetching user profile:', error);
+        return null;
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Unexpected error fetching user profile:', error);
       return null;
     }
-
-    return data;
   },
 
   async updateUserProfile(userId: string, updates: Partial<UserProfile>): Promise<boolean> {
-    const { error } = await supabase
-      .from('user_profiles')
-      .update({ ...updates, updated_at: new Date().toISOString() })
-      .eq('id', userId);
+    try {
+      const { error } = await supabase
+        .from('user_profiles')
+        .update({ ...updates, updated_at: new Date().toISOString() })
+        .eq('id', userId);
 
-    if (error) {
-      console.error('Error updating user profile:', error);
+      if (error) {
+        console.error('Error updating user profile:', error);
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Unexpected error updating user profile:', error);
       return false;
     }
-
-    return true;
   },
 
   // Topic Progress functions
   async getTopicProgress(userId: string, topicName?: string, level?: 'hsc' | 'ssc'): Promise<TopicProgress[]> {
-    let query = supabase
-      .from('topic_progress')
-      .select('*')
-      .eq('user_id', userId);
+    try {
+      let query = supabase
+        .from('topic_progress')
+        .select('*')
+        .eq('user_id', userId);
 
-    if (topicName) {
-      query = query.eq('topic_name', topicName);
-    }
+      if (topicName) {
+        query = query.eq('topic_name', topicName);
+      }
 
-    if (level) {
-      query = query.eq('level', level);
-    }
+      if (level) {
+        query = query.eq('level', level);
+      }
 
-    const { data, error } = await query.order('last_practiced_at', { ascending: false });
+      const { data, error } = await query.order('last_practiced_at', { ascending: false });
 
-    if (error) {
-      console.error('Error fetching topic progress:', error);
+      if (error) {
+        console.error('Error fetching topic progress:', error);
+        return [];
+      }
+
+      return data || [];
+    } catch (error) {
+      console.error('Unexpected error fetching topic progress:', error);
       return [];
     }
-
-    return data || [];
   },
 
   async getTopicProgressSingle(userId: string, topicName: string, level: 'hsc' | 'ssc'): Promise<TopicProgress | null> {
-    const { data, error } = await supabase
-      .from('topic_progress')
-      .select('*')
-      .eq('user_id', userId)
-      .eq('topic_name', topicName)
-      .eq('level', level)
-      .single();
+    try {
+      const { data, error } = await supabase
+        .from('topic_progress')
+        .select('*')
+        .eq('user_id', userId)
+        .eq('topic_name', topicName)
+        .eq('level', level)
+        .single();
 
-    if (error) {
-      if (error.code === 'PGRST116') {
-        // No rows found, return null
+      if (error) {
+        if (error.code === 'PGRST116') {
+          // No rows found, return null
+          return null;
+        }
+        console.error('Error fetching topic progress:', error);
         return null;
       }
-      console.error('Error fetching topic progress:', error);
+
+      return data;
+    } catch (error) {
+      console.error('Unexpected error fetching single topic progress:', error);
       return null;
     }
-
-    return data;
   },
 
   // Question Attempt functions
   async recordQuestionAttempt(attempt: Omit<QuestionAttempt, 'id' | 'attempted_at'>): Promise<boolean> {
-    const { error } = await supabase
-      .from('question_attempts')
-      .insert([attempt]);
+    try {
+      const { error } = await supabase
+        .from('question_attempts')
+        .insert([attempt]);
 
-    if (error) {
-      console.error('Error recording question attempt:', error);
+      if (error) {
+        console.error('Error recording question attempt:', error);
+        return false;
+      }
+
+      // Update topic progress using the database function
+      const { error: progressError } = await supabase.rpc('update_topic_progress', {
+        p_user_id: attempt.user_id,
+        p_topic_name: attempt.topic_name,
+        p_level: attempt.level,
+        p_is_correct: attempt.is_correct,
+        p_time_spent_seconds: attempt.time_spent_seconds
+      });
+
+      if (progressError) {
+        console.error('Error updating topic progress:', progressError);
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Unexpected error recording question attempt:', error);
       return false;
     }
-
-    // Update topic progress using the database function
-    const { error: progressError } = await supabase.rpc('update_topic_progress', {
-      p_user_id: attempt.user_id,
-      p_topic_name: attempt.topic_name,
-      p_level: attempt.level,
-      p_is_correct: attempt.is_correct,
-      p_time_spent_seconds: attempt.time_spent_seconds
-    });
-
-    if (progressError) {
-      console.error('Error updating topic progress:', progressError);
-      return false;
-    }
-
-    return true;
   },
 
   async getQuestionAttempts(
