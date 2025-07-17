@@ -1,0 +1,104 @@
+FEATURE 1: Login & Personal Tracker System
+Phase 1: Authentication Setup (Foundation)
+What you need to do:
+
+Set up Supabase authentication (email/password)
+Create user authentication pages (login, signup, logout)
+Add authentication context/hooks
+Protect routes with authentication middleware
+Files to create/modify:
+
+lib/supabase.ts - Supabase client setup
+app/login/page.tsx - Login page
+app/signup/page.tsx - Signup page
+hooks/useAuth.ts - Authentication hook
+components/auth/ - Auth components
+Phase 2: Database Schema & User Progress Tracking
+What you need to do:
+
+Create Supabase database tables for user progress
+Set up user profiles and topic completion tracking
+Create API functions for progress management
+Add progress tracking to existing question pages
+Database tables needed:
+
+user_profiles - User information
+topic_progress - Track completion per topic
+question_attempts - Track individual question attempts
+user_stats - Overall performance metrics
+Phase 3: Progress Dashboard & Analytics
+What you need to do:
+
+Create user dashboard showing overall progress
+Add topic-wise completion status
+Implement performance analytics (accuracy, time spent)
+Add progress visualization (charts, progress bars)
+Files to create:
+
+app/dashboard/page.tsx - Main dashboard
+components/dashboard/ - Dashboard components
+components/progress/ - Progress tracking components
+FEATURE 2: Test Yourself System
+Phase 4: Test Infrastructure Setup
+What you need to do:
+
+Create test configuration system (easy/medium/hard)
+Set up timer functionality
+Create test session management
+Design test UI components
+Files to create:
+
+app/test/page.tsx - Test selection page
+components/test/ - Test components
+lib/testConfig.ts - Test configuration
+hooks/useTimer.ts - Timer functionality
+Phase 5: Question Delivery & Test Engine
+What you need to do:
+
+Create question selection algorithm by difficulty
+Implement test session with timer
+Add question navigation (next/previous)
+Create answer submission system
+Add test completion and results
+Key components:
+
+Test session state management
+Question randomization
+Answer validation
+Score calculation
+Phase 6: Test Results & Performance Analysis
+What you need to do:
+
+Create detailed test results page
+Show performance breakdown by topic/difficulty
+Add recommendations based on performance
+Integrate with user progress tracking
+Add test history and analytics
+Implementation Order & Token Management:
+Recommended Phase Sequence:
+Phase 1 (Auth Setup) - ~100k tokens
+Phase 2 (Database & Progress) - ~150k tokens
+Phase 4 (Test Infrastructure) - ~100k tokens
+Phase 5 (Test Engine) - ~150k tokens
+Phase 3 (Dashboard) - ~100k tokens
+Phase 6 (Test Results) - ~100k tokens
+Why This Order:
+Auth first - Foundation for everything else
+Database setup - Required for both features
+Test system - Core functionality before analytics
+Dashboard last - Brings everything together
+Token Management Strategy:
+Each phase stays under 150k tokens
+Focus on core functionality first
+Add polish and advanced features later
+Reuse existing components where possible
+What to Start With:
+I recommend starting with Phase 1 (Authentication Setup) as it's the foundation for both features. This will give you:
+
+User login/signup system
+Protected routes
+User session management
+Basic user profile setup
+Would you like me to begin with Phase 1 and implement the authentication system first?
+
+

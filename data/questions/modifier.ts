@@ -3,7 +3,10 @@
 
 export interface ModifierQuestion {
   id: string;
-  question: string;
+  year?: number;
+  board?: string;
+  passage?: string;
+  blanks?: { id: string; instruction: string; ruleId?: number; answer: string }[];
   ruleId?: number;
 }
 

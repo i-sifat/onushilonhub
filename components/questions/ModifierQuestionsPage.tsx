@@ -16,7 +16,7 @@ export default function ModifierQuestionsPage() {
 
   const filteredQuestions = useMemo(() => {
     return modifierQuestions.filter(question => {
-      const matchesSearch = question.question?.toLowerCase().includes(searchTerm.toLowerCase()) || false;
+      const matchesSearch = !searchTerm || question.passage?.toLowerCase().includes(searchTerm.toLowerCase()) || false;
       const matchesBoard = selectedBoard === 'All Boards' || question.id?.toLowerCase().includes(selectedBoard.toLowerCase()) || false;
       const matchesYear = selectedYear === 'All Years' || question.id?.includes(selectedYear) || false;
       

@@ -19,7 +19,7 @@ export default function ModifierCombinedPage() {
   // Filter questions based on selected rule and other filters
   const filteredQuestions = modifierQuestions.filter(question => {
     const matchesRule = selectedRuleId === null || question.ruleId === selectedRuleId;
-    const matchesSearch = question.passage?.toLowerCase().includes(searchTerm.toLowerCase()) || false;
+    const matchesSearch = !searchTerm || question.passage?.toLowerCase().includes(searchTerm.toLowerCase()) || false;
     const matchesBoard = selectedBoard === 'All Boards' || question.id?.toLowerCase().includes(selectedBoard.toLowerCase()) || false;
     const matchesYear = selectedYear === 'All Years' || question.id?.includes(selectedYear) || false;
     
