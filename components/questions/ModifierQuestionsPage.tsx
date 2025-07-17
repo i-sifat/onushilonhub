@@ -195,10 +195,31 @@ export default function ModifierQuestionsPage() {
                     </div>
                   </div>
                   
-                  <div className="prose prose-invert max-w-none">
-                    <p className="text-sf-text-subtle leading-relaxed text-lg">
-                      {question.question}
-                    </p>
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="text-md font-semibold text-sf-text-bold mb-2">Passage:</h4>
+                      <p className="text-sf-text-subtle leading-relaxed">
+                        {question.passage}
+                      </p>
+                    </div>
+                    
+                    {question.blanks && question.blanks.length > 0 && (
+                      <div>
+                        <h4 className="text-md font-semibold text-sf-text-bold mb-2">Instructions:</h4>
+                        <div className="grid md:grid-cols-2 gap-2">
+                          {question.blanks.slice(0, 6).map((blank) => (
+                            <div key={blank.id} className="text-sm text-sf-text-subtle">
+                              <span className="font-medium">({blank.id})</span> {blank.instruction}
+                            </div>
+                          ))}
+                          {question.blanks.length > 6 && (
+                            <div className="text-sm text-sf-text-muted col-span-2">
+                              ... and {question.blanks.length - 6} more instructions
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>
