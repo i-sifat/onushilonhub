@@ -9,7 +9,7 @@ interface TestProgressProps {
   currentQuestion: number;
   totalQuestions: number;
   answers: Record<string, string>;
-  questions: Array<{ id: string; correctAnswer: string }>;
+  questions: Array<{ id: string; correctAnswer?: string }>;
   showResults?: boolean;
 }
 
@@ -24,11 +24,16 @@ export default function TestProgress({
   const answeredCount = Object.keys(answers).length;
 
   const getQuestionStatus = (questionIndex: number) => {
+    if (questionIndex >= questions.length) return 'unanswered';
+    
     const question = questions[questionIndex];
+    if (!question) return 'unanswered';
+    
     const userAnswer = answers[question.id];
     
     if (!userAnswer) return 'unanswered';
     if (!showResults) return 'answered';
+    if (!question.correctAnswer) return 'answered';
     
     return userAnswer === question.correctAnswer ? 'correct' : 'incorrect';
   };
@@ -73,14 +78,14 @@ export default function TestProgress({
 
           {/* Question Grid */}
           <div className="grid grid-cols-5 gap-2">
-            {questions.map((question, index) => {
+            {Array.from({ length: totalQuestions }, (_, index) => {
               const questionNumber = index + 1;
               const isCurrent = questionNumber === currentQuestion;
               const status = getQuestionStatus(index);
               
               return (
                 <div
-                  key={question.id}
+                  key={index}
                   className={`
                     flex items-center justify-center p-2 rounded-lg border transition-all duration-200
                     ${isCurrent 

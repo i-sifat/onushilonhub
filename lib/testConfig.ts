@@ -71,30 +71,7 @@ export const testConfigs: TestConfig[] = [
     questionCount: 10,
     timeLimit: 15, // 15 minutes
     passingScore: 70,
-    questions: [
-      {
-        id: 'mod-easy-1',
-        topic: 'modifier',
-        level: 'hsc',
-        difficulty: 'easy',
-        question: 'Choose the correct pre-modifier: "She is a ___ student."',
-        options: ['brilliant', 'brilliantly', 'brilliance', 'brillianted'],
-        correctAnswer: 'brilliant',
-        explanation: 'Adjectives are used as pre-modifiers before nouns.',
-        timeLimit: 90
-      },
-      {
-        id: 'mod-easy-2',
-        topic: 'modifier',
-        level: 'hsc',
-        difficulty: 'easy',
-        question: 'Identify the post-modifier: "The man walking slowly is my father."',
-        options: ['The man', 'walking slowly', 'is my father', 'slowly'],
-        correctAnswer: 'walking slowly',
-        explanation: 'Present participle phrases can post-modify nouns.',
-        timeLimit: 90
-      }
-    ]
+    questions: [] // Questions will be selected dynamically by TestEngine
   },
   {
     id: 'connectors-medium-hsc',
@@ -106,19 +83,7 @@ export const testConfigs: TestConfig[] = [
     questionCount: 15,
     timeLimit: 20,
     passingScore: 75,
-    questions: [
-      {
-        id: 'conn-med-1',
-        topic: 'connectors',
-        level: 'hsc',
-        difficulty: 'medium',
-        question: 'Fill in the blank: "He studied hard ___ he could pass the exam."',
-        options: ['so that', 'because', 'although', 'unless'],
-        correctAnswer: 'so that',
-        explanation: 'So that is used to express purpose.',
-        timeLimit: 120
-      }
-    ]
+    questions: [] // Questions will be selected dynamically by TestEngine
   },
   {
     id: 'completing-sentence-hard-hsc',
@@ -130,24 +95,80 @@ export const testConfigs: TestConfig[] = [
     questionCount: 20,
     timeLimit: 30,
     passingScore: 80,
-    questions: [
-      {
-        id: 'comp-hard-1',
-        topic: 'completing-sentence',
-        level: 'hsc',
-        difficulty: 'hard',
-        question: 'Complete: "Had I been rich, ___"',
-        options: [
-          'I would help the poor',
-          'I will help the poor', 
-          'I helped the poor',
-          'I am helping the poor'
-        ],
-        correctAnswer: 'I would help the poor',
-        explanation: 'Third conditional uses would have + past participle in the main clause.',
-        timeLimit: 150
-      }
-    ]
+    questions: [] // Questions will be selected dynamically by TestEngine
+  },
+  // Add more test configurations
+  {
+    id: 'modifier-medium-hsc',
+    name: 'HSC Modifier - Medium Level',
+    description: 'Intermediate modifier questions for HSC students',
+    topic: 'modifier',
+    level: 'hsc',
+    difficulty: 'medium',
+    questionCount: 12,
+    timeLimit: 18,
+    passingScore: 75,
+    questions: []
+  },
+  {
+    id: 'modifier-hard-hsc',
+    name: 'HSC Modifier - Hard Level',
+    description: 'Advanced modifier questions for HSC students',
+    topic: 'modifier',
+    level: 'hsc',
+    difficulty: 'hard',
+    questionCount: 15,
+    timeLimit: 25,
+    passingScore: 80,
+    questions: []
+  },
+  {
+    id: 'connectors-easy-hsc',
+    name: 'HSC Connectors - Easy Level',
+    description: 'Basic connector questions for HSC students',
+    topic: 'connectors',
+    level: 'hsc',
+    difficulty: 'easy',
+    questionCount: 10,
+    timeLimit: 15,
+    passingScore: 70,
+    questions: []
+  },
+  {
+    id: 'connectors-hard-hsc',
+    name: 'HSC Connectors - Hard Level',
+    description: 'Advanced connector questions for HSC students',
+    topic: 'connectors',
+    level: 'hsc',
+    difficulty: 'hard',
+    questionCount: 18,
+    timeLimit: 25,
+    passingScore: 80,
+    questions: []
+  },
+  {
+    id: 'completing-sentence-easy-hsc',
+    name: 'HSC Completing Sentence - Easy Level',
+    description: 'Basic completing sentence questions for HSC students',
+    topic: 'completing-sentence',
+    level: 'hsc',
+    difficulty: 'easy',
+    questionCount: 10,
+    timeLimit: 15,
+    passingScore: 70,
+    questions: []
+  },
+  {
+    id: 'completing-sentence-medium-hsc',
+    name: 'HSC Completing Sentence - Medium Level',
+    description: 'Intermediate completing sentence questions for HSC students',
+    topic: 'completing-sentence',
+    level: 'hsc',
+    difficulty: 'medium',
+    questionCount: 15,
+    timeLimit: 20,
+    passingScore: 75,
+    questions: []
   }
 ];
 
