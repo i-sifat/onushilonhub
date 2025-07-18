@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { BookOpen, Clock } from 'lucide-react';
+import { BookOpen, Clock, Target } from 'lucide-react';
 
 interface TopicCardProps {
   id: string;
@@ -14,6 +14,8 @@ interface TopicCardProps {
   level: 'hsc' | 'ssc';
   isGrammarItems?: boolean;
   questionCount?: number;
+  marks?: string;
+  details?: string;
 }
 
 const CardWrapper = ({ 
@@ -51,7 +53,9 @@ export default function TopicCard({
   available, 
   level,
   isGrammarItems = false,
-  questionCount 
+  questionCount,
+  marks,
+  details
 }: TopicCardProps) {
   return (
     <CardWrapper available={available} level={level} id={id} isGrammarItems={isGrammarItems}>
@@ -86,12 +90,33 @@ export default function TopicCard({
             )}
           </div>
         </CardHeader>
-        <CardContent>
-          <p className={`text-sm mb-4 ${
+        <CardContent className="space-y-4">
+          <p className={`text-sm ${
             available ? 'text-sf-text-subtle' : 'text-sf-text-muted'
           }`}>
             {description}
           </p>
+          
+          {/* Marks and Details */}
+          {marks && (
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-1">
+                  <Target className="h-4 w-4 text-sf-button" />
+                  <span className="text-sm font-medium text-sf-text-bold">Marks:</span>
+                </div>
+                <Badge variant="outline" className="text-sf-button border-sf-button/30">
+                  {marks}
+                </Badge>
+              </div>
+              
+              {details && (
+                <div className="text-xs text-sf-text-muted leading-relaxed">
+                  <span className="font-medium">Topics:</span> {details}
+                </div>
+              )}
+            </div>
+          )}
           
           {available && questionCount && (
             <div className="flex items-center justify-between text-xs text-sf-text-muted">
@@ -102,7 +127,7 @@ export default function TopicCard({
             </div>
           )}
           
-          {available && !questionCount && (
+          {available && !questionCount && !marks && (
             <div className="flex items-center justify-between text-xs text-sf-text-muted">
               <span>{isGrammarItems ? 'Grammar rules available' : 'Practice questions available'}</span>
               <span className="text-sf-button">

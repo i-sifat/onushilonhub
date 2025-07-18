@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { GraduationCap, Menu, X } from 'lucide-react';
-import AuthButton from '@/components/auth/AuthButton';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,8 +14,6 @@ export default function Navbar() {
     { href: '/about', label: 'About Us' },
     { href: '/board-questions', label: 'Board Questions' },
     { href: '/grammar-items', label: 'Grammar Items' },
-    { href: '/test', label: 'Test Yourself' },
-    { href: '/test/history', label: 'Test History' },
   ];
 
   useEffect(() => {
@@ -69,9 +66,6 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Auth Buttons */}
-          <div className="hidden md:flex items-center">
-            <AuthButton />
-          </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden">
@@ -98,11 +92,6 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <div className="border-t border-sf-text-muted/20 pt-3 mt-3">
-                <div className="px-3">
-                  <AuthButton />
-                </div>
-              </div>
             </div>
           </div>
         )}
