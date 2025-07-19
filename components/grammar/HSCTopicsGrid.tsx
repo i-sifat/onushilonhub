@@ -36,7 +36,7 @@ const HSC_GRAMMAR_TOPICS = [
     id: 'use-of-verbs',
     name: 'Use of Verbs',
     description: 'Practice right form of verbs and subject-verb agreement in various grammatical contexts.',
-    available: true,
+    available: false,
     marks: '0.5×14=7',
     details: 'Right form of verbs and Subject-verb agreement'
   },
