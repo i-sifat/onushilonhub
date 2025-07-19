@@ -73,6 +73,14 @@ const HSC_GRAMMAR_TOPICS = [
     details: 'Synonym and Antonym'
   },
   {
+    id: 'transformation',
+    name: 'Transformation of Sentences',
+    description: 'Transform sentences between different types and structures while maintaining meaning.',
+    available: true,
+    marks: '1×10=10',
+    details: 'Simple-Complex-Compound, Affirmative-Negative, Assertive-Interrogative/Exclamatory/Imperative, Degree'
+  },
+  {
     id: 'punctuation',
     name: 'Punctuation',
     description: 'Master the proper use of punctuation marks to enhance clarity and meaning in writing.',
