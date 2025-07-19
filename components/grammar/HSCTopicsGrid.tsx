@@ -44,7 +44,7 @@ const HSC_GRAMMAR_TOPICS = [
     id: 'narration',
     name: 'Narration/Speech',
     description: 'Convert between direct and indirect speech forms with proper grammatical changes.',
-    available: false,
+    available: true,
     marks: '1×7=7',
     details: 'Direct to indirect and Indirect to direct'
   },
