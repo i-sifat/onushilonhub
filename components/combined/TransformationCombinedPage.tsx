@@ -7,7 +7,7 @@ import { transformationRules } from '@/data/grammar-rules/transformation';
 import { Search, Filter, Calendar, MapPin, BookOpen, RotateCcw, ArrowRight, Target } from 'lucide-react';
 
 const boards = ['All Boards', 'Dhaka', 'Chittagong', 'Rajshahi', 'Sylhet', 'Barisal', 'Cumilla', 'Mymensingh', 'Jashore', 'Dinajpur', 'Rangpur'];
-const years = ['All Years', '2017', '2018', '2019', '2020'];
+const years = ['All Years', '2016', '2017', '2018', '2019', '2020'];
 const categories = [
   'All Categories', 
   'simple-complex-compound', 
@@ -170,14 +170,6 @@ export default function TransformationCombinedPage() {
 
   const selectedRule = selectedRuleId ? transformationRules.find(rule => rule.id === selectedRuleId) : null;
 
-  // Debug log to check total questions
-  useEffect(() => {
-    if (!isLoading) {
-    console.log('Total transformation questions:', allTransformations.length);
-    console.log('Filtered transformations:', filteredTransformations.length);
-    }
-  }, [allTransformations.length, filteredTransformations.length, isLoading]);
-
   if (isLoading) {
     return (
       <div className="grid lg:grid-cols-2 gap-8">
@@ -212,6 +204,7 @@ export default function TransformationCombinedPage() {
       </div>
     );
   }
+
   return (
     <div className="grid lg:grid-cols-2 gap-8">
       {/* Left Side - Grammar Rules */}
@@ -223,7 +216,26 @@ export default function TransformationCombinedPage() {
           </Badge>
         </div>
 
-        <div className="space-y-4 max-h-[70vh] overflow-y-auto">
+        {/* Category Filter */}
+        <div className="bg-sf-bg border border-sf-text-muted/20 rounded-lg p-4">
+          <div className="flex items-center space-x-2 mb-3">
+            <Filter className="h-4 w-4 text-sf-button" />
+            <h4 className="text-md font-semibold text-sf-text-bold">Filter by Category</h4>
+          </div>
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="w-full px-3 py-2 text-sm border border-sf-text-muted/20 rounded bg-sf-bg text-sf-text-subtle focus:outline-none focus:ring-1 focus:ring-sf-button"
+          >
+            {categories.map(category => (
+              <option key={category} value={category}>
+                {category === 'All Categories' ? category : getCategoryLabel(category)}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="space-y-3 max-h-[70vh] overflow-y-auto">
           {filteredRules.map((rule) => {
             const questionCount = getRuleQuestionCount(rule.id);
             
@@ -239,7 +251,7 @@ export default function TransformationCombinedPage() {
               >
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex items-center space-x-2">
-                    <Badge variant="outline" className="text-sf-button border-sf-button/30">
+                    <Badge variant="outline" className="text-sf-button border-sf-button/30 text-xs">
                       {rule.ruleNo}
                     </Badge>
                     <Badge variant="outline" className={`text-xs ${getCategoryBadgeColor(rule.category)}`}>
@@ -250,27 +262,23 @@ export default function TransformationCombinedPage() {
                     <div className="flex items-center space-x-1">
                       <Target className="h-3 w-3 text-sf-button" />
                       <Badge variant="secondary" className="bg-sf-highlight/20 text-sf-text-bold text-xs">
-                        {questionCount} Q
+                        {questionCount}
                       </Badge>
                     </div>
                     {selectedRuleId === rule.id && (
-                      <Badge variant="secondary" className="bg-sf-button text-sf-bg">
+                      <Badge variant="secondary" className="bg-sf-button text-sf-bg text-xs">
                         Selected
                       </Badge>
                     )}
                   </div>
                 </div>
                 
-                <h3 className="text-lg font-semibold text-sf-text-bold mb-2 leading-relaxed">
+                <h3 className="text-sm font-semibold text-sf-text-bold mb-1 leading-relaxed">
                   {rule.title}
                 </h3>
                 
                 <p className="text-sf-text-muted text-xs mb-1">
-                  Bengali: {rule.bengali}
-                </p>
-                
-                <p className="text-sf-text-subtle text-sm leading-relaxed">
-                  {rule.description.length > 100 ? `${rule.description.substring(0, 100)}...` : rule.description}
+                  {rule.bengali}
                 </p>
               </div>
             );
@@ -338,170 +346,217 @@ export default function TransformationCombinedPage() {
             </div>
           </div>
         ) : (
-          <div className="bg-sf-bg border border-sf-text-muted/20 rounded-lg p-6 text-center">
-            <BookOpen className="h-12 w-12 text-sf-text-muted mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-sf-text-bold mb-2">
-              Select a Rule
-            </h3>
-            <p className="text-sf-text-subtle">
-              Click on any rule from the left to see its details and related questions.
-            </p>
+          <div>
+            {/* Questions Filter */}
+            <div className="bg-sf-bg border border-sf-text-muted/20 rounded-lg p-4 mb-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-2">
+                  <Filter className="h-4 w-4 text-sf-button" />
+                  <h4 className="text-md font-semibold text-sf-text-bold">Filter Questions</h4>
+                </div>
+                {hasActiveFilters && (
+                  <button
+                    onClick={clearFilters}
+                    className="flex items-center space-x-1 text-sf-text-muted hover:text-sf-button transition-colors text-xs"
+                  >
+                    <RotateCcw className="h-3 w-3" />
+                    <span>Clear</span>
+                  </button>
+                )}
+              </div>
+
+              <div className="grid grid-cols-3 gap-2">
+                <div className="relative">
+                  <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-3 w-3 text-sf-text-muted" />
+                  <input
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="Search..."
+                    className="w-full pl-6 pr-2 py-1 text-xs border border-sf-text-muted/20 rounded bg-sf-bg text-sf-text-subtle focus:outline-none focus:ring-1 focus:ring-sf-button"
+                  />
+                </div>
+                
+                <select
+                  value={selectedBoard}
+                  onChange={(e) => setSelectedBoard(e.target.value)}
+                  className="px-2 py-1 text-xs border border-sf-text-muted/20 rounded bg-sf-bg text-sf-text-subtle focus:outline-none focus:ring-1 focus:ring-sf-button"
+                >
+                  {boards.map(board => (
+                    <option key={board} value={board}>{board}</option>
+                  ))}
+                </select>
+                
+                <select
+                  value={selectedYear}
+                  onChange={(e) => setSelectedYear(e.target.value)}
+                  className="px-2 py-1 text-xs border border-sf-text-muted/20 rounded bg-sf-bg text-sf-text-subtle focus:outline-none focus:ring-1 focus:ring-sf-button"
+                >
+                  {years.map(year => (
+                    <option key={year} value={year}>{year}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* All Questions Display */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h4 className="text-lg font-semibold text-sf-text-bold">
+                  All Questions ({filteredTransformations.length})
+                </h4>
+              </div>
+
+              <div className="max-h-[60vh] overflow-y-auto space-y-3">
+                {filteredTransformations.length === 0 ? (
+                  <Card className="border-sf-text-muted/20">
+                    <CardContent className="p-6 text-center">
+                      <BookOpen className="h-8 w-8 text-sf-text-muted mx-auto mb-2" />
+                      <h5 className="text-md font-semibold text-sf-text-bold mb-1">No Questions Found</h5>
+                      <p className="text-sf-text-subtle text-sm">
+                        Adjust filters to see questions.
+                      </p>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  filteredTransformations.map((transformation, index) => (
+                    <Card 
+                      key={`${transformation.questionId}-${transformation.transformationIndex}`}
+                      className="border-sf-text-muted/20 hover:border-sf-button/50 transition-all duration-300"
+                    >
+                      <CardContent className="p-4">
+                        <div className="flex items-start justify-between mb-3">
+                          <div className="flex items-center space-x-2">
+                            <Badge variant="outline" className="text-sf-button border-sf-button/30 text-xs">
+                              Q{index + 1}
+                            </Badge>
+                            <Badge variant="outline" className={`text-xs ${getTransformationTypeBadgeColor(transformation.transformationType)}`}>
+                              {transformation.transformationType}
+                            </Badge>
+                            {transformation.ruleId && (
+                              <Badge variant="secondary" className="bg-sf-highlight/20 text-sf-text-bold text-xs">
+                                Rule {transformation.ruleId}
+                              </Badge>
+                            )}
+                          </div>
+                          <div className="flex items-center space-x-3 text-xs text-sf-text-muted">
+                            <div className="flex items-center space-x-1">
+                              <MapPin className="h-3 w-3" />
+                              <span>{transformation.board}</span>
+                            </div>
+                            <div className="flex items-center space-x-1">
+                              <Calendar className="h-3 w-3" />
+                              <span>{transformation.year}</span>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="space-y-3">
+                          <div className="grid grid-cols-1 gap-2">
+                            <div className="bg-blue-500/10 border-l-4 border-blue-500 p-2 rounded-r-lg">
+                              <p className="text-xs font-medium text-blue-400 mb-1">Original:</p>
+                              <p className="text-sf-text-subtle text-xs leading-relaxed">
+                                {transformation.question}
+                              </p>
+                            </div>
+                            
+                            <div className="flex justify-center">
+                              <ArrowRight className="h-3 w-3 text-sf-button" />
+                            </div>
+                            
+                            <div className="bg-green-500/10 border-l-4 border-green-500 p-2 rounded-r-lg">
+                              <p className="text-xs font-medium text-green-400 mb-1">Transformed ({transformation.transformationType}):</p>
+                              <p className="text-sf-text-subtle text-xs leading-relaxed">
+                                {transformation.transformedSentence}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))
+                )}
+              </div>
+            </div>
           </div>
         )}
 
-        {/* Questions Filter */}
-        <div className="bg-sf-bg border border-sf-text-muted/20 rounded-lg p-4">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center space-x-2">
-              <Filter className="h-4 w-4 text-sf-button" />
-              <h4 className="text-md font-semibold text-sf-text-bold">Filter Questions</h4>
+        {/* Questions List for Selected Rule */}
+        {selectedRule && (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h4 className="text-lg font-semibold text-sf-text-bold">
+                Rule {selectedRuleId} Questions ({filteredTransformations.length})
+              </h4>
             </div>
-            {hasActiveFilters && (
-              <button
-                onClick={clearFilters}
-                className="flex items-center space-x-1 text-sf-text-muted hover:text-sf-button transition-colors text-xs"
-              >
-                <RotateCcw className="h-3 w-3" />
-                <span>Clear</span>
-              </button>
-            )}
-          </div>
 
-          <div className="grid grid-cols-2 gap-2 mb-2">
-            <div className="relative">
-              <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-3 w-3 text-sf-text-muted" />
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search..."
-                className="w-full pl-6 pr-2 py-1 text-xs border border-sf-text-muted/20 rounded bg-sf-bg text-sf-text-subtle focus:outline-none focus:ring-1 focus:ring-sf-button"
-              />
-            </div>
-            
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-2 py-1 text-xs border border-sf-text-muted/20 rounded bg-sf-bg text-sf-text-subtle focus:outline-none focus:ring-1 focus:ring-sf-button"
-            >
-              {categories.map(category => (
-                <option key={category} value={category}>
-                  {category === 'All Categories' ? category : getCategoryLabel(category)}
-                </option>
-              ))}
-            </select>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-2">
-            <select
-              value={selectedBoard}
-              onChange={(e) => setSelectedBoard(e.target.value)}
-              className="px-2 py-1 text-xs border border-sf-text-muted/20 rounded bg-sf-bg text-sf-text-subtle focus:outline-none focus:ring-1 focus:ring-sf-button"
-            >
-              {boards.map(board => (
-                <option key={board} value={board}>{board}</option>
-              ))}
-            </select>
-            
-            <select
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(e.target.value)}
-              className="px-2 py-1 text-xs border border-sf-text-muted/20 rounded bg-sf-bg text-sf-text-subtle focus:outline-none focus:ring-1 focus:ring-sf-button"
-            >
-              {years.map(year => (
-                <option key={year} value={year}>{year}</option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        {/* Questions List */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h4 className="text-lg font-semibold text-sf-text-bold">
-              Practice Questions ({filteredTransformations.length})
-            </h4>
-            {selectedRuleId && (
-              <Badge variant="secondary" className="bg-sf-button/20 text-sf-button text-xs">
-                Rule {selectedRuleId} Questions
-              </Badge>
-            )}
-          </div>
-
-          <div className="max-h-[60vh] overflow-y-auto space-y-3">
-            {filteredTransformations.length === 0 ? (
-              <Card className="border-sf-text-muted/20">
-                <CardContent className="p-6 text-center">
-                  <BookOpen className="h-8 w-8 text-sf-text-muted mx-auto mb-2" />
-                  <h5 className="text-md font-semibold text-sf-text-bold mb-1">No Questions Found</h5>
-                  <p className="text-sf-text-subtle text-sm">
-                    {selectedRuleId 
-                      ? `No questions available for Rule ${selectedRuleId} with current filters.`
-                      : "Select a rule or adjust filters to see questions."
-                    }
-                  </p>
-                </CardContent>
-              </Card>
-            ) : (
-              filteredTransformations.map((transformation, index) => (
-                <Card 
-                  key={`${transformation.questionId}-${transformation.transformationIndex}`}
-                  className="border-sf-text-muted/20 hover:border-sf-button/50 transition-all duration-300"
-                >
-                  <CardContent className="p-4">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex items-center space-x-2">
-                        <Badge variant="outline" className="text-sf-button border-sf-button/30 text-xs">
-                          Q{index + 1}
-                        </Badge>
-                        <Badge variant="outline" className={`text-xs ${getTransformationTypeBadgeColor(transformation.transformationType)}`}>
-                          {transformation.transformationType}
-                        </Badge>
-                        {transformation.ruleId && (
-                          <Badge variant="secondary" className="bg-sf-highlight/20 text-sf-text-bold text-xs">
-                            Rule {transformation.ruleId}
-                          </Badge>
-                        )}
-                      </div>
-                      <div className="flex items-center space-x-3 text-xs text-sf-text-muted">
-                        <div className="flex items-center space-x-1">
-                          <MapPin className="h-3 w-3" />
-                          <span>{transformation.board}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <Calendar className="h-3 w-3" />
-                          <span>{transformation.year}</span>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-3">
-                      <div className="grid grid-cols-1 gap-2">
-                        <div className="bg-blue-500/10 border-l-4 border-blue-500 p-2 rounded-r-lg">
-                          <p className="text-xs font-medium text-blue-400 mb-1">Original:</p>
-                          <p className="text-sf-text-subtle text-xs leading-relaxed">
-                            {transformation.question}
-                          </p>
-                        </div>
-                        
-                        <div className="flex justify-center">
-                          <ArrowRight className="h-3 w-3 text-sf-button" />
-                        </div>
-                        
-                        <div className="bg-green-500/10 border-l-4 border-green-500 p-2 rounded-r-lg">
-                          <p className="text-xs font-medium text-green-400 mb-1">Transformed ({transformation.transformationType}):</p>
-                          <p className="text-sf-text-subtle text-xs leading-relaxed">
-                            {transformation.transformedSentence}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+            <div className="max-h-[40vh] overflow-y-auto space-y-3">
+              {filteredTransformations.length === 0 ? (
+                <Card className="border-sf-text-muted/20">
+                  <CardContent className="p-6 text-center">
+                    <BookOpen className="h-8 w-8 text-sf-text-muted mx-auto mb-2" />
+                    <h5 className="text-md font-semibold text-sf-text-bold mb-1">No Questions Found</h5>
+                    <p className="text-sf-text-subtle text-sm">
+                      No questions available for Rule {selectedRuleId} with current filters.
+                    </p>
                   </CardContent>
                 </Card>
-              ))
-            )}
+              ) : (
+                filteredTransformations.map((transformation, index) => (
+                  <Card 
+                    key={`${transformation.questionId}-${transformation.transformationIndex}`}
+                    className="border-sf-text-muted/20 hover:border-sf-button/50 transition-all duration-300"
+                  >
+                    <CardContent className="p-4">
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex items-center space-x-2">
+                          <Badge variant="outline" className="text-sf-button border-sf-button/30 text-xs">
+                            Q{index + 1}
+                          </Badge>
+                          <Badge variant="outline" className={`text-xs ${getTransformationTypeBadgeColor(transformation.transformationType)}`}>
+                            {transformation.transformationType}
+                          </Badge>
+                        </div>
+                        <div className="flex items-center space-x-3 text-xs text-sf-text-muted">
+                          <div className="flex items-center space-x-1">
+                            <MapPin className="h-3 w-3" />
+                            <span>{transformation.board}</span>
+                          </div>
+                          <div className="flex items-center space-x-1">
+                            <Calendar className="h-3 w-3" />
+                            <span>{transformation.year}</span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-3">
+                        <div className="grid grid-cols-1 gap-2">
+                          <div className="bg-blue-500/10 border-l-4 border-blue-500 p-2 rounded-r-lg">
+                            <p className="text-xs font-medium text-blue-400 mb-1">Original:</p>
+                            <p className="text-sf-text-subtle text-xs leading-relaxed">
+                              {transformation.question}
+                            </p>
+                          </div>
+                          
+                          <div className="flex justify-center">
+                            <ArrowRight className="h-3 w-3 text-sf-button" />
+                          </div>
+                          
+                          <div className="bg-green-500/10 border-l-4 border-green-500 p-2 rounded-r-lg">
+                            <p className="text-xs font-medium text-green-400 mb-1">Transformed ({transformation.transformationType}):</p>
+                            <p className="text-sf-text-subtle text-xs leading-relaxed">
+                              {transformation.transformedSentence}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

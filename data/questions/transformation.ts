@@ -687,9 +687,89 @@ export const transformationQuestions: TransformationQuestion[] = [
     ]
   },
 
-  // Dhaka Board 2020
+  // Chattogram Board 2016
   {
     id: "18",
+    year: 2016,
+    board: "Chattogram",
+    instruction: "Read the text and change the sentences as directed. [Chattogram Board-2016]",
+    transformations: [
+      {
+        question: "Everybody wants friends.",
+        transformedSentence: "Nobody wants enemies.",
+        transformationType: "Negative",
+        ruleId: 12
+      },
+      {
+        question: "The heart is formed for love and cannot be happy without the opportunity of giving and receiving love.",
+        transformedSentence: "As the heart is formed for love, it cannot be happy without the opportunity of giving and receiving love.",
+        transformationType: "Complex",
+        ruleId: 1
+      },
+      {
+        question: "But you cannot find others to love you unless you love them.",
+        transformedSentence: "But without loving others, you can't find them to love you.",
+        transformationType: "Simple",
+        ruleId: 5
+      },
+      {
+        question: "You cannot be happy without it.",
+        transformedSentence: "Can you be happy without it?",
+        transformationType: "Interrogative",
+        ruleId: 15
+      },
+      {
+        question: "As love is divine, everybody wants to love.",
+        transformedSentence: "Love is divine and everybody wants to love.",
+        transformationType: "Compound",
+        ruleId: 1
+      }
+    ]
+  },
+
+  // Dinajpur Board 2016
+  {
+    id: "19",
+    year: 2016,
+    board: "Dinajpur",
+    instruction: "Read the text and change the sentences as directed. [Dinajpur Board-2016]",
+    transformations: [
+      {
+        question: "Anger is nothing but a vice.",
+        transformedSentence: "Is anger anything but a vice?",
+        transformationType: "Interrogative",
+        ruleId: 15
+      },
+      {
+        question: "It begets only the worst.",
+        transformedSentence: "It begets nothing but the worst.",
+        transformationType: "Negative",
+        ruleId: 7
+      },
+      {
+        question: "So we should control it for our sake.",
+        transformedSentence: "So it should be controlled for our sake.",
+        transformationType: "Passive",
+        ruleId: 1
+      },
+      {
+        question: "He who is taken by anger causes a lot of troubles.",
+        transformedSentence: "Taken by anger, he/a person causes a lot of troubles.",
+        transformationType: "Simple",
+        ruleId: 1
+      },
+      {
+        question: "Realising it we should try to be emotionally balanced.",
+        transformedSentence: "We should realise it and try to be emotionally balanced.",
+        transformationType: "Compound",
+        ruleId: 1
+      }
+    ]
+  },
+
+  // Dhaka Board 2020
+  {
+    id: "20",
     year: 2020,
     board: "Dhaka",
     instruction: "Read the text and change the sentences as directed. [Dhaka Board-2020]",
