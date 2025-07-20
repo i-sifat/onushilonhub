@@ -34,8 +34,8 @@ const CardWrapper = ({
   const pathname = usePathname();
   
   if (available) {
-    // Special handling for get-started page - route to combined page
-    const isGetStartedPage = pathname === '/get-started';
+    // Special handling for get-started page - route to combined page for specific topics
+    const isGetStartedPage = pathname.startsWith('/get-started');
     const href = isGetStartedPage 
       ? `/get-started/${id}`
       : isGrammarItems 

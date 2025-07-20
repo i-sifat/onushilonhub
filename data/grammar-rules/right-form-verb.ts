@@ -15,156 +15,182 @@ export interface RightFormVerbRule {
 export const rightFormVerbRules: RightFormVerbRule[] = [
   {
     id: 1,
-    ruleNo: "Rule 01",
-    title: "Modal Verb এর পরে নিম্নলিখিত Verb বসে",
-    bengali: "Modal + V1/be+V3/have+V3",
-    description: "Modal verb এর পরে base form (V1), be+V3 (continuous/passive), অথবা have+V3 (perfect) ব্যবহার হয়।",
+    ruleNo: "Rule 1",
+    title: "Modal Auxiliary + V1",
+    bengali: "Modal Auxiliary + মূল ক্রিয়া",
+    description: "Modal auxiliary verbs (can, could, may, might, shall, should, will, would, must, ought to, need, dare, used to, have to, had better, would rather) এর পরে সর্বদা V1 বসে।",
     structures: [
-      "Modal + V1",
-      "Modal + be + V3 (Continuous/Passive)",
-      "Modal + have + V3 (Perfect)"
+      "Subject + Modal Auxiliary + V1 + Object/Extension",
+      "Modal Auxiliary + Subject + V1 + Object/Extension? (Interrogative)"
     ],
     examples: [
-      "He can (do) the work. → He can do the work.",
-      "He may be (do) the work. → He may be doing the work.",
-      "He could have (do) the work. → He could have done the work.",
-      "You should (study) hard. → You should study hard.",
-      "They might be (play) football. → They might be playing football."
+      "I can speak English fluently. (আমি সাবলীলভাবে ইংরেজি বলতে পারি।)",
+      "You should study hard. (তোমার কঠোর পরিশ্রম করা উচিত।)",
+      "We must obey our parents. (আমাদের বাবা-মায়ের আজ্ঞা মানতে হবে।)",
+      "He would rather die than beg. (সে ভিক্ষা করার চেয়ে মরতে পছন্দ করবে।)"
+    ],
+    notes: [
+      "Modal auxiliary এর পরে কখনো to বসে না (ought to ব্যতীত)",
+      "Modal auxiliary এর কোনো past form নেই"
     ]
   },
   {
     id: 2,
-    ruleNo: "Rule 02",
-    title: "To do Verb এর পরে V1 বসে",
-    bengali: "do/does/did + V1",
-    description: "To do verb (do, does, did) এর পরে সর্বদা base form (V1) ব্যবহার হয়।",
+    ruleNo: "Rule 2",
+    title: "To + V1 (Infinitive)",
+    bengali: "To + মূল ক্রিয়া (অসমাপিকা ক্রিয়া)",
+    description: "To এর পরে সর্বদা V1 বসে। এটি infinitive গঠন করে।",
     structures: [
-      "do/does/did + V1"
+      "Subject + Verb + to + V1 + Object/Extension",
+      "It is + Adjective + to + V1 + Object/Extension"
     ],
     examples: [
-      "I do not (like) tea. → I do not like tea.",
-      "He does not (play) football. → He does not play football.",
-      "They did not (come) yesterday. → They did not come yesterday.",
-      "Do you (know) him? → Do you know him?"
-    ],
-    notes: [
-      "এ ক্ষেত্রে To do Verb এর পর not বা অন্য কোনো শব্দ থাকতে পারে।"
+      "I want to go home. (আমি বাড়ি যেতে চাই।)",
+      "She decided to study medicine. (সে চিকিৎসাবিদ্যা পড়ার সিদ্ধান্ত নিল।)",
+      "It is difficult to understand this. (এটি বোঝা কঠিন।)",
+      "We came here to help you. (আমরা তোমাকে সাহায্য করতে এখানে এসেছি।)"
     ]
   },
   {
     id: 3,
-    ruleNo: "Rule 03",
-    title: "To have Verb এর পরে V3 বসে",
-    bengali: "have/has/had + V3",
-    description: "To have verb (have, has, had) এর পরে past participle (V3) ব্যবহার হয়।",
+    ruleNo: "Rule 3",
+    title: "Let + Object + V1",
+    bengali: "Let + Object + মূল ক্রিয়া",
+    description: "Let এর পরে object এবং তারপর V1 বসে।",
     structures: [
-      "have/has/had + V3"
+      "Let + Object + V1 + Extension",
+      "Let + us/me/him/her/them + V1 + Object/Extension"
     ],
     examples: [
-      "Forkan has (earn) money. → Forkan has earned money.",
-      "He had (visit) the Cox's Bazar. → He had visited the Cox's Bazar.",
-      "They have (complete) the work. → They have completed the work.",
-      "She has (write) a letter. → She has written a letter."
+      "Let me go. (আমাকে যেতে দাও।)",
+      "Let us play football. (আসুন আমরা ফুটবল খেলি।)",
+      "Let him come in. (তাকে ভিতরে আসতে দাও।)",
+      "Let them finish their work. (তাদের কাজ শেষ করতে দাও।)"
     ]
   },
   {
     id: 4,
-    ruleNo: "Rule 04",
-    title: "To be Verb (Passive Voice-এর ক্ষেত্রে) এর পরে V3 বসে",
-    bengali: "be + V3 (Passive)",
-    description: "Passive voice এ to be verb এর পরে past participle (V3) ব্যবহার হয়।",
+    ruleNo: "Rule 4",
+    title: "Passive Voice Structure",
+    bengali: "কর্মবাচ্য গঠন",
+    description: "Passive voice এ be verb + V3 ব্যবহার হয়। Be verb টি tense অনুযায়ী পরিবর্তিত হয়।",
     structures: [
-      "am/is/are + V3 (Present Passive)",
-      "was/were + V3 (Past Passive)",
-      "been + V3 (Perfect Passive)"
+      "Subject + be verb + V3 + by + Object",
+      "Subject + be verb + being + V3 + by + Object (Continuous)",
+      "Subject + have/has/had + been + V3 + by + Object (Perfect)"
     ],
     examples: [
-      "Rice is (eat) by me. → Rice is eaten by me.",
-      "The book was (write) by him. → The book was written by him.",
-      "The work has been (do) by them. → The work has been done by them.",
-      "English is (speak) all over the world. → English is spoken all over the world."
-    ],
-    notes: [
-      "Passive Voice-এ এমন Subject বসে যা নিজ থেকে কোনো কাজ করতে পারে না এবং ঐ Subject এর পরে To be Verb বসে।"
+      "The work is done by him. (কাজটি তার দ্বারা করা হয়।)",
+      "The letter was written by me. (চিঠিটি আমার দ্বারা লেখা হয়েছিল।)",
+      "The house is being built by them. (বাড়িটি তাদের দ্বারা নির্মিত হচ্ছে।)",
+      "The book has been read by her. (বইটি তার দ্বারা পড়া হয়েছে।)"
     ]
   },
   {
     id: 5,
-    ruleNo: "Rule 05",
-    title: "চারটি সাধারণ অবস্থানে Verb এর সাথে 'ing' যোগ হয়",
-    bengali: "Verb + ing",
-    description: "নির্দিষ্ট কিছু অবস্থানে verb এর সাথে ing যুক্ত হয়ে gerund বা present participle গঠন করে।",
+    ruleNo: "Rule 5",
+    title: "Gerund (V+ing as Noun)",
+    bengali: "Gerund (ক্রিয়া+ing বিশেষ্য হিসেবে)",
+    description: "Gerund হলো V+ing যা noun এর কাজ করে। এটি subject, object বা preposition এর object হিসেবে ব্যবহৃত হয়।",
     structures: [
-      "Preposition + Verb-ing (যেখানে 'to' ব্যতিক্রম)",
-      "To be Verb + Verb-ing (Continuous)",
-      "Simple Sentence-এ দুটি Verb একসাথে হলে, Main Verb ছাড়া অন্য Verb এর সাথে 'ing'",
-      "With a view to / Look forward to / Get used to এর পরে Verb-ing"
+      "Gerund + Verb + Object/Extension (Subject হিসেবে)",
+      "Subject + Verb + Gerund + Object/Extension (Object হিসেবে)",
+      "Preposition + Gerund + Object/Extension"
     ],
     examples: [
-      "By (read) more, you can make a good result. → By reading more...",
-      "I am interested in (learn) new things. → I am interested in learning...",
-      "He has been (read) the book. → He has been reading...",
-      "They were (play) football. → They were playing...",
-      "I like (eat) Kacchi Biryani. → I like eating...",
-      "They enjoy (watch) movies. → They enjoy watching...",
-      "He goes to school with a view to (admit) college. → ...to admitting...",
-      "I look forward to (meet) my friends. → ...to meeting..."
+      "Swimming is a good exercise. (সাঁতার একটি ভালো ব্যায়াম।)",
+      "I enjoy reading books. (আমি বই পড়তে উপভোগ করি।)",
+      "He is fond of playing cricket. (সে ক্রিকেট খেলতে পছন্দ করে।)",
+      "After finishing the work, he left. (কাজ শেষ করার পর সে চলে গেল।)"
     ]
   },
   {
     id: 6,
-    ruleNo: "Rule 06",
-    title: "Subject Third Person Singular হলে Main Verb এর সাথে s/es যুক্ত হয়",
-    bengali: "Third Person Singular + V1+s/es",
-    description: "Third person singular subject এর সাথে present tense এ main verb এর সাথে s/es যুক্ত হয়।",
+    ruleNo: "Rule 6",
+    title: "Subject-Verb Agreement",
+    bengali: "কর্তা-ক্রিয়ার সামঞ্জস্য",
+    description: "Subject singular হলে verb singular হবে, subject plural হলে verb plural হবে।",
     structures: [
-      "Third Person Singular Subject + V1+s/es"
+      "Singular Subject + Singular Verb + Object/Extension",
+      "Plural Subject + Plural Verb + Object/Extension",
+      "Third Person Singular + Verb+s/es + Object/Extension"
     ],
     examples: [
-      "Everyone (hate) a liar. → Everyone hates a liar.",
-      "Every student (want) a good result. → Every student wants a good result.",
-      "He (play) football. → He plays football.",
-      "She (study) hard. → She studies hard.",
-      "Ten kilometers (be) a long distance. → Ten kilometers is a long distance.",
-      "Two hours (be) a long time. → Two hours is a long time."
+      "He goes to school daily. (সে প্রতিদিন স্কুলে যায়।)",
+      "They go to school daily. (তারা প্রতিদিন স্কুলে যায়।)",
+      "The boy plays football. (ছেলেটি ফুটবল খেলে।)",
+      "The boys play football. (ছেলেরা ফুটবল খেলে।)"
     ],
     notes: [
-      "Third Person Singular Subject: He/she/it, ব্যক্তি বা বস্তুর নাম, Every+Noun, Uncountable Noun, Money, Distance, Time, one যুক্ত Subject, body যুক্ত Subject, thing যুক্ত Subject",
-      "Subject Third Person Singular Number হলে প্রয়োজন মত To be Verb ব্যবহার করা যেতে পারে।"
+      "Third person singular subject এর সাথে verb এ s/es যোগ হয়",
+      "Collective noun singular verb নেয় যদি group হিসেবে কাজ করে"
     ]
   },
   {
     id: 7,
-    ruleNo: "Rule 07",
-    title: "কিছু Word/Phrase রয়েছে যেগুলোর পরে নির্দিষ্ট Tense বসে",
-    bengali: "Time indicators + Specific Tense",
-    description: "নির্দিষ্ট time indicating words বা phrases এর সাথে নির্দিষ্ট tense ব্যবহার করতে হয়।",
+    ruleNo: "Rule 7",
+    title: "Conditional Sentences",
+    bengali: "শর্তসাপেক্ষ বাক্য",
+    description: "If clause এ present tense হলে main clause এ future tense হয়। If clause এ past tense হলে main clause এ conditional হয়।",
     structures: [
-      "Pally bou (Previously, Ago, After a few days, Last, Yesterday, Before, Once, Upon a time) → Past Indefinite (V2)",
-      "HUS (Habitual Fact, Universal Truth, Scientific Truth) → Present Indefinite (V1)",
-      "Arguon Fedo (Always, Regularly, Generally, Usually, Occasionally, Normally, Frequently, Everyday, Daily, Often) → Present Indefinite (V1)",
-      "DAN TIR (Day by day, At present, Now, The moment, Increasingly, Rapidly) → Present Continuous (am/is/are + V+ing)",
-      "JAYLER (Just, Already, Yet, Lately, Ever, Recently) → Present Perfect (have/has + V3)"
+      "If + Subject + V1/V2 + Object, Subject + will/would + V1 + Object",
+      "If + Subject + had + V3 + Object, Subject + would have + V3 + Object"
     ],
     examples: [
-      "They (walk) together yesterday. → They walked together yesterday.",
-      "I have already (finish) the work. → I have already finished the work.",
-      "At this moment, he is (make) cakes. → he is making cakes.",
-      "The sun (rise) in the east. → The sun rises in the east. (Universal Truth)",
-      "He (go) to school daily. → He goes to school daily. (Habitual)",
-      "Water (boil) at 100°C. → Water boils at 100°C. (Scientific Truth)",
-      "I have just (complete) my homework. → I have just completed my homework.",
-      "She is (study) at present. → She is studying at present."
+      "If you work hard, you will succeed. (তুমি কঠোর পরিশ্রম করলে সফল হবে।)",
+      "If I were rich, I would help the poor. (আমি ধনী হলে গরিবদের সাহায্য করতাম।)",
+      "If he had studied, he would have passed. (সে পড়াশোনা করলে পাশ করত।)"
+    ]
+  },
+  {
+    id: 8,
+    ruleNo: "Rule 8",
+    title: "Present Participle (V+ing)",
+    bengali: "বর্তমান কৃদন্ত (ক্রিয়া+ing)",
+    description: "Present participle continuous tense, adjective বা adverb হিসেবে ব্যবহৃত হয়।",
+    structures: [
+      "Subject + be verb + V+ing + Object/Extension (Continuous)",
+      "V+ing + Object, Subject + Verb + Extension (Participle phrase)"
+    ],
+    examples: [
+      "I am reading a book. (আমি একটি বই পড়ছি।)",
+      "The running water is clean. (প্রবাহমান পানি পরিষ্কার।)",
+      "Walking in the park, I met my friend. (পার্কে হাঁটতে হাঁটতে আমি আমার বন্ধুর সাথে দেখা করলাম।)"
+    ]
+  },
+  {
+    id: 9,
+    ruleNo: "Rule 9",
+    title: "Past Participle (V3)",
+    bengali: "অতীত কৃদন্ত (ক্রিয়ার তৃতীয় রূপ)",
+    description: "Past participle perfect tense, passive voice এবং adjective হিসেবে ব্যবহৃত হয়।",
+    structures: [
+      "Subject + have/has/had + V3 + Object/Extension (Perfect)",
+      "Subject + be verb + V3 + by + Object (Passive)",
+      "V3 + Object, Subject + Verb + Extension (Participle phrase)"
+    ],
+    examples: [
+      "I have finished my work. (আমি আমার কাজ শেষ করেছি।)",
+      "The work was completed yesterday. (কাজটি গতকাল সম্পন্ন হয়েছিল।)",
+      "Broken by the storm, the tree fell down. (ঝড়ে ভেঙে গিয়ে গাছটি পড়ে গেল।)"
+    ]
+  },
+  {
+    id: 10,
+    ruleNo: "Rule 10",
+    title: "Habitual Past (used to + V1)",
+    bengali: "অভ্যাসগত অতীত (used to + মূল ক্রিয়া)",
+    description: "অতীতের অভ্যাস বা নিয়মিত কাজ বোঝাতে used to + V1 ব্যবহার হয়।",
+    structures: [
+      "Subject + used to + V1 + Object/Extension",
+      "Subject + did not use to + V1 + Object/Extension (Negative)",
+      "Did + Subject + use to + V1 + Object/Extension? (Interrogative)"
+    ],
+    examples: [
+      "I used to play cricket in my childhood. (আমি ছোটবেলায় ক্রিকেট খেলতাম।)",
+      "She used to live in Dhaka. (সে ঢাকায় থাকত।)",
+      "We did not use to watch TV much. (আমরা খুব বেশি টিভি দেখতাম না।)",
+      "Did you use to study at night? (তুমি কি রাতে পড়াশোনা করতে?)"
     ]
   }
 ];
-
-// Helper function to get rule by ID
-export const getRightFormVerbRuleById = (id: number): RightFormVerbRule | undefined => {
-  return rightFormVerbRules.find(rule => rule.id === id);
-};
-
-// Helper function to get all rule titles
-export const getRightFormVerbRuleTitles = (): string[] => {
-  return rightFormVerbRules.map(rule => rule.title);
-};
