@@ -128,7 +128,6 @@ export const modifierQuestions: ModifierQuestion[] = [
       { id: "c5p", rule: 5, ans: "regularly" },
       { id: "d1", rule: 1, ans: "main" },
       { id: "e5", rule: 5, ans: "his" },
-      { id: modifierquestion.ts:112:1
       { id: "f2", rule: 2, ans: "every" },
       { id: "g10p", rule: 10, ans: "a student" },
       { id: "h3", rule: 3, ans: "very" },
@@ -160,7 +159,6 @@ export const modifierQuestions: ModifierQuestion[] = [
     year: 2023,
     passage: "We know that [a11] species are important for maintaining [b4] balance. If one is lost, the whole natural environment changes [c5p]. In order to protect the environment from being spoilt, we should protect [d5] wildlife. [e2] good news is that many countries are taking action [f1p]. George Lay Cock, [g10p] writes, \"Mankind must develop a concern for wild creatures and determine that [h7] wild species will not perish [i7p]. We have to save wild animals [j9p].",
     blanks: [
-      { id modifierquestion.ts:135:1
       { id: "a11", rule: 11, ans: "all" },
       { id: "b4", rule: 4, ans: "environmental / ecological" },
       { id: "c5p", rule: 5, ans: "drastically / often for worse" },
