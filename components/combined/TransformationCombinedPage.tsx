@@ -1,14 +1,14 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { transformationRules } from '@/data/grammar-rules/transformation';
 import { transformationQuestions } from '@/data/questions/transformation';
-import { Search, Filter, Calendar, MapPin, BookOpen, RotateCcw, ArrowRight } from 'lucide-react';
+import { Search, Filter, Calendar, MapPin, BookOpen, RotateCcw, ArrowRight, Target } from 'lucide-react';
 
 const boards = ['All Boards', 'Dhaka', 'Chittagong', 'Rajshahi', 'Sylhet', 'Barisal', 'Cumilla', 'Mymensingh', 'Jashore', 'Dinajpur', 'Rangpur'];
-const years = ['All Years', '2016', '2017', '2018', '2019'];
+const years = ['All Years', '2016', '2017', '2018', '2019', '2020'];
 const categories = [
   'All Categories', 
   'simple-complex-compound', 
@@ -44,31 +44,9 @@ export default function TransformationCombinedPage() {
     return transformations;
   }, []);
 
-  // Get question count for each rule
+  // Get question count for each rule based on ruleId
   const getRuleQuestionCount = (ruleId: number) => {
-    return allTransformations.filter(t => {
-      // For transformation, we'll match based on transformation type patterns
-      const rule = transformationRules.find(r => r.id === ruleId);
-      if (!rule) return false;
-      
-      // Match based on category and transformation type
-      switch (rule.category) {
-        case 'simple-complex-compound':
-          return ['Simple', 'Complex', 'Compound'].includes(t.transformationType);
-        case 'affirmative-negative':
-          return ['Negative', 'Affirmative'].includes(t.transformationType);
-        case 'assertive-interrogative':
-          return ['Interrogative'].includes(t.transformationType);
-        case 'assertive-exclamatory':
-          return ['Exclamatory'].includes(t.transformationType);
-        case 'assertive-imperative':
-          return ['Imperative'].includes(t.transformationType);
-        case 'degree':
-          return ['Positive', 'Comparative', 'Superlative'].includes(t.transformationType);
-        default:
-          return false;
-      }
-    }).length;
+    return allTransformations.filter(t => t.ruleId === ruleId).length;
   };
 
   // Filter rules based on category
@@ -78,27 +56,7 @@ export default function TransformationCombinedPage() {
 
   // Filter questions based on selected rule and other filters
   const filteredTransformations = allTransformations.filter(transformation => {
-    const matchesRule = selectedRuleId === null || (() => {
-      const rule = transformationRules.find(r => r.id === selectedRuleId);
-      if (!rule) return false;
-      
-      switch (rule.category) {
-        case 'simple-complex-compound':
-          return ['Simple', 'Complex', 'Compound'].includes(transformation.transformationType);
-        case 'affirmative-negative':
-          return ['Negative', 'Affirmative'].includes(transformation.transformationType);
-        case 'assertive-interrogative':
-          return ['Interrogative'].includes(transformation.transformationType);
-        case 'assertive-exclamatory':
-          return ['Exclamatory'].includes(transformation.transformationType);
-        case 'assertive-imperative':
-          return ['Imperative'].includes(transformation.transformationType);
-        case 'degree':
-          return ['Positive', 'Comparative', 'Superlative'].includes(transformation.transformationType);
-        default:
-          return false;
-      }
-    })();
+    const matchesRule = selectedRuleId === null || transformation.ruleId === selectedRuleId;
     
     const matchesSearch = !searchTerm || 
       (transformation.question?.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -106,8 +64,11 @@ export default function TransformationCombinedPage() {
     const matchesBoard = selectedBoard === 'All Boards' || transformation.board?.toLowerCase().includes(selectedBoard.toLowerCase()) || false;
     const matchesYear = selectedYear === 'All Years' || transformation.year?.toString() === selectedYear || false;
     const matchesCategory = selectedCategory === 'All Categories' || (() => {
-      const rule = transformationRules.find(r => r.id === selectedRuleId);
-      return rule ? rule.category === selectedCategory : true;
+      if (selectedRuleId) {
+        const rule = transformationRules.find(r => r.id === selectedRuleId);
+        return rule ? rule.category === selectedCategory : true;
+      }
+      return true;
     })();
     
     return matchesRule && matchesSearch && matchesBoard && matchesYear && matchesCategory;
@@ -189,6 +150,12 @@ export default function TransformationCombinedPage() {
 
   const selectedRule = selectedRuleId ? transformationRules.find(rule => rule.id === selectedRuleId) : null;
 
+  // Debug log to check total questions
+  useEffect(() => {
+    console.log('Total transformation questions:', allTransformations.length);
+    console.log('Filtered transformations:', filteredTransformations.length);
+  }, [allTransformations.length, filteredTransformations.length]);
+
   return (
     <div className="grid lg:grid-cols-2 gap-8">
       {/* Left Side - Grammar Rules */}
@@ -198,24 +165,6 @@ export default function TransformationCombinedPage() {
           <Badge variant="secondary" className="bg-sf-button/20 text-sf-button">
             {filteredRules.length} Rules
           </Badge>
-        </div>
-
-        {/* Category Filter for Rules */}
-        <div className="bg-sf-bg border border-sf-text-muted/20 rounded-lg p-4">
-          <label className="block text-sm font-medium text-sf-text-subtle mb-2">
-            Filter by Category
-          </label>
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full px-3 py-2 border border-sf-text-muted/20 rounded-lg bg-sf-bg text-sf-text-subtle focus:outline-none focus:ring-2 focus:ring-sf-button focus:border-transparent"
-          >
-            {categories.map(category => (
-              <option key={category} value={category}>
-                {category === 'All Categories' ? category : getCategoryLabel(category)}
-              </option>
-            ))}
-          </select>
         </div>
 
         <div className="space-y-4 max-h-[70vh] overflow-y-auto">
@@ -242,11 +191,12 @@ export default function TransformationCombinedPage() {
                     </Badge>
                   </div>
                   <div className="flex items-center space-x-2">
-                    {questionCount > 0 && (
+                    <div className="flex items-center space-x-1">
+                      <Target className="h-3 w-3 text-sf-button" />
                       <Badge variant="secondary" className="bg-sf-highlight/20 text-sf-text-bold text-xs">
-                        {questionCount} questions
+                        {questionCount} Q
                       </Badge>
-                    )}
+                    </div>
                     {selectedRuleId === rule.id && (
                       <Badge variant="secondary" className="bg-sf-button text-sf-bg">
                         Selected
@@ -451,6 +401,11 @@ export default function TransformationCombinedPage() {
                         <Badge variant="outline" className={`text-xs ${getTransformationTypeBadgeColor(transformation.transformationType)}`}>
                           {transformation.transformationType}
                         </Badge>
+                        {transformation.ruleId && (
+                          <Badge variant="secondary" className="bg-sf-highlight/20 text-sf-text-bold text-xs">
+                            Rule {transformation.ruleId}
+                          </Badge>
+                        )}
                       </div>
                       <div className="flex items-center space-x-3 text-xs text-sf-text-muted">
                         <div className="flex items-center space-x-1">
