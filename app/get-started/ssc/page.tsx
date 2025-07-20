@@ -36,11 +36,11 @@ export default function SSCGetStartedPage() {
             </div>
             
             <h2 className="text-2xl font-bold text-sf-text-bold mb-4">
-              Coming Soon
+              SSC Topics - Coming Soon
             </h2>
             
             <p className="text-sf-text-subtle mb-6 leading-relaxed">
-              We're currently developing comprehensive SSC grammar topics with:
+              We're currently developing comprehensive SSC grammar topics. All SSC features are temporarily disabled while we focus on perfecting the HSC experience.
             </p>
             
             <div className="grid md:grid-cols-2 gap-4 mb-8">

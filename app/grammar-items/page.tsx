@@ -120,13 +120,19 @@ export default function GrammarItemsPage() {
               </div>
 
               {/* Action Button */}
-              <Link
-                href={`/grammar-items/${level.id}`}
-                className="inline-flex items-center justify-center w-full bg-sf-button hover:bg-sf-button/90 text-sf-bg px-6 py-3 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg group"
-              >
-                <span>Explore {level.id.toUpperCase()} Grammar Items</span>
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
+              {level.id === 'hsc' ? (
+                <Link
+                  href={`/grammar-items/${level.id}`}
+                  className="inline-flex items-center justify-center w-full bg-sf-button hover:bg-sf-button/90 text-sf-bg px-6 py-3 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg group"
+                >
+                  <span>Explore {level.id.toUpperCase()} Grammar Items</span>
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              ) : (
+                <div className="inline-flex items-center justify-center w-full bg-sf-text-muted/20 text-sf-text-muted px-6 py-3 rounded-lg font-semibold cursor-not-allowed">
+                  <span>Coming Soon</span>
+                </div>
+              )}
             </div>
           ))}
         </div>

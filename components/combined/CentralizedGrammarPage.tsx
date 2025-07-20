@@ -46,20 +46,39 @@ export default function CentralizedGrammarPage({ topic, rules, questions }: Cent
   // Get question count for each rule
   const getRuleQuestionCount = useMemo(() => {
     return (ruleId: number | string) => {
+      // For modifier questions, count blanks that match the rule
+      if (questions.length > 0 && questions[0].blanks) {
+        let count = 0;
+        questions.forEach(q => {
+          if (q.blanks) {
+            count += q.blanks.filter((blank: any) => blank.ruleId === ruleId || blank.rule === ruleId).length;
+          }
+        });
+        return count;
+      }
+      // For other question types
       return questions.filter(q => q.ruleId === ruleId).length;
     };
   }, [questions]);
 
   // Filter questions based on selected rule and other filters
   const filteredQuestions = questions.filter(question => {
-    const matchesRule = selectedRuleId === null || question.ruleId === selectedRuleId;
+    const matchesRule = selectedRuleId === null || 
+      question.ruleId === selectedRuleId ||
+      (question.blanks && question.blanks.some((blank: any) => blank.ruleId === selectedRuleId || blank.rule === selectedRuleId));
     const matchesSearch = !searchTerm || 
       (question.question?.toLowerCase().includes(searchTerm.toLowerCase()) || 
        question.passage?.toLowerCase().includes(searchTerm.toLowerCase()) ||
        question.directSpeech?.toLowerCase().includes(searchTerm.toLowerCase()) ||
        question.indirectSpeech?.toLowerCase().includes(searchTerm.toLowerCase()) || false);
-    const matchesBoard = selectedBoard === 'All Boards' || question.id?.toLowerCase().includes(selectedBoard.toLowerCase()) || false;
-    const matchesYear = selectedYear === 'All Years' || question.id?.includes(selectedYear) || false;
+    
+    const matchesBoard = selectedBoard === 'All Boards' || 
+      question.board?.toLowerCase().includes(selectedBoard.toLowerCase()) ||
+      question.id?.toLowerCase().includes(selectedBoard.toLowerCase()) || false;
+    
+    const matchesYear = selectedYear === 'All Years' || 
+      question.year?.toString() === selectedYear ||
+      question.id?.includes(selectedYear) || false;
     
     return matchesRule && matchesSearch && matchesBoard && matchesYear;
   });
@@ -76,8 +95,8 @@ export default function CentralizedGrammarPage({ topic, rules, questions }: Cent
   const getQuestionMetadata = (questionId: string) => {
     const parts = questionId.split('-');
     return {
-      board: parts[0]?.charAt(0).toUpperCase() + parts[0]?.slice(1) || 'Unknown',
-      year: parts[1] || 'Unknown',
+      board: parts[0]?.charAt(0).toUpperCase() + parts[0]?.slice(1) || 'Sample',
+      year: parts[1] || '2024',
       questionNumber: parts[2] || ''
     };
   };
@@ -274,13 +293,9 @@ export default function CentralizedGrammarPage({ topic, rules, questions }: Cent
                     </div>
                   </div>
                   
-                  <h3 className="text-sm font-semibold text-sf-text-bold mb-1 leading-tight">
+                  <h3 className="text-sm font-semibold text-sf-text-bold mb-2 leading-tight">
                     {rule.title}
                   </h3>
-                  
-                  <p className="text-sf-text-subtle text-xs leading-relaxed line-clamp-2">
-                    {rule.description}
-                  </p>
                 </div>
               );
             })}
@@ -427,11 +442,11 @@ export default function CentralizedGrammarPage({ topic, rules, questions }: Cent
                           <div className="flex items-center space-x-3 text-xs text-sf-text-muted">
                             <div className="flex items-center space-x-1">
                               <MapPin className="h-3 w-3" />
-                              <span>{metadata.board}</span>
+                              <span>{question.board || metadata.board}</span>
                             </div>
                             <div className="flex items-center space-x-1">
                               <Calendar className="h-3 w-3" />
-                              <span>{metadata.year}</span>
+                              <span>{question.year || metadata.year}</span>
                             </div>
                           </div>
                         </div>
