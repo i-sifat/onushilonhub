@@ -4,11 +4,10 @@ import { useState, useMemo, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { transformationRules } from '@/data/grammar-rules/transformation';
-import { transformationQuestions } from '@/data/questions/transformation';
 import { Search, Filter, Calendar, MapPin, BookOpen, RotateCcw, ArrowRight, Target } from 'lucide-react';
 
 const boards = ['All Boards', 'Dhaka', 'Chittagong', 'Rajshahi', 'Sylhet', 'Barisal', 'Cumilla', 'Mymensingh', 'Jashore', 'Dinajpur', 'Rangpur'];
-const years = ['All Years', '2016', '2017', '2018', '2019', '2020'];
+const years = ['All Years', '2017', '2018', '2019', '2020'];
 const categories = [
   'All Categories', 
   'simple-complex-compound', 
@@ -20,14 +19,35 @@ const categories = [
 ];
 
 export default function TransformationCombinedPage() {
+  const [transformationQuestions, setTransformationQuestions] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedRuleId, setSelectedRuleId] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedBoard, setSelectedBoard] = useState('All Boards');
   const [selectedYear, setSelectedYear] = useState('All Years');
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
 
+  // Dynamic import of transformation questions
+  useEffect(() => {
+    const loadTransformationQuestions = async () => {
+      try {
+        const { transformationQuestions: questions } = await import('@/data/questions/transformation');
+        setTransformationQuestions(questions);
+      } catch (error) {
+        console.error('Failed to load transformation questions:', error);
+        setTransformationQuestions([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadTransformationQuestions();
+  }, []);
+
   // Flatten all transformations from all questions
   const allTransformations = useMemo(() => {
+    if (isLoading || !transformationQuestions.length) return [];
+    
     const transformations: any[] = [];
     transformationQuestions.forEach(question => {
       question.transformations.forEach((transformation, index) => {
@@ -42,7 +62,7 @@ export default function TransformationCombinedPage() {
       });
     });
     return transformations;
-  }, []);
+  }, [transformationQuestions, isLoading]);
 
   // Get question count for each rule based on ruleId
   const getRuleQuestionCount = (ruleId: number) => {
@@ -152,10 +172,46 @@ export default function TransformationCombinedPage() {
 
   // Debug log to check total questions
   useEffect(() => {
+    if (!isLoading) {
     console.log('Total transformation questions:', allTransformations.length);
     console.log('Filtered transformations:', filteredTransformations.length);
-  }, [allTransformations.length, filteredTransformations.length]);
+    }
+  }, [allTransformations.length, filteredTransformations.length, isLoading]);
 
+  if (isLoading) {
+    return (
+      <div className="grid lg:grid-cols-2 gap-8">
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold text-sf-text-bold">Grammar Rules</h2>
+            <Badge variant="secondary" className="bg-sf-button/20 text-sf-button">
+              Loading...
+            </Badge>
+          </div>
+          <div className="space-y-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="border border-sf-text-muted/20 rounded-lg p-4 animate-pulse">
+                <div className="h-4 bg-sf-text-muted/20 rounded mb-2"></div>
+                <div className="h-3 bg-sf-text-muted/20 rounded mb-1"></div>
+                <div className="h-3 bg-sf-text-muted/20 rounded w-3/4"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="space-y-6">
+          <div className="bg-sf-bg border border-sf-text-muted/20 rounded-lg p-6 text-center">
+            <BookOpen className="h-12 w-12 text-sf-text-muted mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-sf-text-bold mb-2">
+              Loading Questions...
+            </h3>
+            <p className="text-sf-text-subtle">
+              Please wait while we load the transformation questions.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="grid lg:grid-cols-2 gap-8">
       {/* Left Side - Grammar Rules */}

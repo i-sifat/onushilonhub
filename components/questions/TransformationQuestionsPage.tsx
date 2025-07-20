@@ -1,13 +1,12 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Search, Filter, Calendar, MapPin, BookOpen, RotateCcw, ArrowRight } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { transformationQuestions } from '@/data/questions/transformation';
 
 const boards = ['All Boards', 'Dhaka', 'Chittagong', 'Rajshahi', 'Sylhet', 'Barisal', 'Cumilla', 'Mymensingh', 'Jashore', 'Dinajpur', 'Rangpur'];
-const years = ['All Years', '2016', '2017', '2018', '2019'];
+const years = ['All Years', '2017', '2018', '2019', '2020'];
 const categories = [
   'All Categories', 
   'Simple', 
@@ -27,13 +26,34 @@ const categories = [
 ];
 
 export default function TransformationQuestionsPage() {
+  const [transformationQuestions, setTransformationQuestions] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedBoard, setSelectedBoard] = useState('All Boards');
   const [selectedYear, setSelectedYear] = useState('All Years');
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
 
+  // Dynamic import of transformation questions
+  useEffect(() => {
+    const loadTransformationQuestions = async () => {
+      try {
+        const { transformationQuestions: questions } = await import('@/data/questions/transformation');
+        setTransformationQuestions(questions);
+      } catch (error) {
+        console.error('Failed to load transformation questions:', error);
+        setTransformationQuestions([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadTransformationQuestions();
+  }, []);
+
   // Flatten all transformations from all questions
   const allTransformations = useMemo(() => {
+    if (isLoading || !transformationQuestions.length) return [];
+    
     const transformations: any[] = [];
     transformationQuestions.forEach(question => {
       question.transformations.forEach((transformation, index) => {
@@ -48,9 +68,11 @@ export default function TransformationQuestionsPage() {
       });
     });
     return transformations;
-  }, []);
+  }, [transformationQuestions, isLoading]);
 
   const filteredTransformations = useMemo(() => {
+    if (isLoading) return [];
+    
     return allTransformations.filter(transformation => {
       const matchesSearch = !searchTerm || 
         (transformation.question?.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -61,7 +83,7 @@ export default function TransformationQuestionsPage() {
       
       return matchesSearch && matchesBoard && matchesYear && matchesCategory;
     });
-  }, [allTransformations, searchTerm, selectedBoard, selectedYear, selectedCategory]);
+  }, [allTransformations, searchTerm, selectedBoard, selectedYear, selectedCategory, isLoading]);
 
   const clearFilters = () => {
     setSearchTerm('');
@@ -98,6 +120,73 @@ export default function TransformationQuestionsPage() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="space-y-8">
+        {/* Filter Section Skeleton */}
+        <div className="bg-sf-bg border border-sf-text-muted/20 rounded-lg p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center space-x-2">
+              <Filter className="h-5 w-5 text-sf-button" />
+              <h3 className="text-lg font-semibold text-sf-text-bold">Filter Questions</h3>
+            </div>
+          </div>
+          <div className="grid md:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="space-y-2">
+                <div className="h-4 bg-sf-text-muted/20 rounded animate-pulse"></div>
+                <div className="h-8 bg-sf-text-muted/20 rounded animate-pulse"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Loading Message */}
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold text-sf-text-bold">
+            Loading Questions...
+          </h2>
+          <div className="text-sm text-sf-text-muted">
+            HSC Transformation
+          </div>
+        </div>
+
+        {/* Questions Skeleton */}
+        <div className="space-y-4">
+          {[1, 2, 3].map((i) => (
+            <Card key={i} className="border-sf-text-muted/20">
+              <CardContent className="p-6">
+                <div className="animate-pulse">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center space-x-3">
+                      <div className="h-6 w-16 bg-sf-text-muted/20 rounded"></div>
+                      <div className="h-6 w-20 bg-sf-text-muted/20 rounded"></div>
+                    </div>
+                    <div className="flex items-center space-x-4">
+                      <div className="h-4 w-16 bg-sf-text-muted/20 rounded"></div>
+                      <div className="h-4 w-12 bg-sf-text-muted/20 rounded"></div>
+                    </div>
+                  </div>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="bg-sf-highlight/10 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                      <div className="h-4 w-24 bg-sf-text-muted/20 rounded mb-2"></div>
+                      <div className="h-3 bg-sf-text-muted/20 rounded mb-1"></div>
+                      <div className="h-3 bg-sf-text-muted/20 rounded w-3/4"></div>
+                    </div>
+                    <div className="bg-sf-highlight/10 border-l-4 border-green-500 p-4 rounded-r-lg">
+                      <div className="h-4 w-32 bg-sf-text-muted/20 rounded mb-2"></div>
+                      <div className="h-3 bg-sf-text-muted/20 rounded mb-1"></div>
+                      <div className="h-3 bg-sf-text-muted/20 rounded w-2/3"></div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="space-y-8">
       {/* Filter Section */}
