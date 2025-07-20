@@ -36,7 +36,7 @@ const HSC_GRAMMAR_TOPICS = [
     id: 'use-of-verbs',
     name: 'Use of Verbs',
     description: 'Practice right form of verbs and subject-verb agreement in various grammatical contexts.',
-    available: false,
+    available: true,
     marks: '0.5×14=7',
     details: 'Right form of verbs and Subject-verb agreement'
   },
@@ -68,7 +68,7 @@ const HSC_GRAMMAR_TOPICS = [
     id: 'synonym-antonym',
     name: 'Synonym and Antonym',
     description: 'Practice identifying and using synonyms and antonyms in various contexts.',
-    available: false,
+    available: true,
     marks: '0.5×14=7',
     details: 'Synonym and Antonym'
   },
@@ -84,7 +84,7 @@ const HSC_GRAMMAR_TOPICS = [
     id: 'punctuation',
     name: 'Punctuation',
     description: 'Master the proper use of punctuation marks to enhance clarity and meaning in writing.',
-    available: false,
+    available: true,
     marks: '0.5×14=7',
     details: 'Proper punctuation usage'
   },
