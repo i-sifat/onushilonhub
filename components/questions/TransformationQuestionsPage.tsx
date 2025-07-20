@@ -5,6 +5,32 @@ import { Search, Filter, Calendar, MapPin, BookOpen, RotateCcw, ArrowRight } fro
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 
+// Define types for transformation data
+interface TransformationQuestion {
+  id: string;
+  year: number;
+  board: string;
+  instruction: string;
+  transformations: {
+    question: string;
+    transformedSentence: string;
+    transformationType: string;
+    ruleId?: number;
+  }[];
+}
+
+interface FlattenedTransformation {
+  question: string;
+  transformedSentence: string;
+  transformationType: string;
+  ruleId?: number;
+  questionId: string;
+  board: string;
+  year: number;
+  instruction: string;
+  transformationIndex: number;
+}
+
 const boards = ['All Boards', 'Dhaka', 'Chittagong', 'Rajshahi', 'Sylhet', 'Barisal', 'Cumilla', 'Mymensingh', 'Jashore', 'Dinajpur', 'Rangpur'];
 const years = ['All Years', '2017', '2018', '2019', '2020'];
 const categories = [
@@ -26,7 +52,7 @@ const categories = [
 ];
 
 export default function TransformationQuestionsPage() {
-  const [transformationQuestions, setTransformationQuestions] = useState<any[]>([]);
+  const [transformationQuestions, setTransformationQuestions] = useState<TransformationQuestion[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedBoard, setSelectedBoard] = useState('All Boards');
@@ -37,7 +63,7 @@ export default function TransformationQuestionsPage() {
   useEffect(() => {
     const loadTransformationQuestions = async () => {
       try {
-        const { transformationQuestions: questions } = await import('@/data/questions/transformation');
+        const { transformationQuestions: questions }: { transformationQuestions: TransformationQuestion[] } = await import('@/data/questions/transformation');
         setTransformationQuestions(questions);
       } catch (error) {
         console.error('Failed to load transformation questions:', error);
@@ -51,10 +77,10 @@ export default function TransformationQuestionsPage() {
   }, []);
 
   // Flatten all transformations from all questions
-  const allTransformations = useMemo(() => {
+  const allTransformations = useMemo((): FlattenedTransformation[] => {
     if (isLoading || !transformationQuestions.length) return [];
     
-    const transformations: any[] = [];
+    const transformations: FlattenedTransformation[] = [];
     transformationQuestions.forEach(question => {
       question.transformations.forEach((transformation, index) => {
         transformations.push({
