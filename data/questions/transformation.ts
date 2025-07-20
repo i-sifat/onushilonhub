@@ -246,7 +246,9 @@ export const transformationQuestions: TransformationQuestion[] = [
       },
       {
         question: "Bangladesh exports tea and earns a lot of foreign exchange.",
+        transformedSentence: "Bangladesh exports tea and earns a lot of foreign exchange.",
+        transformationType: "Simple"
       }
-    ];
+    ]
   }
 ];
