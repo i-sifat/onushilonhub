@@ -105,7 +105,7 @@ export const modifierRules: ModifierRule[] = [
     examples: ["[Two] Umpires conduct the game. (Dhaka-2023)", "[Many] people are uneducated in our country. (Barishal-2023)"]
   },
   {
-    id: "1p",
+    id: 13,
     ruleNo: "Rule 1p",
     title: "Use an infinitive to post-modify the verb",
     description: "Infinitive অর্থাৎ to + verb (base form) বসিয়ে verb-এর উদ্দেশ্য বোঝাতে হয়। কেন/কী জন্য কাজটি করছে—এই প্রশ্ন করলে উত্তর খুঁজে পাওয়া যায়। এটি verb-এর পরে বসে post-modify করে।",
@@ -113,7 +113,7 @@ export const modifierRules: ModifierRule[] = [
     examples: ["Sometimes, a third umpire is required [to resolve] an acute confusion. (Dhaka-2023)", "He tried [to save] the boy. (Rajshahi-2023)"]
   },
   {
-    id: "2p",
+    id: 14,
     ruleNo: "Rule 2p",
     title: "Use an infinitive phrase to post-modify the verb",
     description: "Infinitive phrase অর্থাৎ to + verb + অতিরিক্ত শব্দ বসিয়ে কাজের উদ্দেশ্য বা বিস্তারিত প্রকাশ করা হয়। এটি মূল verb-এর পরে বসে ব্যাখ্যা করে।",
@@ -121,7 +121,7 @@ export const modifierRules: ModifierRule[] = [
     examples: ["Measures should be taken [to stop deforestation]. (Dhaka-2017)", "He wanted [to learn English]. (Custom from provided content)"]
   },
   {
-    id: "3p",
+    id: 15,
     ruleNo: "Rule 3p",
     title: "Use a present participle to post-modify the verb",
     description: "Present participle মানে verb+ing। এটি মূল verb-এর পরে বসে কাজটি কিভাবে হচ্ছে তা বোঝায়। অনেক সময় এটি অন্য কাজের পাশাপাশি ঘটে এমন ক্রিয়া প্রকাশ করে।",
@@ -129,7 +129,7 @@ export const modifierRules: ModifierRule[] = [
     examples: ["The boy started [drowning] into the canal. (Rajshahi-2023)", "He was seen [running] away. (Custom from provided content)"]
   },
   {
-    id: "4p",
+    id: 16,
     ruleNo: "Rule 4p",
     title: "Use a present participle phrase to post-modify the verb",
     description: "Present participle phrase মানে verb+ing + অতিরিক্ত শব্দ। এটি মূল verb-এর পরে বসে বিস্তারিতভাবে কার্যপদ্ধতি বা পরিবেশ বোঝায়।",
@@ -137,7 +137,7 @@ export const modifierRules: ModifierRule[] = [
     examples: ["We are going there [learning English]. (Custom from provided content)", "He wrote letters [admiring English society]. (Custom from provided content)"]
   },
   {
-    id: "5p",
+    id: 17,
     ruleNo: "Rule 5p",
     title: "Use an adverb to post-modify the verb",
     description: "Adverb দ্বারা verb-এর সময়, স্থান বা পদ্ধতি বোঝানো হয়। এটি verb-এর পরে বসে post-modify করে।",
@@ -145,7 +145,7 @@ export const modifierRules: ModifierRule[] = [
     examples: ["People praised him [enormously]. (Rajshahi-2023)", "He sings [well]. (Custom from provided content)"]
   },
   {
-    id: "6p",
+    id: 18,
     ruleNo: "Rule 6p",
     title: "Use an adverbial phrase to post-modify the verb",
     description: "Adverbial phrase একটি শব্দগুচ্ছ, যা verb-এর পরে বসে সময়, স্থান, উপায় বা উদ্দেশ্য বোঝায়।",
@@ -153,7 +153,7 @@ export const modifierRules: ModifierRule[] = [
     examples: ["Both teams try [hard enough] to out all batters of the opposite. (Dhaka-2023)", "He sang the songs of equality [in this way]. (Custom from provided content)"]
   },
   {
-    id: "7p",
+    id: 19,
     ruleNo: "Rule 7p",
     title: "Use a prepositional phrase to post-modify the verb",
     description: "Prepositional phrase মানে preposition + noun phrase, যা verb-এর পরে বসে স্থান, সময় বা উপায় বোঝাতে ব্যবহৃত হয়।",
@@ -161,7 +161,7 @@ export const modifierRules: ModifierRule[] = [
     examples: ["He sold ice cream [on the beach]. (Cumilla-2023)", "You will suffer [in every stage of your life]. (Custom from provided content)"]
   },
   {
-    id: "8p",
+    id: 20,
     ruleNo: "Rule 8p",
     title: "Use a phrase to post-modify the verb",
     description: "কোনো সাধারণ phrase বা শব্দগুচ্ছ যা verb-এর পরে বসে তার অর্থ আরও পরিষ্কার করে।",
@@ -169,7 +169,7 @@ export const modifierRules: ModifierRule[] = [
     examples: ["Government is trying to mark the tube wells [painting] red colour. (Dhaka-2019)", "The crow thought [for a while] what to do. (Custom from provided content)"]
   },
   {
-    id: "9p",
+    id: 21,
     ruleNo: "Rule 9p",
     title: "Use a relative clause to post-modify the noun",
     description: "Relative clause মানে sub+verb সহ একটি clause, যা noun-এর পরে বসে সেটিকে বিশদভাবে ব্যাখ্যা করে। সাধারণত who, which, that ইত্যাদি দিয়ে শুরু হয়।",
@@ -177,7 +177,7 @@ export const modifierRules: ModifierRule[] = [
     examples: ["We have to save wild animals [which are in the risk of extinction]. (Chattogram-2023)", "Arif, [who is coming], is my brother. (Custom from provided content)"]
   },
   {
-    id: "10p",
+    id: 22,
     ruleNo: "Rule 10p",
     title: "Post-modify the noun with an appositive",
     description: "Appositive মানে noun বা pronoun-এর পরে বসা একটি অতিরিক্ত noun বা noun phrase, যা ওই noun সম্পর্কিত অতিরিক্ত তথ্য দেয়। এতে sub+verb থাকে না।",
@@ -186,30 +186,3 @@ export const modifierRules: ModifierRule[] = [
   }
 ];
 
-// Central rule mapping for quick lookup
-export const grammarRules = {
-  // Pre-modifier rules
-  1: "Pre-modify the noun with adjective",
-  2: "Use a determiner",
-  3: "Use an intensifier to pre-modify adjective",
-  4: "Use noun adjective to pre-modify the noun",
-  5: "Use possessive to pre-modify the noun",
-  6: "Use an adverb to pre-modify the verb",
-  7: "Use demonstrative to pre-modify the noun",
-  8: "Use a participle to pre-modify the verb",
-  9: "Use a participle to pre-modify the noun",
-  10: "Use article to pre-modify the noun phrase",
-  11: "Use quantifier to pre-modify the noun",
-  12: "Use a numeral adjective to pre-modify the noun",
-  // Post-modifier rules
-  "1p": "Use an infinitive to post-modify the verb",
-  "2p": "Use an infinitive phrase to post-modify the verb",
-  "3p": "Use a present participle to post-modify the verb",
-  "4p": "Use a present participle phrase to post-modify the verb",
-  "5p": "Use an adverb to post-modify the verb",
-  "6p": "Use an adverbial phrase to post-modify the verb",
-  "7p": "Use a prepositional phrase to post-modify the verb",
-  "8p": "Use a phrase to post-modify the verb",
-  "9p": "Use a relative clause to post-modify the noun",
-  "10p": "Post-modify the noun with an appositive"
-};

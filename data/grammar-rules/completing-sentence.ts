@@ -13,6 +13,7 @@ export interface CompletingSentenceRule {
 export const completingSentenceRules: CompletingSentenceRule[] = [
  {
     id: 1,
+    ruleNo: "Rule 1",
     title: "That/so that/in order that",
     bengali: "যাতে",
     description: "Purpose or result",
@@ -28,6 +29,7 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
   },
   {
     id: 2,
+    ruleNo: "Rule 2",
     title: "As if/as though",
     bengali: "এমন… যেন",
     description: "Comparison or manner",
@@ -42,6 +44,7 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
   },
   {
     id: 3,
+    ruleNo: "Rule 3",
     title: "Lest/In case",
     bengali: "যাতে.. না/ নতুবা",
     description: "Prevention or precaution",
@@ -56,6 +59,7 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
   },
   {
     id: 4,
+    ruleNo: "Rule 4",
     title: "Though/although",
     bengali: "যদিও",
     description: "Contrast or concession",
@@ -71,6 +75,7 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
   },
   {
     id: 5,
+    ruleNo: "Rule 5",
     title: "No sooner had",
     bengali: "করতে না করতেই",
     description: "Immediate sequence",
