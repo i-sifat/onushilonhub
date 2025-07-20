@@ -7,15 +7,23 @@ import { Card, CardContent } from '@/components/ui/card';
 import { transformationQuestions } from '@/data/questions/transformation';
 
 const boards = ['All Boards', 'Dhaka', 'Chittagong', 'Rajshahi', 'Sylhet', 'Barisal', 'Cumilla', 'Mymensingh', 'Jashore', 'Dinajpur', 'Rangpur'];
-const years = ['All Years', '2022', '2023', '2024'];
+const years = ['All Years', '2016', '2017', '2018', '2019'];
 const categories = [
   'All Categories', 
-  'simple-complex-compound', 
-  'affirmative-negative', 
-  'assertive-interrogative', 
-  'assertive-exclamatory', 
-  'assertive-imperative', 
-  'degree'
+  'Simple', 
+  'Complex', 
+  'Compound',
+  'Positive',
+  'Comparative', 
+  'Superlative',
+  'Active',
+  'Passive',
+  'Affirmative',
+  'Negative',
+  'Assertive',
+  'Interrogative',
+  'Exclamatory',
+  'Imperative'
 ];
 
 export default function TransformationQuestionsPage() {
@@ -24,19 +32,36 @@ export default function TransformationQuestionsPage() {
   const [selectedYear, setSelectedYear] = useState('All Years');
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
 
-  const filteredQuestions = useMemo(() => {
-    return transformationQuestions.filter(question => {
+  // Flatten all transformations from all questions
+  const allTransformations = useMemo(() => {
+    const transformations: any[] = [];
+    transformationQuestions.forEach(question => {
+      question.transformations.forEach((transformation, index) => {
+        transformations.push({
+          ...transformation,
+          questionId: question.id,
+          board: question.board,
+          year: question.year,
+          instruction: question.instruction,
+          transformationIndex: index
+        });
+      });
+    });
+    return transformations;
+  }, []);
+
+  const filteredTransformations = useMemo(() => {
+    return allTransformations.filter(transformation => {
       const matchesSearch = !searchTerm || 
-        (question.question?.toLowerCase().includes(searchTerm.toLowerCase()) || 
-         question.originalSentence?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-         question.transformedSentence?.toLowerCase().includes(searchTerm.toLowerCase()) || false);
-      const matchesBoard = selectedBoard === 'All Boards' || question.id?.toLowerCase().includes(selectedBoard.toLowerCase()) || false;
-      const matchesYear = selectedYear === 'All Years' || question.id?.includes(selectedYear) || false;
-      const matchesCategory = selectedCategory === 'All Categories' || question.transformationType === selectedCategory;
+        (transformation.question?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+         transformation.transformedSentence?.toLowerCase().includes(searchTerm.toLowerCase()) || false);
+      const matchesBoard = selectedBoard === 'All Boards' || transformation.board?.toLowerCase().includes(selectedBoard.toLowerCase()) || false;
+      const matchesYear = selectedYear === 'All Years' || transformation.year?.toString() === selectedYear || false;
+      const matchesCategory = selectedCategory === 'All Categories' || transformation.transformationType === selectedCategory;
       
       return matchesSearch && matchesBoard && matchesYear && matchesCategory;
     });
-  }, [searchTerm, selectedBoard, selectedYear, selectedCategory]);
+  }, [allTransformations, searchTerm, selectedBoard, selectedYear, selectedCategory]);
 
   const clearFilters = () => {
     setSearchTerm('');
@@ -47,48 +72,27 @@ export default function TransformationQuestionsPage() {
 
   const hasActiveFilters = searchTerm || selectedBoard !== 'All Boards' || selectedYear !== 'All Years' || selectedCategory !== 'All Categories';
 
-  const getQuestionMetadata = (questionId: string) => {
-    const parts = questionId.split('-');
-    return {
-      board: parts[0].charAt(0).toUpperCase() + parts[0].slice(1),
-      year: parts[1],
-      questionNumber: parts[2]
-    };
-  };
-
-  const getCategoryLabel = (category: string) => {
-    switch (category) {
-      case 'simple-complex-compound':
-        return 'Simple-Complex-Compound';
-      case 'affirmative-negative':
-        return 'Affirmative-Negative';
-      case 'assertive-interrogative':
-        return 'Assertive-Interrogative';
-      case 'assertive-exclamatory':
-        return 'Assertive-Exclamatory';
-      case 'assertive-imperative':
-        return 'Assertive-Imperative';
-      case 'degree':
-        return 'Degree';
-      default:
-        return category;
-    }
-  };
-
   const getCategoryBadgeColor = (category: string) => {
     switch (category) {
-      case 'simple-complex-compound':
+      case 'Simple':
+      case 'Complex':
+      case 'Compound':
         return 'bg-blue-500/20 text-blue-400 border-blue-400/30';
-      case 'affirmative-negative':
-        return 'bg-green-500/20 text-green-400 border-green-400/30';
-      case 'assertive-interrogative':
-        return 'bg-purple-500/20 text-purple-400 border-purple-400/30';
-      case 'assertive-exclamatory':
-        return 'bg-orange-500/20 text-orange-400 border-orange-400/30';
-      case 'assertive-imperative':
-        return 'bg-red-500/20 text-red-400 border-red-400/30';
-      case 'degree':
+      case 'Positive':
+      case 'Comparative':
+      case 'Superlative':
         return 'bg-yellow-500/20 text-yellow-400 border-yellow-400/30';
+      case 'Active':
+      case 'Passive':
+        return 'bg-purple-500/20 text-purple-400 border-purple-400/30';
+      case 'Affirmative':
+      case 'Negative':
+        return 'bg-green-500/20 text-green-400 border-green-400/30';
+      case 'Assertive':
+      case 'Interrogative':
+      case 'Exclamatory':
+      case 'Imperative':
+        return 'bg-orange-500/20 text-orange-400 border-orange-400/30';
       default:
         return 'bg-sf-highlight/20 text-sf-text-bold';
     }
@@ -135,7 +139,7 @@ export default function TransformationQuestionsPage() {
           {/* Category Filter */}
           <div>
             <label className="block text-sm font-medium text-sf-text-subtle mb-2">
-              Category
+              Type
             </label>
             <select
               value={selectedCategory}
@@ -143,9 +147,7 @@ export default function TransformationQuestionsPage() {
               className="w-full px-3 py-2 border border-sf-text-muted/20 rounded-lg bg-sf-bg text-sf-text-subtle focus:outline-none focus:ring-2 focus:ring-sf-button focus:border-transparent"
             >
               {categories.map(category => (
-                <option key={category} value={category}>
-                  {category === 'All Categories' ? category : getCategoryLabel(category)}
-                </option>
+                <option key={category} value={category}>{category}</option>
               ))}
             </select>
           </div>
@@ -195,7 +197,7 @@ export default function TransformationQuestionsPage() {
               )}
               {selectedCategory !== 'All Categories' && (
                 <Badge variant="secondary" className="bg-sf-button/20 text-sf-button">
-                  Category: {getCategoryLabel(selectedCategory)}
+                  Type: {selectedCategory}
                 </Badge>
               )}
               {selectedBoard !== 'All Boards' && (
@@ -216,7 +218,7 @@ export default function TransformationQuestionsPage() {
       {/* Results Summary */}
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-sf-text-bold">
-          {filteredQuestions.length} Question{filteredQuestions.length !== 1 ? 's' : ''} Found
+          {filteredTransformations.length} Question{filteredTransformations.length !== 1 ? 's' : ''} Found
         </h2>
         <div className="text-sm text-sf-text-muted">
           HSC Transformation
@@ -224,7 +226,7 @@ export default function TransformationQuestionsPage() {
       </div>
 
       {/* Questions List */}
-      {filteredQuestions.length === 0 ? (
+      {filteredTransformations.length === 0 ? (
         <Card className="border-sf-text-muted/20">
           <CardContent className="p-8 text-center">
             <BookOpen className="h-12 w-12 text-sf-text-muted mx-auto mb-4" />
@@ -239,79 +241,63 @@ export default function TransformationQuestionsPage() {
         </Card>
       ) : (
         <div className="space-y-4">
-          {filteredQuestions.map((question, index) => {
-            const metadata = getQuestionMetadata(question.id);
-            
-            return (
-              <Card 
-                key={question.id} 
-                className="border-sf-text-muted/20 hover:border-sf-button/50 transition-all duration-300"
-              >
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center space-x-3">
-                      <Badge variant="outline" className="text-sf-button border-sf-button/30">
-                        Question {index + 1}
-                      </Badge>
-                      <Badge variant="outline" className={getCategoryBadgeColor(question.transformationType)}>
-                        {getCategoryLabel(question.transformationType)}
-                      </Badge>
-                      {question.ruleId && (
-                        <Badge variant="secondary" className="bg-sf-highlight/20 text-sf-text-bold">
-                          Rule {question.ruleId}
-                        </Badge>
-                      )}
+          {filteredTransformations.map((transformation, index) => (
+            <Card 
+              key={`${transformation.questionId}-${transformation.transformationIndex}`}
+              className="border-sf-text-muted/20 hover:border-sf-button/50 transition-all duration-300"
+            >
+              <CardContent className="p-6">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center space-x-3">
+                    <Badge variant="outline" className="text-sf-button border-sf-button/30">
+                      Question {index + 1}
+                    </Badge>
+                    <Badge variant="outline" className={getCategoryBadgeColor(transformation.transformationType)}>
+                      {transformation.transformationType}
+                    </Badge>
+                  </div>
+                  <div className="flex items-center space-x-4 text-sm text-sf-text-muted">
+                    <div className="flex items-center space-x-1">
+                      <MapPin className="h-4 w-4" />
+                      <span>{transformation.board}</span>
                     </div>
-                    <div className="flex items-center space-x-4 text-sm text-sf-text-muted">
-                      <div className="flex items-center space-x-1">
-                        <MapPin className="h-4 w-4" />
-                        <span>{metadata.board}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <Calendar className="h-4 w-4" />
-                        <span>{metadata.year}</span>
-                      </div>
+                    <div className="flex items-center space-x-1">
+                      <Calendar className="h-4 w-4" />
+                      <span>{transformation.year}</span>
                     </div>
                   </div>
-                  
-                  <div className="space-y-4">
-                    <div>
-                      <h4 className="text-md font-semibold text-sf-text-bold mb-2">Instruction:</h4>
-                      <p className="text-sf-text-subtle leading-relaxed">
-                        {question.instruction}
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="bg-sf-highlight/10 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                      <h5 className="text-sm font-semibold text-sf-text-bold mb-2 flex items-center">
+                        <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                        Original Sentence
+                      </h5>
+                      <p className="text-sf-text-subtle text-sm leading-relaxed">
+                        {transformation.question}
                       </p>
                     </div>
                     
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div className="bg-sf-highlight/10 border-l-4 border-blue-500 p-4 rounded-r-lg">
-                        <h5 className="text-sm font-semibold text-sf-text-bold mb-2 flex items-center">
-                          <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
-                          Original Sentence
-                        </h5>
-                        <p className="text-sf-text-subtle text-sm leading-relaxed">
-                          {question.originalSentence}
-                        </p>
-                      </div>
-                      
-                      <div className="bg-sf-highlight/10 border-l-4 border-green-500 p-4 rounded-r-lg">
-                        <h5 className="text-sm font-semibold text-sf-text-bold mb-2 flex items-center">
-                          <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
-                          Transformed Sentence
-                        </h5>
-                        <p className="text-sf-text-subtle text-sm leading-relaxed">
-                          {question.transformedSentence}
-                        </p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center justify-center pt-2">
-                      <ArrowRight className="h-4 w-4 text-sf-button" />
+                    <div className="bg-sf-highlight/10 border-l-4 border-green-500 p-4 rounded-r-lg">
+                      <h5 className="text-sm font-semibold text-sf-text-bold mb-2 flex items-center">
+                        <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                        Transformed ({transformation.transformationType})
+                      </h5>
+                      <p className="text-sf-text-subtle text-sm leading-relaxed">
+                        {transformation.transformedSentence}
+                      </p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-            );
-          })}
+                  
+                  <div className="flex items-center justify-center pt-2">
+                    <ArrowRight className="h-4 w-4 text-sf-button" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       )}
     </div>

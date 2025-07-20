@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { transformationRules } from '@/data/grammar-rules/transformation';
@@ -8,7 +8,7 @@ import { transformationQuestions } from '@/data/questions/transformation';
 import { Search, Filter, Calendar, MapPin, BookOpen, RotateCcw, ArrowRight } from 'lucide-react';
 
 const boards = ['All Boards', 'Dhaka', 'Chittagong', 'Rajshahi', 'Sylhet', 'Barisal', 'Cumilla', 'Mymensingh', 'Jashore', 'Dinajpur', 'Rangpur'];
-const years = ['All Years', '2022', '2023', '2024'];
+const years = ['All Years', '2016', '2017', '2018', '2019'];
 const categories = [
   'All Categories', 
   'simple-complex-compound', 
@@ -26,21 +26,89 @@ export default function TransformationCombinedPage() {
   const [selectedYear, setSelectedYear] = useState('All Years');
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
 
+  // Flatten all transformations from all questions
+  const allTransformations = useMemo(() => {
+    const transformations: any[] = [];
+    transformationQuestions.forEach(question => {
+      question.transformations.forEach((transformation, index) => {
+        transformations.push({
+          ...transformation,
+          questionId: question.id,
+          board: question.board,
+          year: question.year,
+          instruction: question.instruction,
+          transformationIndex: index
+        });
+      });
+    });
+    return transformations;
+  }, []);
+
+  // Get question count for each rule
+  const getRuleQuestionCount = (ruleId: number) => {
+    return allTransformations.filter(t => {
+      // For transformation, we'll match based on transformation type patterns
+      const rule = transformationRules.find(r => r.id === ruleId);
+      if (!rule) return false;
+      
+      // Match based on category and transformation type
+      switch (rule.category) {
+        case 'simple-complex-compound':
+          return ['Simple', 'Complex', 'Compound'].includes(t.transformationType);
+        case 'affirmative-negative':
+          return ['Negative', 'Affirmative'].includes(t.transformationType);
+        case 'assertive-interrogative':
+          return ['Interrogative'].includes(t.transformationType);
+        case 'assertive-exclamatory':
+          return ['Exclamatory'].includes(t.transformationType);
+        case 'assertive-imperative':
+          return ['Imperative'].includes(t.transformationType);
+        case 'degree':
+          return ['Positive', 'Comparative', 'Superlative'].includes(t.transformationType);
+        default:
+          return false;
+      }
+    }).length;
+  };
+
   // Filter rules based on category
   const filteredRules = transformationRules.filter(rule => {
     return selectedCategory === 'All Categories' || rule.category === selectedCategory;
   });
 
   // Filter questions based on selected rule and other filters
-  const filteredQuestions = transformationQuestions.filter(question => {
-    const matchesRule = selectedRuleId === null || question.ruleId === selectedRuleId;
+  const filteredTransformations = allTransformations.filter(transformation => {
+    const matchesRule = selectedRuleId === null || (() => {
+      const rule = transformationRules.find(r => r.id === selectedRuleId);
+      if (!rule) return false;
+      
+      switch (rule.category) {
+        case 'simple-complex-compound':
+          return ['Simple', 'Complex', 'Compound'].includes(transformation.transformationType);
+        case 'affirmative-negative':
+          return ['Negative', 'Affirmative'].includes(transformation.transformationType);
+        case 'assertive-interrogative':
+          return ['Interrogative'].includes(transformation.transformationType);
+        case 'assertive-exclamatory':
+          return ['Exclamatory'].includes(transformation.transformationType);
+        case 'assertive-imperative':
+          return ['Imperative'].includes(transformation.transformationType);
+        case 'degree':
+          return ['Positive', 'Comparative', 'Superlative'].includes(transformation.transformationType);
+        default:
+          return false;
+      }
+    })();
+    
     const matchesSearch = !searchTerm || 
-      (question.question?.toLowerCase().includes(searchTerm.toLowerCase()) || 
-       question.originalSentence?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-       question.transformedSentence?.toLowerCase().includes(searchTerm.toLowerCase()) || false);
-    const matchesBoard = selectedBoard === 'All Boards' || question.id?.toLowerCase().includes(selectedBoard.toLowerCase()) || false;
-    const matchesYear = selectedYear === 'All Years' || question.id?.includes(selectedYear) || false;
-    const matchesCategory = selectedCategory === 'All Categories' || question.transformationType === selectedCategory;
+      (transformation.question?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+       transformation.transformedSentence?.toLowerCase().includes(searchTerm.toLowerCase()) || false);
+    const matchesBoard = selectedBoard === 'All Boards' || transformation.board?.toLowerCase().includes(selectedBoard.toLowerCase()) || false;
+    const matchesYear = selectedYear === 'All Years' || transformation.year?.toString() === selectedYear || false;
+    const matchesCategory = selectedCategory === 'All Categories' || (() => {
+      const rule = transformationRules.find(r => r.id === selectedRuleId);
+      return rule ? rule.category === selectedCategory : true;
+    })();
     
     return matchesRule && matchesSearch && matchesBoard && matchesYear && matchesCategory;
   });
@@ -54,15 +122,6 @@ export default function TransformationCombinedPage() {
   };
 
   const hasActiveFilters = searchTerm || selectedBoard !== 'All Boards' || selectedYear !== 'All Years' || selectedCategory !== 'All Categories' || selectedRuleId !== null;
-
-  const getQuestionMetadata = (questionId: string) => {
-    const parts = questionId.split('-');
-    return {
-      board: parts[0].charAt(0).toUpperCase() + parts[0].slice(1),
-      year: parts[1],
-      questionNumber: parts[2]
-    };
-  };
 
   const getCategoryLabel = (category: string) => {
     switch (category) {
@@ -102,6 +161,32 @@ export default function TransformationCombinedPage() {
     }
   };
 
+  const getTransformationTypeBadgeColor = (type: string) => {
+    switch (type) {
+      case 'Simple':
+      case 'Complex':
+      case 'Compound':
+        return 'bg-blue-500/20 text-blue-400 border-blue-400/30';
+      case 'Positive':
+      case 'Comparative':
+      case 'Superlative':
+        return 'bg-yellow-500/20 text-yellow-400 border-yellow-400/30';
+      case 'Active':
+      case 'Passive':
+        return 'bg-purple-500/20 text-purple-400 border-purple-400/30';
+      case 'Affirmative':
+      case 'Negative':
+        return 'bg-green-500/20 text-green-400 border-green-400/30';
+      case 'Assertive':
+      case 'Interrogative':
+      case 'Exclamatory':
+      case 'Imperative':
+        return 'bg-orange-500/20 text-orange-400 border-orange-400/30';
+      default:
+        return 'bg-sf-highlight/20 text-sf-text-bold';
+    }
+  };
+
   const selectedRule = selectedRuleId ? transformationRules.find(rule => rule.id === selectedRuleId) : null;
 
   return (
@@ -134,45 +219,56 @@ export default function TransformationCombinedPage() {
         </div>
 
         <div className="space-y-4 max-h-[70vh] overflow-y-auto">
-          {filteredRules.map((rule) => (
-            <div
-              key={rule.id}
-              onClick={() => setSelectedRuleId(selectedRuleId === rule.id ? null : rule.id)}
-              className={`cursor-pointer border rounded-lg p-4 transition-all duration-300 ${
-                selectedRuleId === rule.id
-                  ? 'border-sf-button bg-sf-button/10'
-                  : 'border-sf-text-muted/20 hover:border-sf-button/50'
-              }`}
-            >
-              <div className="flex items-start justify-between mb-2">
-                <div className="flex items-center space-x-2">
-                  <Badge variant="outline" className="text-sf-button border-sf-button/30">
-                    {rule.ruleNo}
-                  </Badge>
-                  <Badge variant="outline" className={`text-xs ${getCategoryBadgeColor(rule.category)}`}>
-                    {getCategoryLabel(rule.category)}
-                  </Badge>
+          {filteredRules.map((rule) => {
+            const questionCount = getRuleQuestionCount(rule.id);
+            
+            return (
+              <div
+                key={rule.id}
+                onClick={() => setSelectedRuleId(selectedRuleId === rule.id ? null : rule.id)}
+                className={`cursor-pointer border rounded-lg p-4 transition-all duration-300 ${
+                  selectedRuleId === rule.id
+                    ? 'border-sf-button bg-sf-button/10'
+                    : 'border-sf-text-muted/20 hover:border-sf-button/50'
+                }`}
+              >
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex items-center space-x-2">
+                    <Badge variant="outline" className="text-sf-button border-sf-button/30">
+                      {rule.ruleNo}
+                    </Badge>
+                    <Badge variant="outline" className={`text-xs ${getCategoryBadgeColor(rule.category)}`}>
+                      {getCategoryLabel(rule.category)}
+                    </Badge>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    {questionCount > 0 && (
+                      <Badge variant="secondary" className="bg-sf-highlight/20 text-sf-text-bold text-xs">
+                        {questionCount} questions
+                      </Badge>
+                    )}
+                    {selectedRuleId === rule.id && (
+                      <Badge variant="secondary" className="bg-sf-button text-sf-bg">
+                        Selected
+                      </Badge>
+                    )}
+                  </div>
                 </div>
-                {selectedRuleId === rule.id && (
-                  <Badge variant="secondary" className="bg-sf-button text-sf-bg">
-                    Selected
-                  </Badge>
-                )}
+                
+                <h3 className="text-lg font-semibold text-sf-text-bold mb-2 leading-relaxed">
+                  {rule.title}
+                </h3>
+                
+                <p className="text-sf-text-muted text-xs mb-1">
+                  Bengali: {rule.bengali}
+                </p>
+                
+                <p className="text-sf-text-subtle text-sm leading-relaxed">
+                  {rule.description.length > 100 ? `${rule.description.substring(0, 100)}...` : rule.description}
+                </p>
               </div>
-              
-              <h3 className="text-lg font-semibold text-sf-text-bold mb-2 leading-relaxed">
-                {rule.title}
-              </h3>
-              
-              <p className="text-sf-text-muted text-xs mb-1">
-                Bengali: {rule.bengali}
-              </p>
-              
-              <p className="text-sf-text-subtle text-sm leading-relaxed">
-                {rule.description}
-              </p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
@@ -317,7 +413,7 @@ export default function TransformationCombinedPage() {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h4 className="text-lg font-semibold text-sf-text-bold">
-              Practice Questions ({filteredQuestions.length})
+              Practice Questions ({filteredTransformations.length})
             </h4>
             {selectedRuleId && (
               <Badge variant="secondary" className="bg-sf-button/20 text-sf-button text-xs">
@@ -327,7 +423,7 @@ export default function TransformationCombinedPage() {
           </div>
 
           <div className="max-h-[60vh] overflow-y-auto space-y-3">
-            {filteredQuestions.length === 0 ? (
+            {filteredTransformations.length === 0 ? (
               <Card className="border-sf-text-muted/20">
                 <CardContent className="p-6 text-center">
                   <BookOpen className="h-8 w-8 text-sf-text-muted mx-auto mb-2" />
@@ -341,70 +437,57 @@ export default function TransformationCombinedPage() {
                 </CardContent>
               </Card>
             ) : (
-              filteredQuestions.map((question, index) => {
-                const metadata = getQuestionMetadata(question.id);
-                
-                return (
-                  <Card 
-                    key={question.id} 
-                    className="border-sf-text-muted/20 hover:border-sf-button/50 transition-all duration-300"
-                  >
-                    <CardContent className="p-4">
-                      <div className="flex items-start justify-between mb-3">
-                        <div className="flex items-center space-x-2">
-                          <Badge variant="outline" className="text-sf-button border-sf-button/30 text-xs">
-                            Q{index + 1}
-                          </Badge>
-                          <Badge variant="outline" className={`text-xs ${getCategoryBadgeColor(question.transformationType)}`}>
-                            {getCategoryLabel(question.transformationType)}
-                          </Badge>
-                          {question.ruleId && (
-                            <Badge variant="secondary" className="bg-sf-highlight/20 text-sf-text-bold text-xs">
-                              Rule {question.ruleId}
-                            </Badge>
-                          )}
+              filteredTransformations.map((transformation, index) => (
+                <Card 
+                  key={`${transformation.questionId}-${transformation.transformationIndex}`}
+                  className="border-sf-text-muted/20 hover:border-sf-button/50 transition-all duration-300"
+                >
+                  <CardContent className="p-4">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-center space-x-2">
+                        <Badge variant="outline" className="text-sf-button border-sf-button/30 text-xs">
+                          Q{index + 1}
+                        </Badge>
+                        <Badge variant="outline" className={`text-xs ${getTransformationTypeBadgeColor(transformation.transformationType)}`}>
+                          {transformation.transformationType}
+                        </Badge>
+                      </div>
+                      <div className="flex items-center space-x-3 text-xs text-sf-text-muted">
+                        <div className="flex items-center space-x-1">
+                          <MapPin className="h-3 w-3" />
+                          <span>{transformation.board}</span>
                         </div>
-                        <div className="flex items-center space-x-3 text-xs text-sf-text-muted">
-                          <div className="flex items-center space-x-1">
-                            <MapPin className="h-3 w-3" />
-                            <span>{metadata.board}</span>
-                          </div>
-                          <div className="flex items-center space-x-1">
-                            <Calendar className="h-3 w-3" />
-                            <span>{metadata.year}</span>
-                          </div>
+                        <div className="flex items-center space-x-1">
+                          <Calendar className="h-3 w-3" />
+                          <span>{transformation.year}</span>
                         </div>
                       </div>
-                      
-                      <div className="space-y-3">
-                        <p className="text-sf-text-subtle text-sm leading-relaxed">
-                          <span className="font-medium">Instruction:</span> {question.instruction}
-                        </p>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <div className="grid grid-cols-1 gap-2">
+                        <div className="bg-blue-500/10 border-l-4 border-blue-500 p-2 rounded-r-lg">
+                          <p className="text-xs font-medium text-blue-400 mb-1">Original:</p>
+                          <p className="text-sf-text-subtle text-xs leading-relaxed">
+                            {transformation.question}
+                          </p>
+                        </div>
                         
-                        <div className="grid grid-cols-1 gap-2">
-                          <div className="bg-blue-500/10 border-l-4 border-blue-500 p-2 rounded-r-lg">
-                            <p className="text-xs font-medium text-blue-400 mb-1">Original:</p>
-                            <p className="text-sf-text-subtle text-xs leading-relaxed">
-                              {question.originalSentence}
-                            </p>
-                          </div>
-                          
-                          <div className="flex justify-center">
-                            <ArrowRight className="h-3 w-3 text-sf-button" />
-                          </div>
-                          
-                          <div className="bg-green-500/10 border-l-4 border-green-500 p-2 rounded-r-lg">
-                            <p className="text-xs font-medium text-green-400 mb-1">Transformed:</p>
-                            <p className="text-sf-text-subtle text-xs leading-relaxed">
-                              {question.transformedSentence}
-                            </p>
-                          </div>
+                        <div className="flex justify-center">
+                          <ArrowRight className="h-3 w-3 text-sf-button" />
+                        </div>
+                        
+                        <div className="bg-green-500/10 border-l-4 border-green-500 p-2 rounded-r-lg">
+                          <p className="text-xs font-medium text-green-400 mb-1">Transformed ({transformation.transformationType}):</p>
+                          <p className="text-sf-text-subtle text-xs leading-relaxed">
+                            {transformation.transformedSentence}
+                          </p>
                         </div>
                       </div>
-                    </CardContent>
-                  </Card>
-                );
-              })
+                    </div>
+                  </CardContent>
+                </Card>
+              ))
             )}
           </div>
         </div>
