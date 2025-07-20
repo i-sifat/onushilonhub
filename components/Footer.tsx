@@ -23,9 +23,8 @@ export default function Footer() {
             <h3 className="text-sf-text-bold font-semibold mb-4">Quick Links</h3>
             <div className="space-y-2">
               <Link href="/about" className="block text-sf-text-subtle hover:text-sf-button transition-colors">About Us</Link>
-              <Link href="/chapters" className="block text-sf-text-subtle hover:text-sf-button transition-colors">Chapters</Link>
               <Link href="/board-questions" className="block text-sf-text-subtle hover:text-sf-button transition-colors">Board Questions</Link>
-              <Link href="/rules" className="block text-sf-text-subtle hover:text-sf-button transition-colors">Rules</Link>
+              <Link href="/grammar-items" className="block text-sf-text-subtle hover:text-sf-button transition-colors">Grammar Items</Link>
             </div>
           </div>
           
@@ -33,15 +32,18 @@ export default function Footer() {
           <div>
             <h3 className="text-sf-text-bold font-semibold mb-4">Legal</h3>
             <div className="space-y-2">
-              <Link href="/privacy" className="block text-sf-text-subtle hover:text-sf-button transition-colors">Privacy Policy</Link>
-              <Link href="/terms" className="block text-sf-text-subtle hover:text-sf-button transition-colors">Terms of Service</Link>
               <Link href="/contact" className="block text-sf-text-subtle hover:text-sf-button transition-colors">Contact</Link>
             </div>
           </div>
         </div>
         
-        <div className="border-t border-sf-text-muted/20 mt-8 pt-8 text-center">
-          <p className="text-sf-text-muted">© 2024 OnushilonHub. All rights reserved.</p>
+        <div className="border-t border-sf-text-muted/20 mt-8 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <p className="text-sf-text-muted">© 2025 OnushilonHub. All rights reserved.</p>
+            <p className="text-sf-text-muted text-sm mt-2 md:mt-0">
+              Made by <span className="text-sf-button font-medium">iSiFAT</span> with ❤️
+            </p>
+          </div>
         </div>
       </div>
     </footer>
