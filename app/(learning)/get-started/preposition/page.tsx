@@ -1,6 +1,7 @@
 import BackButton from '@/components/common/BackButton';
-import PrepositionCombinedPage from '@/components/combined/PrepositionCombinedPage';
-import { BookOpen } from 'lucide-react';
+import UniversalCombinedUI from '@/components/universal/UniversalCombinedUI';
+import { prepositionRules } from '@/data/grammar-rules/preposition';
+import { prepositionQuestions } from '@/data/questions/preposition';
 
 export const metadata = {
   title: 'HSC Preposition - Grammar Rules & Board Questions | OnushilonHub',
@@ -15,25 +16,15 @@ export default function PrepositionGetStartedPage() {
         <div className="mb-6">
           <BackButton />
         </div>
-        
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="flex justify-center mb-6">
-            <div className="p-4 bg-sf-button/20 rounded-full">
-              <BookOpen className="h-12 w-12 text-sf-button" />
-            </div>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-sf-text-bold mb-6">
-            <span className="text-sf-button">Preposition</span> Learning Hub
-          </h1>
-          <p className="text-xl text-sf-text-subtle max-w-3xl mx-auto">
-            Master the use of prepositions with comprehensive rules and practice questions. 
-            Study grammar rules on the left and practice with filterable board questions on the right.
-          </p>
-        </div>
 
-        {/* Combined Content */}
-        <PrepositionCombinedPage />
+        {/* Universal Combined UI */}
+        <UniversalCombinedUI
+          topic="Preposition"
+          topicSlug="preposition"
+          rules={prepositionRules}
+          questions={prepositionQuestions}
+          level="HSC"
+        />
       </div>
     </div>
   );

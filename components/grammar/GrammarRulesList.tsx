@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { FileText, ArrowRight } from 'lucide-react';
-import GrammarRuleCard from './GrammarRuleCard';
+import GrammarRuleCard from '@/components/grammar/GrammarRuleCard';
 
 interface GrammarRule {
   id: number;

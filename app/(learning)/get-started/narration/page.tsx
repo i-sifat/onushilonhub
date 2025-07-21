@@ -1,6 +1,7 @@
 import BackButton from '@/components/common/BackButton';
-import NarrationCombinedPage from '@/components/combined/NarrationCombinedPage';
-import { BookOpen } from 'lucide-react';
+import UniversalCombinedUI from '@/components/universal/UniversalCombinedUI';
+import { narrationRules } from '@/data/grammar-rules/narration';
+import { narrationQuestions } from '@/data/questions/narration';
 
 export const metadata = {
   title: 'HSC Narration - Grammar Rules & Board Questions | OnushilonHub',
@@ -15,25 +16,15 @@ export default function NarrationGetStartedPage() {
         <div className="mb-6">
           <BackButton />
         </div>
-        
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="flex justify-center mb-6">
-            <div className="p-4 bg-sf-button/20 rounded-full">
-              <BookOpen className="h-12 w-12 text-sf-button" />
-            </div>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-sf-text-bold mb-6">
-            <span className="text-sf-button">Narration</span> Learning Hub
-          </h1>
-          <p className="text-xl text-sf-text-subtle max-w-3xl mx-auto">
-            Master the art of converting between direct and indirect speech with comprehensive rules and practice questions. 
-            Study grammar rules on the left and practice with filterable board questions on the right.
-          </p>
-        </div>
 
-        {/* Combined Content */}
-        <NarrationCombinedPage />
+        {/* Universal Combined UI */}
+        <UniversalCombinedUI
+          topic="Narration"
+          topicSlug="narration"
+          rules={narrationRules}
+          questions={narrationQuestions}
+          level="HSC"
+        />
       </div>
     </div>
   );

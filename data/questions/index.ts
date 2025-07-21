@@ -1,18 +1,18 @@
 // Centralized Questions Index
 // This file exports all questions with consistent interfaces
 
-import { QuestionData, QuestionLevel, QuestionTopicSlug } from '../../types/question.types';
+import { QuestionData, QuestionLevel, QuestionTopicSlug } from '@/types/question.types';
 
 // Import all questions
-import { completingSentenceQuestions, completingSentenceQuestionsMetadata } from './completing-sentence';
-import { connectorsQuestions, connectorsQuestionsMetadata } from './connectors';
-import { modifierQuestions, modifierQuestionsMetadata } from './modifier';
-import { narrationQuestions, narrationQuestionsMetadata } from './narration';
-import { transformationQuestions, transformationQuestionsMetadata } from './transformation';
-import { useOfVerbsQuestions, useOfVerbsQuestionsMetadata } from './use-of-verbs';
-import { prepositionQuestions, prepositionQuestionsMetadata } from './preposition';
-import { punctuationQuestions, punctuationQuestionsMetadata } from './punctuation';
-import { synonymAntonymQuestions, synonymAntonymQuestionsMetadata } from './synonym-antonym';
+import { completingSentenceQuestions, completingSentenceQuestionsMetadata } from '@/data/questions/completing-sentence';
+import { connectorsQuestions, connectorsQuestionsMetadata } from '@/data/questions/connectors';
+import { modifierQuestions, modifierQuestionsMetadata } from '@/data/questions/modifier';
+import { narrationQuestions, narrationQuestionsMetadata } from '@/data/questions/narration';
+import { transformationQuestions, transformationQuestionsMetadata } from '@/data/questions/transformation';
+import { useOfVerbsQuestions, useOfVerbsQuestionsMetadata } from '@/data/questions/use-of-verbs';
+import { prepositionQuestions, prepositionQuestionsMetadata } from '@/data/questions/preposition';
+import { punctuationQuestions, punctuationQuestionsMetadata } from '@/data/questions/punctuation';
+import { synonymAntonymQuestions, synonymAntonymQuestionsMetadata } from '@/data/questions/synonym-antonym';
 
 // Export individual question sets
 export {

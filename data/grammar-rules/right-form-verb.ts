@@ -1,7 +1,7 @@
 // Centralized Right Form of Verb Grammar Rules Data
 // ADD MORE RULES HERE - just follow the same structure
 
-import { GrammarRule, GrammarLevel, GrammarTopicSlug } from '../../types/grammar.types';
+import { GrammarRule, GrammarLevel, GrammarTopicSlug } from '@/types/grammar.types';
 
 export interface RightFormVerbRule extends Omit<GrammarRule, 'topic' | 'level'> {
   topic: 'use-of-verbs';

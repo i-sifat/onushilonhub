@@ -70,7 +70,8 @@ export const QUESTION_BOARDS: Record<QuestionBoard, { name: string; region: stri
   'Mymensingh': { name: 'Mymensingh Board', region: 'North-central' },
   'Cumilla': { name: 'Cumilla Board', region: 'Eastern' },
   'Dinajpur': { name: 'Dinajpur Board', region: 'Northern' },
-  'Jashore': { name: 'Jashore Board', region: 'Southwestern' }
+  'Jashore': { name: 'Jashore Board', region: 'Southwestern' },
+  'Sample': { name: 'Sample Questions', region: 'General' }
 } as const;
 
 // Question Difficulty Levels

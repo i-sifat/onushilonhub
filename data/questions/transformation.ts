@@ -1,7 +1,7 @@
 // Centralized Transformation Questions Data
 // ADD MORE QUESTIONS HERE - just follow the same structure
 
-import { Question, QuestionLevel, QuestionTopicSlug, QuestionBoard, QuestionDifficulty } from '../../types/question.types';
+import { Question, QuestionLevel, QuestionTopicSlug, QuestionBoard, QuestionDifficulty } from '@/types/question.types';
 
 export interface TransformationQuestion extends Omit<Question, 'topic' | 'level'> {
   topic: 'transformation';
@@ -21,6 +21,7 @@ export const transformationQuestions: TransformationQuestion[] = [
   // Dhaka Board 2019
   {
     id: "dhaka-2019-transformation",
+    question: "Read the text and change the sentences as directed: [Dhaka Board-2019]",
     year: 2019,
     board: "Dhaka",
     instruction: "Read the text and change the sentences as directed: [Dhaka Board-2019]",
@@ -64,6 +65,7 @@ export const transformationQuestions: TransformationQuestion[] = [
   // Rajshahi Board 2019
   {
     id: "rajshahi-2019-transformation",
+    question: "Read the following sentences and change them as directed in the bracket. [Rajshahi Board-2019]",
     year: 2019,
     board: "Rajshahi",
     instruction: "Read the following sentences and change them as directed in the bracket. [Rajshahi Board-2019]",
@@ -107,6 +109,7 @@ export const transformationQuestions: TransformationQuestion[] = [
   // Cumilla Board 2019
   {
     id: "cumilla-2019-transformation",
+    question: "Read the text and transform the sentences as directed. [Cumilla Board-2019]",
     year: 2019,
     board: "Cumilla",
     instruction: "Read the text and transform the sentences as directed. [Cumilla Board-2019]",
@@ -150,6 +153,7 @@ export const transformationQuestions: TransformationQuestion[] = [
   // Jashore Board 2019
   {
     id: "jashore-2019-transformation",
+    question: "Read the following sentences and change them as directed in the bracket. [Jashore Board-2019]",
     year: 2019,
     board: "Jashore",
     instruction: "Read the following sentences and change them as directed in the bracket. [Jashore Board-2019]",
@@ -193,6 +197,7 @@ export const transformationQuestions: TransformationQuestion[] = [
   // Sylhet Board 2019
   {
     id: "sylhet-2019-transformation",
+    question: "Transform the underlined parts of the following text as per direction. [Sylhet Board-2019]",
     year: 2019,
     board: "Sylhet",
     instruction: "Transform the underlined parts of the following text as per direction. [Sylhet Board-2019]",

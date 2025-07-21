@@ -12,7 +12,8 @@ export type QuestionBoard =
   | 'Mymensingh'
   | 'Cumilla'
   | 'Dinajpur'
-  | 'Jashore';
+  | 'Jashore'
+  | 'Sample';
 
 export type QuestionTopicSlug = 
   | 'completing-sentence'

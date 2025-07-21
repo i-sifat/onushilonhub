@@ -2,7 +2,7 @@
 
 import { BookOpen } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import QuestionCard from './QuestionCard';
+import QuestionCard from '@/components/questions/QuestionCard';
 
 interface Question {
   id: string;

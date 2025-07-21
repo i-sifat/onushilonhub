@@ -1,6 +1,7 @@
 import BackButton from '@/components/common/BackButton';
-import PunctuationCombinedPage from '@/components/combined/PunctuationCombinedPage';
-import { BookOpen } from 'lucide-react';
+import UniversalCombinedUI from '@/components/universal/UniversalCombinedUI';
+import { punctuationRules } from '@/data/grammar-rules/punctuation';
+import { punctuationQuestions } from '@/data/questions/punctuation';
 
 export const metadata = {
   title: 'HSC Punctuation - Grammar Rules & Board Questions | OnushilonHub',
@@ -15,25 +16,15 @@ export default function PunctuationGetStartedPage() {
         <div className="mb-6">
           <BackButton />
         </div>
-        
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="flex justify-center mb-6">
-            <div className="p-4 bg-sf-button/20 rounded-full">
-              <BookOpen className="h-12 w-12 text-sf-button" />
-            </div>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-sf-text-bold mb-6">
-            <span className="text-sf-button">Punctuation</span> Learning Hub
-          </h1>
-          <p className="text-xl text-sf-text-subtle max-w-3xl mx-auto">
-            Master the proper use of punctuation marks with comprehensive rules and practice questions. 
-            Study grammar rules on the left and practice with filterable board questions on the right.
-          </p>
-        </div>
 
-        {/* Combined Content */}
-        <PunctuationCombinedPage />
+        {/* Universal Combined UI */}
+        <UniversalCombinedUI
+          topic="Punctuation"
+          topicSlug="punctuation"
+          rules={punctuationRules}
+          questions={punctuationQuestions}
+          level="HSC"
+        />
       </div>
     </div>
   );

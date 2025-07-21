@@ -1,18 +1,18 @@
 // Centralized Grammar Rules Index
 // This file exports all grammar rules with consistent interfaces
 
-import { GrammarRuleData, GrammarLevel, GrammarTopicSlug } from '../../types/grammar.types';
+import { GrammarRuleData, GrammarLevel, GrammarTopicSlug } from '@/types/grammar.types';
 
 // Import all grammar rules
-import { completingSentenceRules, completingSentenceMetadata } from './completing-sentence';
-import { connectorsRules, connectorsMetadata } from './connectors';
-import { modifierRules, modifierMetadata } from './modifier';
-import { narrationRules, narrationMetadata } from './narration';
-import { transformationRules, transformationMetadata } from './transformation';
-import { rightFormVerbRules, rightFormVerbMetadata } from './right-form-verb';
-import { prepositionRules, prepositionMetadata } from './preposition';
-import { punctuationRules, punctuationMetadata } from './punctuation';
-import { synonymAntonymRules, synonymAntonymMetadata } from './synonym-antonym';
+import { completingSentenceRules, completingSentenceMetadata } from '@/data/grammar-rules/completing-sentence';
+import { connectorsRules, connectorsMetadata } from '@/data/grammar-rules/connectors';
+import { modifierRules, modifierMetadata } from '@/data/grammar-rules/modifier';
+import { narrationRules, narrationMetadata } from '@/data/grammar-rules/narration';
+import { transformationRules, transformationMetadata } from '@/data/grammar-rules/transformation';
+import { rightFormVerbRules, rightFormVerbMetadata } from '@/data/grammar-rules/right-form-verb';
+import { prepositionRules, prepositionMetadata } from '@/data/grammar-rules/preposition';
+import { punctuationRules, punctuationMetadata } from '@/data/grammar-rules/punctuation';
+import { synonymAntonymRules, synonymAntonymMetadata } from '@/data/grammar-rules/synonym-antonym';
 
 // Export individual rule sets
 export {

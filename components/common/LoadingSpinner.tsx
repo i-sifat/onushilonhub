@@ -21,7 +21,7 @@ export default function LoadingSpinner({
   text
 }: LoadingSpinnerProps) {
   return (
-    <div className={cn("flex items-center justify-center", className)}>
+    <div data-testid="loading-spinner" className={cn("flex items-center justify-center", className)}>
       <div className="flex items-center space-x-2">
         <Loader2 className={cn("animate-spin text-sf-button", sizeClasses[size])} />
         {text && (

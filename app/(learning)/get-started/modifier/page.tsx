@@ -1,6 +1,7 @@
 import BackButton from '@/components/common/BackButton';
-import ModifierCombinedPage from '@/components/combined/ModifierCombinedPage';
-import { BookOpen } from 'lucide-react';
+import UniversalCombinedUI from '@/components/universal/UniversalCombinedUI';
+import { modifierRules } from '@/data/grammar-rules/modifier';
+import { modifierQuestions } from '@/data/questions/modifier';
 
 export const metadata = {
   title: 'HSC Modifier - Grammar Rules & Board Questions | OnushilonHub',
@@ -15,25 +16,15 @@ export default function ModifierGetStartedPage() {
         <div className="mb-6">
           <BackButton />
         </div>
-        
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="flex justify-center mb-6">
-            <div className="p-4 bg-sf-button/20 rounded-full">
-              <BookOpen className="h-12 w-12 text-sf-button" />
-            </div>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-sf-text-bold mb-6">
-            <span className="text-sf-button">Modifier</span> Learning Hub
-          </h1>
-          <p className="text-xl text-sf-text-subtle max-w-3xl mx-auto">
-            Master the art of using pre-modifiers and post-modifiers with comprehensive rules and practice questions. 
-            Study grammar rules on the left and practice with filterable board questions on the right.
-          </p>
-        </div>
 
-        {/* Combined Content */}
-        <ModifierCombinedPage />
+        {/* Universal Combined UI */}
+        <UniversalCombinedUI
+          topic="Modifier"
+          topicSlug="modifier"
+          rules={modifierRules}
+          questions={modifierQuestions}
+          level="HSC"
+        />
       </div>
     </div>
   );

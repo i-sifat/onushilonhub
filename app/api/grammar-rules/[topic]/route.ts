@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
+
+export const dynamic = 'force-static';
+
 import { getGrammarRulesByTopic, grammarRulesData } from '@/data/grammar-rules';
 import { GrammarTopicSlug } from '@/types/grammar.types';
 import { ApiResponse, ApiErrorCodes } from '@/types/api.types';

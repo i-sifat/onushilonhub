@@ -1,6 +1,7 @@
 import BackButton from '@/components/common/BackButton';
-import SynonymAntonymCombinedPage from '@/components/combined/SynonymAntonymCombinedPage';
-import { BookOpen } from 'lucide-react';
+import UniversalCombinedUI from '@/components/universal/UniversalCombinedUI';
+import { synonymAntonymRules } from '@/data/grammar-rules/synonym-antonym';
+import { synonymAntonymQuestions } from '@/data/questions/synonym-antonym';
 
 export const metadata = {
   title: 'HSC Synonym and Antonym - Grammar Rules & Board Questions | OnushilonHub',
@@ -15,25 +16,15 @@ export default function SynonymAntonymGetStartedPage() {
         <div className="mb-6">
           <BackButton />
         </div>
-        
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="flex justify-center mb-6">
-            <div className="p-4 bg-sf-button/20 rounded-full">
-              <BookOpen className="h-12 w-12 text-sf-button" />
-            </div>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-sf-text-bold mb-6">
-            <span className="text-sf-button">Synonym & Antonym</span> Learning Hub
-          </h1>
-          <p className="text-xl text-sf-text-subtle max-w-3xl mx-auto">
-            Master vocabulary with comprehensive synonym and antonym lists and practice questions. 
-            Study word meanings on the left and practice with filterable board questions on the right.
-          </p>
-        </div>
 
-        {/* Combined Content */}
-        <SynonymAntonymCombinedPage />
+        {/* Universal Combined UI */}
+        <UniversalCombinedUI
+          topic="Synonym & Antonym"
+          topicSlug="synonym-antonym"
+          rules={synonymAntonymRules}
+          questions={synonymAntonymQuestions}
+          level="HSC"
+        />
       </div>
     </div>
   );

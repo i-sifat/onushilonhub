@@ -1,7 +1,7 @@
 // Centralized Right Form of Verb Questions Data
 // ADD MORE QUESTIONS HERE - just follow the same structure
 
-import { Question, QuestionLevel, QuestionTopicSlug, QuestionBoard, QuestionDifficulty, QuestionBlank } from '../../types/question.types';
+import { Question, QuestionLevel, QuestionTopicSlug, QuestionBoard, QuestionDifficulty, QuestionBlank } from '@/types/question.types';
 
 export interface UseOfVerbsQuestion extends Omit<Question, 'topic' | 'level'> {
   topic: 'use-of-verbs';

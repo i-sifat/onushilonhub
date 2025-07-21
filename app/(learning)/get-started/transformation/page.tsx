@@ -1,6 +1,7 @@
 import BackButton from '@/components/common/BackButton';
-import TransformationCombinedPage from '@/components/combined/TransformationCombinedPage';
-import { BookOpen } from 'lucide-react';
+import UniversalCombinedUI from '@/components/universal/UniversalCombinedUI';
+import { transformationRules } from '@/data/grammar-rules/transformation';
+import { transformationQuestions } from '@/data/questions/transformation';
 
 export const metadata = {
   title: 'HSC Transformation - Grammar Rules & Board Questions | OnushilonHub',
@@ -15,25 +16,15 @@ export default function TransformationGetStartedPage() {
         <div className="mb-6">
           <BackButton />
         </div>
-        
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="flex justify-center mb-6">
-            <div className="p-4 bg-sf-button/20 rounded-full">
-              <BookOpen className="h-12 w-12 text-sf-button" />
-            </div>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-sf-text-bold mb-6">
-            <span className="text-sf-button">Transformation</span> Learning Hub
-          </h1>
-          <p className="text-xl text-sf-text-subtle max-w-3xl mx-auto">
-            Master the art of transforming sentences between different types and structures with comprehensive rules and practice questions. 
-            Study grammar rules on the left and practice with filterable board questions on the right.
-          </p>
-        </div>
 
-        {/* Combined Content */}
-        <TransformationCombinedPage />
+        {/* Universal Combined UI */}
+        <UniversalCombinedUI
+          topic="Transformation"
+          topicSlug="transformation"
+          rules={transformationRules}
+          questions={transformationQuestions}
+          level="HSC"
+        />
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 // Centralized Preposition Questions Data
 // ADD MORE QUESTIONS HERE - just follow the same structure
 
-import { Question, QuestionLevel, QuestionTopicSlug, QuestionBoard, QuestionDifficulty, QuestionBlank } from '../../types/question.types';
+import { Question, QuestionLevel, QuestionTopicSlug, QuestionBoard, QuestionDifficulty, QuestionBlank } from '@/types/question.types';
 
 export interface PrepositionQuestion extends Omit<Question, 'topic' | 'level'> {
   topic: 'preposition';

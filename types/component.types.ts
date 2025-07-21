@@ -1,9 +1,9 @@
 // Component-specific type definitions
 
 import { ReactNode } from 'react';
-import { BaseComponentProps } from './common.types';
-import { GrammarRule, GrammarTopic, GrammarLevel, GrammarTopicSlug } from './grammar.types';
-import { Question, QuestionFilter, QuestionLevel, QuestionBoard } from './question.types';
+import { BaseComponentProps } from '@/types/common.types';
+import { GrammarRule, GrammarTopic, GrammarLevel, GrammarTopicSlug } from '@/types/grammar.types';
+import { Question, QuestionFilter, QuestionLevel, QuestionBoard } from '@/types/question.types';
 
 // Layout Component Props
 export interface NavbarProps extends BaseComponentProps {

@@ -1,7 +1,7 @@
 // Centralized Preposition Grammar Rules Data
 // ADD MORE RULES HERE - just follow the same structure
 
-import { GrammarRule, GrammarLevel, GrammarTopicSlug } from '../../types/grammar.types';
+import { GrammarRule, GrammarLevel, GrammarTopicSlug } from '@/types/grammar.types';
 
 export interface PrepositionRule extends Omit<GrammarRule, 'topic' | 'level'> {
   topic: 'preposition';

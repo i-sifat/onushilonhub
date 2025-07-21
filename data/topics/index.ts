@@ -1,8 +1,8 @@
 // Centralized Topic Configuration System
 // This file defines all grammar topics with their metadata and routing information
 
-import { GrammarLevel, GrammarTopicSlug } from '../../types/grammar.types';
-import { QuestionTopicSlug } from '../../types/question.types';
+import { GrammarLevel, GrammarTopicSlug } from '@/types/grammar.types';
+import { QuestionTopicSlug } from '@/types/question.types';
 
 export interface TopicConfig {
   id: string;

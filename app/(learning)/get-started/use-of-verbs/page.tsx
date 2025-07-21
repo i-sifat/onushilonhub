@@ -1,6 +1,7 @@
 import BackButton from '@/components/common/BackButton';
-import RightFormVerbCombinedPage from '@/components/combined/RightFormVerbCombinedPage';
-import { BookOpen } from 'lucide-react';
+import UniversalCombinedUI from '@/components/universal/UniversalCombinedUI';
+import { rightFormVerbRules } from '@/data/grammar-rules/right-form-verb';
+import { useOfVerbsQuestions } from '@/data/questions/use-of-verbs';
 
 export const metadata = {
   title: 'HSC Use of Verbs - Grammar Rules & Board Questions | OnushilonHub',
@@ -15,25 +16,15 @@ export default function UseOfVerbsGetStartedPage() {
         <div className="mb-6">
           <BackButton />
         </div>
-        
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="flex justify-center mb-6">
-            <div className="p-4 bg-sf-button/20 rounded-full">
-              <BookOpen className="h-12 w-12 text-sf-button" />
-            </div>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-sf-text-bold mb-6">
-            <span className="text-sf-button">Use of Verbs</span> Learning Hub
-          </h1>
-          <p className="text-xl text-sf-text-subtle max-w-3xl mx-auto">
-            Master the right form of verbs with comprehensive rules and practice questions. 
-            Study grammar rules on the left and practice with filterable board questions on the right.
-          </p>
-        </div>
 
-        {/* Combined Content */}
-        <RightFormVerbCombinedPage />
+        {/* Universal Combined UI */}
+        <UniversalCombinedUI
+          topic="Use of Verbs"
+          topicSlug="use-of-verbs"
+          rules={rightFormVerbRules}
+          questions={useOfVerbsQuestions}
+          level="HSC"
+        />
       </div>
     </div>
   );

@@ -111,3 +111,39 @@ export function ListSkeleton({
     </div>
   );
 }
+
+export function TableSkeleton({ rows = 5, columns = 4 }: { rows?: number; columns?: number }) {
+  return (
+    <div className="space-y-3">
+      {/* Table header skeleton */}
+      <div className="flex space-x-4 pb-2 border-b border-sf-border">
+        {Array.from({ length: columns }).map((_, i) => (
+          <Skeleton key={i} className="h-4 flex-1" />
+        ))}
+      </div>
+      
+      {/* Table rows skeleton */}
+      {Array.from({ length: rows }).map((_, rowIndex) => (
+        <div key={rowIndex} className="flex space-x-4 py-2">
+          {Array.from({ length: columns }).map((_, colIndex) => (
+            <Skeleton key={colIndex} className="h-4 flex-1" />
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function NavigationSkeleton() {
+  return (
+    <div className="flex items-center space-x-6">
+      <Skeleton className="h-8 w-32" />
+      <div className="flex space-x-4">
+        <Skeleton className="h-6 w-20" />
+        <Skeleton className="h-6 w-24" />
+        <Skeleton className="h-6 w-18" />
+      </div>
+      <Skeleton className="h-8 w-24 ml-auto" />
+    </div>
+  );
+}

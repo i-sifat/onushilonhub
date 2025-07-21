@@ -1,7 +1,7 @@
 // Data structure type definitions for grammar rules and questions
 
-import { GrammarRule, GrammarLevel, GrammarTopicSlug } from './grammar.types';
-import { Question, QuestionLevel, QuestionTopicSlug } from './question.types';
+import { GrammarRule, GrammarLevel, GrammarTopicSlug } from '@/types/grammar.types';
+import { Question, QuestionLevel, QuestionTopicSlug } from '@/types/question.types';
 
 // Specific data structure interfaces for each grammar topic
 export interface CompletingSentenceRule extends Omit<GrammarRule, 'topic'> {

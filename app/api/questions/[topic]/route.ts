@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
+
+export const dynamic = 'force-static';
+
 import { getQuestionsByTopic, questionsData } from '@/data/questions';
 import { QuestionTopicSlug, QuestionLevel, QuestionBoard, QuestionDifficulty } from '@/types/question.types';
 import { ApiResponse, ApiErrorCodes } from '@/types/api.types';

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { Zap } from 'lucide-react';
-import HeroStatsCard from './HeroStatsCard';
+import HeroStatsCard from '@/components/HeroStatsCard';
 
 export default function HeroSection() {
   return (

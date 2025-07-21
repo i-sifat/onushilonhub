@@ -1,7 +1,7 @@
 // Centralized Synonym and Antonym Questions Data
 // ADD MORE QUESTIONS HERE - just follow the same structure
 
-import { Question, QuestionLevel, QuestionTopicSlug, QuestionBoard, QuestionDifficulty } from '../../types/question.types';
+import { Question, QuestionLevel, QuestionTopicSlug, QuestionBoard, QuestionDifficulty } from '@/types/question.types';
 
 export interface SynonymAntonymQuestion extends Omit<Question, 'topic' | 'level'> {
   topic: 'synonym-antonym';

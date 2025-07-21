@@ -178,3 +178,194 @@
   outline: 2px solid #febc38;
   outline-offset: 2px;
 }
+
+/* Premium Design System Enhancements */
+
+/* Glass morphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Gradient backgrounds */
+.gradient-primary {
+  background: linear-gradient(135deg, #febc38 0%, #e6a832 100%);
+}
+
+.gradient-educational {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.gradient-card {
+  background: linear-gradient(145deg, rgba(42, 42, 42, 0.8) 0%, rgba(26, 26, 26, 0.9) 100%);
+}
+
+/* Enhanced shadows */
+.shadow-premium {
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.shadow-premium-lg {
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.shadow-glow-premium {
+  box-shadow: 
+    0 0 20px rgba(254, 188, 56, 0.3),
+    0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Interactive states */
+.interactive-lift {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.interactive-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Typography enhancements */
+.text-gradient {
+  background: linear-gradient(135deg, #febc38 0%, #e6a832 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-educational {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Loading states */
+.skeleton {
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0.1) 25%, 
+    rgba(255, 255, 255, 0.2) 50%, 
+    rgba(255, 255, 255, 0.1) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Enhanced button states */
+.btn-premium {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-premium:hover::before {
+  left: 100%;
+}
+
+/* Card enhancements */
+.card-premium {
+  position: relative;
+  background: rgba(42, 42, 42, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(254, 188, 56, 0.1) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.card-premium:hover::before {
+  opacity: 1;
+}
+
+.card-premium:hover {
+  transform: translateY(-2px);
+  border-color: rgba(254, 188, 56, 0.3);
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    0 0 20px rgba(254, 188, 56, 0.2);
+}
+
+/* Accessibility enhancements */
+.focus-ring {
+  transition: all 0.2s ease;
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid #febc38;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(254, 188, 56, 0.2);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .card-premium {
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+  
+  .text-sf-textMuted {
+    color: #d4d4d4;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .interactive-lift,
+  .btn-premium,
+  .card-premium {
+    transition: none;
+  }
+  
+  .animate-glow,
+  .animate-pulse-educational,
+  .animate-bounce-gentle {
+    animation: none;
+  }
+}

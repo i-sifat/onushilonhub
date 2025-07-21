@@ -1,7 +1,7 @@
 // Centralized Completing Sentence Questions Data
 // ADD MORE QUESTIONS HERE - just follow the same structure
 
-import { Question, QuestionLevel, QuestionTopicSlug, QuestionBoard, QuestionDifficulty } from '../../types/question.types';
+import { Question, QuestionLevel, QuestionTopicSlug, QuestionBoard, QuestionDifficulty } from '@/types/question.types';
 
 export interface CompletingSentenceQuestion extends Omit<Question, 'topic' | 'level'> {
   topic: 'completing-sentence';
