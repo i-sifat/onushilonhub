@@ -1,4 +1,13 @@
 
+// Re-export all types from individual type files
+export * from './grammar.types';
+export * from './question.types';
+export * from './api.types';
+export * from './common.types';
+export * from './component.types';
+export * from './data.types';
+
+// Legacy types for backward compatibility
 export interface Question {
   id: string;
   topic?: string;

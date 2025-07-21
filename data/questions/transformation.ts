@@ -1,15 +1,26 @@
-export interface TransformationQuestion {
-  id: string;
-  year: number;
-  board: string;
-  transformations: { question: string; transformedSentence: string; transformationType: string; ruleId?: number }[];
+// Centralized Transformation Questions Data
+// ADD MORE QUESTIONS HERE - just follow the same structure
+
+import { Question, QuestionLevel, QuestionTopicSlug, QuestionBoard, QuestionDifficulty } from '../../types/question.types';
+
+export interface TransformationQuestion extends Omit<Question, 'topic' | 'level'> {
+  topic: 'transformation';
+  level: QuestionLevel;
+  transformations: TransformationItem[];
   instruction: string;
+}
+
+export interface TransformationItem {
+  question: string;
+  transformedSentence: string;
+  transformationType: string;
+  ruleId?: number;
 }
 
 export const transformationQuestions: TransformationQuestion[] = [
   // Dhaka Board 2019
   {
-    id: "1",
+    id: "dhaka-2019-transformation",
     year: 2019,
     board: "Dhaka",
     instruction: "Read the text and change the sentences as directed: [Dhaka Board-2019]",
@@ -44,12 +55,15 @@ export const transformationQuestions: TransformationQuestion[] = [
         transformationType: "Exclamatory",
         ruleId: 16
       }
-    ]
+    ],
+    topic: 'transformation',
+    level: 'HSC',
+    difficulty: 'HARD'
   },
 
   // Rajshahi Board 2019
   {
-    id: "2",
+    id: "rajshahi-2019-transformation",
     year: 2019,
     board: "Rajshahi",
     instruction: "Read the following sentences and change them as directed in the bracket. [Rajshahi Board-2019]",
@@ -84,12 +98,15 @@ export const transformationQuestions: TransformationQuestion[] = [
         transformationType: "Simple",
         ruleId: 1
       }
-    ]
+    ],
+    topic: 'transformation',
+    level: 'HSC',
+    difficulty: 'HARD'
   },
 
   // Cumilla Board 2019
   {
-    id: "3",
+    id: "cumilla-2019-transformation",
     year: 2019,
     board: "Cumilla",
     instruction: "Read the text and transform the sentences as directed. [Cumilla Board-2019]",
@@ -124,12 +141,15 @@ export const transformationQuestions: TransformationQuestion[] = [
         transformationType: "Assertive",
         ruleId: 16
       }
-    ]
+    ],
+    topic: 'transformation',
+    level: 'HSC',
+    difficulty: 'MEDIUM'
   },
 
   // Jashore Board 2019
   {
-    id: "4",
+    id: "jashore-2019-transformation",
     year: 2019,
     board: "Jashore",
     instruction: "Read the following sentences and change them as directed in the bracket. [Jashore Board-2019]",
@@ -164,12 +184,15 @@ export const transformationQuestions: TransformationQuestion[] = [
         transformationType: "Complex",
         ruleId: 2
       }
-    ]
+    ],
+    topic: 'transformation',
+    level: 'HSC',
+    difficulty: 'MEDIUM'
   },
 
   // Sylhet Board 2019
   {
-    id: "5",
+    id: "sylhet-2019-transformation",
     year: 2019,
     board: "Sylhet",
     instruction: "Transform the underlined parts of the following text as per direction. [Sylhet Board-2019]",
@@ -204,606 +227,23 @@ export const transformationQuestions: TransformationQuestion[] = [
         transformationType: "Positive",
         ruleId: 21
       }
-    ]
-  },
-
-  // Barishal Board 2019
-  {
-    id: "6",
-    year: 2019,
-    board: "Barishal",
-    instruction: "Read the text and change the sentences as directed: [Barishal Board-2019]",
-    transformations: [
-      {
-        question: "It begets only the worst.",
-        transformedSentence: "It begets nothing but the worst.",
-        transformationType: "Negative",
-        ruleId: 7
-      },
-      {
-        question: "Anger is one of the most inhuman vices.",
-        transformedSentence: "Very few vices are as inhuman as anger.",
-        transformationType: "Positive",
-        ruleId: 22
-      },
-      {
-        question: "So, we should control it for our own sake.",
-        transformedSentence: "So, it should be controlled for our own sake.",
-        transformationType: "Passive",
-        ruleId: 1
-      },
-      {
-        question: "He who is taken by anger causes a lot of troubles.",
-        transformedSentence: "Taken by anger, he/a person causes a lot of troubles.",
-        transformationType: "Simple",
-        ruleId: 1
-      },
-      {
-        question: "Realizing it, we should try to be emotionally balanced.",
-        transformedSentence: "If we can realize it, we should try to be emotionally balanced.",
-        transformationType: "Complex",
-        ruleId: 1
-      }
-    ]
-  },
-
-  // Chattogram Board 2019
-  {
-    id: "7",
-    year: 2019,
-    board: "Chattogram",
-    instruction: "Read the text and change the sentences as directed. [Chattogram Board-2019]",
-    transformations: [
-      {
-        question: "Tea is the most popular drink.",
-        transformedSentence: "Tea is more popular than any other drink.",
-        transformationType: "Comparative",
-        ruleId: 21
-      },
-      {
-        question: "Tea helps us remove our fatigue.",
-        transformedSentence: "We are helped to remove our fatigue by tea.",
-        transformationType: "Passive",
-        ruleId: 1
-      },
-      {
-        question: "Almost everyone enjoys tea.",
-        transformedSentence: "There is hardly anyone who does not enjoy tea.",
-        transformationType: "Negative",
-        ruleId: 11
-      },
-      {
-        question: "Bangladesh is one of the tea producing countries.",
-        transformedSentence: "There are many tea producing countries and Bangladesh is one of them.",
-        transformationType: "Compound",
-        ruleId: 1
-      },
-      {
-        question: "Bangladesh exports tea and earns a lot of foreign exchange.",
-        transformedSentence: "By exporting tea, Bangladesh earns a lot of foreign exchange.",
-        transformationType: "Simple",
-        ruleId: 1
-      }
-    ]
-  },
-
-  // Dhaka Board 2018 (Ka Set)
-  {
-    id: "8",
-    year: 2018,
-    board: "Dhaka",
-    instruction: "Read the text and change the sentences as directed. [HSC Examination 2018-Ka Set]",
-    transformations: [
-      {
-        question: "Very few insects are as busy as a bee.",
-        transformedSentence: "A bee is busier than most other insects.",
-        transformationType: "Comparative",
-        ruleId: 22
-      },
-      {
-        question: "It is known as an industrious creature.",
-        transformedSentence: "We/People know it as an industrious creature.",
-        transformationType: "Active",
-        ruleId: 1
-      },
-      {
-        question: "It flies from flower to flower and collects honey.",
-        transformedSentence: "Flying from flower to flower, it collects honey.",
-        transformationType: "Simple",
-        ruleId: 1
-      },
-      {
-        question: "It stores honey in the hive.",
-        transformedSentence: "Honey is stored in the hive by it.",
-        transformationType: "Passive",
-        ruleId: 1
-      },
-      {
-        question: "In winter, it remains idle but it works hard in spring.",
-        transformedSentence: "Though it remains idle in winter, it works hard in spring.",
-        transformationType: "Complex",
-        ruleId: 3
-      }
-    ]
-  },
-
-  // Dhaka Board 2018 (Kha Set)
-  {
-    id: "9",
-    year: 2018,
-    board: "Dhaka",
-    instruction: "Read the text and change the sentences as directed. [HSC Exam 2018-Kha Set]",
-    transformations: [
-      {
-        question: "The humanoid robot, Sophia is one of the newest sensations in the ICT world.",
-        transformedSentence: "Very few sensations in the ICT world are as new as Sophia, the humanoid robot.",
-        transformationType: "Positive",
-        ruleId: 22
-      },
-      {
-        question: "Honourable Prime Minister Sheikh Hasina met Sophia at the inaugural ceremony of the four-day-long digital world expo.",
-        transformedSentence: "Sophia was met by Honourable Prime Minister Sheikh Hasina at the inaugural ceremony of the four-day-long digital world expo.",
-        transformationType: "Passive",
-        ruleId: 1
-      },
-      {
-        question: "The Hong Kong-based robotics company developed Sophia one and a half years ago.",
-        transformedSentence: "It was one and a half years ago when the Hong Kong-based robotics company developed Sophia.",
-        transformationType: "Complex",
-        ruleId: 1
-      },
-      {
-        question: "Wearing a yellow Jamdani top and skirt, the robot came on the stage.",
-        transformedSentence: "The robot wore a yellow Jamdani top and skirt and came on the stage.",
-        transformationType: "Compound",
-        ruleId: 1
-      },
-      {
-        question: "What an enthusiasm the robot generated among the youth!",
-        transformedSentence: "The robot generated a great enthusiasm among the youth.",
-        transformationType: "Affirmative",
-        ruleId: 16
-      }
-    ]
-  },
-
-  // Dhaka Board 2017
-  {
-    id: "10",
-    year: 2017,
-    board: "Dhaka",
-    instruction: "Read the text and change the sentences as directed. [Dhaka Board-2017; Dinajpur Board-2012]",
-    transformations: [
-      {
-        question: "A man who is frugal does not like to spend money without reasons.",
-        transformedSentence: "A frugal man does not like to spend money without reasons.",
-        transformationType: "Simple",
-        ruleId: 6
-      },
-      {
-        question: "The target of a frugal man is to save money for future.",
-        transformedSentence: "The target of a man who is frugal is to save money for future.",
-        transformationType: "Complex",
-        ruleId: 6
-      },
-      {
-        question: "Everyone should practice frugality to make a well-planned family.",
-        transformedSentence: "Frugality should be practised to make a well-planned family by everyone.",
-        transformationType: "Passive",
-        ruleId: 1
-      },
-      {
-        question: "A frugal man lives a solvent life.",
-        transformedSentence: "A frugal man does not live an insolvent life.",
-        transformationType: "Negative",
-        ruleId: 12
-      },
-      {
-        question: "A frugal man is happier than a prodigal man.",
-        transformedSentence: "A prodigal man is not so happy as a frugal man.",
-        transformationType: "Positive",
-        ruleId: 21
-      }
-    ]
-  },
-
-  // Rajshahi Board 2017
-  {
-    id: "11",
-    year: 2017,
-    board: "Rajshahi",
-    instruction: "Read the following sentences and change them as directed in the bracket. [Rajshahi Board-2017]",
-    transformations: [
-      {
-        question: "It was 1971 when Bangladesh achieved independence.",
-        transformedSentence: "Bangladesh achieved independence in 1971.",
-        transformationType: "Simple",
-        ruleId: 1
-      },
-      {
-        question: "It is the most significant event in the history of Bangladesh.",
-        transformedSentence: "It is more significant than any other event in the history of Bangladesh.",
-        transformationType: "Comparative",
-        ruleId: 21
-      },
-      {
-        question: "Our freedom fighters sacrificed their lives for the independence of Bangladesh.",
-        transformedSentence: "It is our freedom fighters who sacrificed their lives for the independence of Bangladesh.",
-        transformationType: "Complex",
-        ruleId: 1
-      },
-      {
-        question: "It was a great struggle for them.",
-        transformedSentence: "What a struggle it was for them!",
-        transformationType: "Exclamatory",
-        ruleId: 16
-      },
-      {
-        question: "We shall always remember them with pride.",
-        transformedSentence: "We shall always remember them and we shall do it with pride.",
-        transformationType: "Compound",
-        ruleId: 1
-      }
-    ]
-  },
-
-  // Cumilla Board 2017
-  {
-    id: "12",
-    year: 2017,
-    board: "Cumilla",
-    instruction: "Read the text and transform the sentences as directed. [Cumilla Board-2017]",
-    transformations: [
-      {
-        question: "Some essential agricultural inputs are to be ensured to increase our food production.",
-        transformedSentence: "We are to ensure some essential agricultural inputs to increase our food production.",
-        transformationType: "Active",
-        ruleId: 1
-      },
-      {
-        question: "The farmers who are poor do not get a loan on easy terms.",
-        transformedSentence: "Poor farmers do not get loans on easy terms.",
-        transformationType: "Simple",
-        ruleId: 6
-      },
-      {
-        question: "What a pity!",
-        transformedSentence: "It is a great pity.",
-        transformationType: "Assertive",
-        ruleId: 16
-      },
-      {
-        question: "The farmers do not get the facilities necessary for food production.",
-        transformedSentence: "The farmers do not get the facilities that are necessary for food production.",
-        transformationType: "Complex",
-        ruleId: 6
-      },
-      {
-        question: "Unfortunately, they do not get the due price of their products.",
-        transformedSentence: "They do not get the due price of their products and it is unfortunate.",
-        transformationType: "Compound",
-        ruleId: 1
-      }
-    ]
-  },
-
-  // Jashore Board 2017
-  {
-    id: "13",
-    year: 2017,
-    board: "Jashore",
-    instruction: "Read the text and change the sentences as directed. [Jashore Board-2017; Cumilla Board-2016]",
-    transformations: [
-      {
-        question: "They fought for the country with patriotic zeal.",
-        transformedSentence: "They had a patriotic zeal and they fought for the country with it.",
-        transformationType: "Compound",
-        ruleId: 1
-      },
-      {
-        question: "They are the most courageous sons of our nation.",
-        transformedSentence: "No other son of our nation is as courageous as they.",
-        transformationType: "Positive",
-        ruleId: 21
-      },
-      {
-        question: "Everybody admires and respects them greatly.",
-        transformedSentence: "They are greatly admired and respected by everyone.",
-        transformationType: "Passive",
-        ruleId: 1
-      },
-      {
-        question: "Nobody denies their contribution to their motherland.",
-        transformedSentence: "Who denies their contribution to their motherland?",
-        transformationType: "Interrogative",
-        ruleId: 15
-      },
-      {
-        question: "They will never be forgotten by their countrymen to the end.",
-        transformedSentence: "They will always be remembered by their countrymen to the end.",
-        transformationType: "Affirmative",
-        ruleId: 12
-      }
-    ]
-  },
-
-  // Sylhet Board 2017
-  {
-    id: "14",
-    year: 2017,
-    board: "Sylhet",
-    instruction: "Read the text and change the sentences as directed. [Sylhet Board-2017]",
-    transformations: [
-      {
-        question: "Most of the people of our country are living in the rural areas.",
-        transformedSentence: "Aren't most of the people of our country living in the rural areas?",
-        transformationType: "Interrogative",
-        ruleId: 14
-      },
-      {
-        question: "They are peace-loving.",
-        transformedSentence: "They are the people who love peace.",
-        transformationType: "Complex",
-        ruleId: 6
-      },
-      {
-        question: "They are more patriotic and industrious.",
-        transformedSentence: "No one is so patriotic and industrious as they.",
-        transformationType: "Positive",
-        ruleId: 21
-      },
-      {
-        question: "They love their motherland profoundly.",
-        transformedSentence: "Their motherland is profoundly loved by them.",
-        transformationType: "Passive",
-        ruleId: 1
-      },
-      {
-        question: "Although they are insolvent, they do not adopt any unfair means to become rich overnight.",
-        transformedSentence: "Despite their insolvency, they do not adopt any unfair means to become rich overnight.",
-        transformationType: "Simple",
-        ruleId: 3
-      }
-    ]
-  },
-
-  // Barishal Board 2017
-  {
-    id: "15",
-    year: 2017,
-    board: "Barishal",
-    instruction: "Read the text and change the sentences as directed. [Barishal Board-2017; Dinajpur Board-2013]",
-    transformations: [
-      {
-        question: "Jim and Della sacrificed their dearest possessions in order to buy Christmas presents for each other.",
-        transformedSentence: "Jim and Della wanted to buy Christmas presents for each other, so they sacrificed their dearest possessions.",
-        transformationType: "Compound",
-        ruleId: 2
-      },
-      {
-        question: "Della had an ardent desire to give her husband a worthy gift.",
-        transformedSentence: "Della had an ardent desire which was to give her husband a worthy gift.",
-        transformationType: "Complex",
-        ruleId: 2
-      },
-      {
-        question: "Jim also thought how he could give his wife a nice gift.",
-        transformedSentence: "Jim also thought of giving his wife a nice gift.",
-        transformationType: "Simple",
-        ruleId: 2
-      },
-      {
-        question: "Della saved a scanty amount of money for this.",
-        transformedSentence: "A scanty amount of money was saved by Della for this.",
-        transformationType: "Passive",
-        ruleId: 1
-      },
-      {
-        question: "Jim was one of the sincerest husbands that we have ever known.",
-        transformedSentence: "Very few husbands that we have ever known were as sincere as Jim.",
-        transformationType: "Positive",
-        ruleId: 22
-      }
-    ]
-  },
-
-  // Chattogram Board 2017
-  {
-    id: "16",
-    year: 2017,
-    board: "Chattogram",
-    instruction: "Read the text and change the sentences as directed. [Chattogram Board-2017]",
-    transformations: [
-      {
-        question: "Long long ago there was a king who was very wise.",
-        transformedSentence: "Long ago there was a very wise king.",
-        transformationType: "Simple",
-        ruleId: 6
-      },
-      {
-        question: "People called him wise Solomon.",
-        transformedSentence: "He was called wise Solomon.",
-        transformationType: "Passive",
-        ruleId: 1
-      },
-      {
-        question: "Actually at that time he was the wisest of all.",
-        transformedSentence: "Actually, at that time he was wiser than anyone.",
-        transformationType: "Comparative",
-        ruleId: 21
-      },
-      {
-        question: "There was another ruler also named Queen of Sheba.",
-        transformedSentence: "There was also another ruler whose name was Queen of Sheba.",
-        transformationType: "Complex",
-        ruleId: 6
-      },
-      {
-        question: "One day she thought Solomon's wisdom should not remain untested.",
-        transformedSentence: "One day, she thought Solomon's wisdom should be tested.",
-        transformationType: "Affirmative",
-        ruleId: 12
-      }
-    ]
-  },
-
-  // Dinajpur Board 2017
-  {
-    id: "17",
-    year: 2017,
-    board: "Dinajpur",
-    instruction: "Read the text and change the sentences as directed. [Dinajpur Board-2017 & 2010; Dhaka Board-2011]",
-    transformations: [
-      {
-        question: "Water, an important vital element of the environment is polluted in various ways.",
-        transformedSentence: "Water which is an important vital element of the environment is polluted in various ways.",
-        transformationType: "Complex",
-        ruleId: 6
-      },
-      {
-        question: "The water which is pure is necessary for us.",
-        transformedSentence: "Pure water is necessary for us.",
-        transformationType: "Simple",
-        ruleId: 6
-      },
-      {
-        question: "Men pollute water by throwing waste in it.",
-        transformedSentence: "Men throw waste in water and pollute it.",
-        transformationType: "Compound",
-        ruleId: 1
-      },
-      {
-        question: "The farmers use water in time of cultivation largely.",
-        transformedSentence: "Water is used largely by the farmers in time of cultivation.",
-        transformationType: "Passive",
-        ruleId: 1
-      },
-      {
-        question: "It is one of the most important elements of all living beings.",
-        transformedSentence: "Very few elements for all living beings are as important as it.",
-        transformationType: "Positive",
-        ruleId: 21
-      }
-    ]
-  },
-
-  // Chattogram Board 2016
-  {
-    id: "18",
-    year: 2016,
-    board: "Chattogram",
-    instruction: "Read the text and change the sentences as directed. [Chattogram Board-2016]",
-    transformations: [
-      {
-        question: "Everybody wants friends.",
-        transformedSentence: "Nobody wants enemies.",
-        transformationType: "Negative",
-        ruleId: 12
-      },
-      {
-        question: "The heart is formed for love and cannot be happy without the opportunity of giving and receiving love.",
-        transformedSentence: "As the heart is formed for love, it cannot be happy without the opportunity of giving and receiving love.",
-        transformationType: "Complex",
-        ruleId: 1
-      },
-      {
-        question: "But you cannot find others to love you unless you love them.",
-        transformedSentence: "But without loving others, you can't find them to love you.",
-        transformationType: "Simple",
-        ruleId: 5
-      },
-      {
-        question: "You cannot be happy without it.",
-        transformedSentence: "Can you be happy without it?",
-        transformationType: "Interrogative",
-        ruleId: 15
-      },
-      {
-        question: "As love is divine, everybody wants to love.",
-        transformedSentence: "Love is divine and everybody wants to love.",
-        transformationType: "Compound",
-        ruleId: 1
-      }
-    ]
-  },
-
-  // Dinajpur Board 2016
-  {
-    id: "19",
-    year: 2016,
-    board: "Dinajpur",
-    instruction: "Read the text and change the sentences as directed. [Dinajpur Board-2016]",
-    transformations: [
-      {
-        question: "Anger is nothing but a vice.",
-        transformedSentence: "Is anger anything but a vice?",
-        transformationType: "Interrogative",
-        ruleId: 15
-      },
-      {
-        question: "It begets only the worst.",
-        transformedSentence: "It begets nothing but the worst.",
-        transformationType: "Negative",
-        ruleId: 7
-      },
-      {
-        question: "So we should control it for our sake.",
-        transformedSentence: "So it should be controlled for our sake.",
-        transformationType: "Passive",
-        ruleId: 1
-      },
-      {
-        question: "He who is taken by anger causes a lot of troubles.",
-        transformedSentence: "Taken by anger, he/a person causes a lot of troubles.",
-        transformationType: "Simple",
-        ruleId: 1
-      },
-      {
-        question: "Realising it we should try to be emotionally balanced.",
-        transformedSentence: "We should realise it and try to be emotionally balanced.",
-        transformationType: "Compound",
-        ruleId: 1
-      }
-    ]
-  },
-
-  // Dhaka Board 2020
-  {
-    id: "20",
-    year: 2020,
-    board: "Dhaka",
-    instruction: "Read the text and change the sentences as directed. [Dhaka Board-2020]",
-    transformations: [
-      {
-        question: "Education is the backbone of a nation.",
-        transformedSentence: "Is education not the backbone of a nation?",
-        transformationType: "Interrogative",
-        ruleId: 14
-      },
-      {
-        question: "Without education, no nation can prosper.",
-        transformedSentence: "If there is no education, no nation can prosper.",
-        transformationType: "Complex",
-        ruleId: 5
-      },
-      {
-        question: "An educated person can distinguish between right and wrong.",
-        transformedSentence: "Right and wrong can be distinguished by an educated person.",
-        transformationType: "Passive",
-        ruleId: 1
-      },
-      {
-        question: "He is wiser than an illiterate person.",
-        transformedSentence: "An illiterate person is not so wise as he.",
-        transformationType: "Positive",
-        ruleId: 21
-      },
-      {
-        question: "What a blessing education is!",
-        transformedSentence: "Education is a great blessing.",
-        transformationType: "Assertive",
-        ruleId: 16
-      }
-    ]
+    ],
+    topic: 'transformation',
+    level: 'HSC',
+    difficulty: 'HARD'
   }
 ];
+
+// Export metadata for the topic
+export const transformationQuestionsMetadata = {
+  topic: 'transformation' as const,
+  slug: 'transformation' as const,
+  level: 'HSC' as QuestionLevel,
+  totalQuestions: transformationQuestions.length,
+  lastUpdated: new Date().toISOString(),
+  version: '1.0.0',
+  yearRange: {
+    from: Math.min(...transformationQuestions.filter(q => q.year).map(q => q.year!)),
+    to: Math.max(...transformationQuestions.filter(q => q.year).map(q => q.year!))
+  }
+};

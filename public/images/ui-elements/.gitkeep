@@ -1,0 +1,12 @@
+# UI Elements Images
+
+This directory contains general UI and branding images:
+- logo-primary.svg
+- logo-secondary.svg
+- hero-background.webp
+- pattern-overlay.svg
+- success-illustration.webp
+- error-illustration.webp
+- empty-state.webp
+
+Add your UI element images here following the naming conventions in the parent README.md

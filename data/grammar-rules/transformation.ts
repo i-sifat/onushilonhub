@@ -1,13 +1,11 @@
 // Centralized Transformation Grammar Rules Data
+// ADD MORE RULES HERE - just follow the same structure
 
-export interface TransformationRule {
-  id: number;
-  ruleNo: string;
-  title: string;
-  bengali: string;
-  description: string;
-  structures: string[];
-  examples: string[];
+import { GrammarRule, GrammarLevel, GrammarTopicSlug } from '../../types/grammar.types';
+
+export interface TransformationRule extends Omit<GrammarRule, 'topic' | 'level'> {
+  topic: 'transformation';
+  level: GrammarLevel;
   category: 'simple-complex-compound' | 'affirmative-negative' | 'assertive-interrogative' | 'assertive-exclamatory' | 'assertive-imperative' | 'degree';
 }
 
@@ -29,7 +27,9 @@ export const transformationRules: TransformationRule[] = [
       "Complex: Since he is honest, he is loved by all.",
       "Compound: He is honest and so he is loved by all."
     ],
-    category: 'simple-complex-compound'
+    category: 'simple-complex-compound',
+    topic: 'transformation',
+    level: 'HSC'
   },
   {
     id: 2,
@@ -47,7 +47,9 @@ export const transformationRules: TransformationRule[] = [
       "Complex: He went to market so that he could buy vegetables.",
       "Compound: He went to market and bought vegetables."
     ],
-    category: 'simple-complex-compound'
+    category: 'simple-complex-compound',
+    topic: 'transformation',
+    level: 'HSC'
   },
   {
     id: 3,
@@ -65,7 +67,9 @@ export const transformationRules: TransformationRule[] = [
       "Complex: Although he was ill, he attended the meeting.",
       "Compound: He was ill but he attended the meeting."
     ],
-    category: 'simple-complex-compound'
+    category: 'simple-complex-compound',
+    topic: 'transformation',
+    level: 'HSC'
   },
   {
     id: 4,
@@ -83,7 +87,9 @@ export const transformationRules: TransformationRule[] = [
       "Complex: He is so weak that he cannot walk.",
       "Compound: He is very weak and cannot walk."
     ],
-    category: 'simple-complex-compound'
+    category: 'simple-complex-compound',
+    topic: 'transformation',
+    level: 'HSC'
   },
   {
     id: 5,
@@ -101,7 +107,9 @@ export const transformationRules: TransformationRule[] = [
       "Complex: If you don't study, you cannot pass.",
       "Compound: Study or you cannot pass."
     ],
-    category: 'simple-complex-compound'
+    category: 'simple-complex-compound',
+    topic: 'transformation',
+    level: 'HSC'
   },
   {
     id: 6,
@@ -119,7 +127,9 @@ export const transformationRules: TransformationRule[] = [
       "Complex: He is a student who is good.",
       "Compound: He is a student and he is good."
     ],
-    category: 'simple-complex-compound'
+    category: 'simple-complex-compound',
+    topic: 'transformation',
+    level: 'HSC'
   },
 
   // Affirmative - Negative Rules
@@ -139,7 +149,9 @@ export const transformationRules: TransformationRule[] = [
       "Affirmative: It was only a mistake.",
       "Negative: It was nothing but a mistake."
     ],
-    category: 'affirmative-negative'
+    category: 'affirmative-negative',
+    topic: 'transformation',
+    level: 'HSC'
   },
   {
     id: 8,
@@ -157,7 +169,9 @@ export const transformationRules: TransformationRule[] = [
       "Affirmative: Few students were present.",
       "Negative: Not many students were present."
     ],
-    category: 'affirmative-negative'
+    category: 'affirmative-negative',
+    topic: 'transformation',
+    level: 'HSC'
   },
   {
     id: 9,
@@ -175,7 +189,9 @@ export const transformationRules: TransformationRule[] = [
       "Affirmative: He has to admit his fault.",
       "Negative: He cannot help admitting his fault."
     ],
-    category: 'affirmative-negative'
+    category: 'affirmative-negative',
+    topic: 'transformation',
+    level: 'HSC'
   },
   {
     id: 10,
@@ -193,7 +209,9 @@ export const transformationRules: TransformationRule[] = [
       "Affirmative: She can both sing and dance.",
       "Negative: She can not only sing but also dance."
     ],
-    category: 'affirmative-negative'
+    category: 'affirmative-negative',
+    topic: 'transformation',
+    level: 'HSC'
   },
   {
     id: 11,
@@ -211,7 +229,9 @@ export const transformationRules: TransformationRule[] = [
       "Affirmative: Every man must die.",
       "Negative: No man can escape death."
     ],
-    category: 'affirmative-negative'
+    category: 'affirmative-negative',
+    topic: 'transformation',
+    level: 'HSC'
   },
   {
     id: 12,
@@ -229,7 +249,9 @@ export const transformationRules: TransformationRule[] = [
       "Affirmative: She always helps others.",
       "Negative: She never refuses to help others."
     ],
-    category: 'affirmative-negative'
+    category: 'affirmative-negative',
+    topic: 'transformation',
+    level: 'HSC'
   },
   {
     id: 13,
@@ -247,7 +269,9 @@ export const transformationRules: TransformationRule[] = [
       "Affirmative: As soon as the teacher entered, the students became quiet.",
       "Negative: No sooner had the teacher entered than the students became quiet."
     ],
-    category: 'affirmative-negative'
+    category: 'affirmative-negative',
+    topic: 'transformation',
+    level: 'HSC'
   },
 
   // Assertive to Interrogative Rules
@@ -267,7 +291,9 @@ export const transformationRules: TransformationRule[] = [
       "Assertive: This is a beautiful place.",
       "Interrogative: Is this not a beautiful place?"
     ],
-    category: 'assertive-interrogative'
+    category: 'assertive-interrogative',
+    topic: 'transformation',
+    level: 'HSC'
   },
   {
     id: 15,
@@ -285,7 +311,9 @@ export const transformationRules: TransformationRule[] = [
       "Assertive: Nobody can solve this problem.",
       "Interrogative: Can anybody solve this problem?"
     ],
-    category: 'assertive-interrogative'
+    category: 'assertive-interrogative',
+    topic: 'transformation',
+    level: 'HSC'
   },
 
   // Assertive to Exclamatory Rules
@@ -305,7 +333,9 @@ export const transformationRules: TransformationRule[] = [
       "Assertive: She is a clever girl.",
       "Exclamatory: What a clever girl she is!"
     ],
-    category: 'assertive-exclamatory'
+    category: 'assertive-exclamatory',
+    topic: 'transformation',
+    level: 'HSC'
   },
   {
     id: 17,
@@ -323,7 +353,9 @@ export const transformationRules: TransformationRule[] = [
       "Assertive: I wish I were rich.",
       "Exclamatory: If I were rich!"
     ],
-    category: 'assertive-exclamatory'
+    category: 'assertive-exclamatory',
+    topic: 'transformation',
+    level: 'HSC'
   },
   {
     id: 18,
@@ -340,7 +372,9 @@ export const transformationRules: TransformationRule[] = [
       "Assertive: It is sad that she is no more.",
       "Exclamatory: Alas! She is no more."
     ],
-    category: 'assertive-exclamatory'
+    category: 'assertive-exclamatory',
+    topic: 'transformation',
+    level: 'HSC'
   },
 
   // Assertive to Imperative Rules
@@ -360,7 +394,9 @@ export const transformationRules: TransformationRule[] = [
       "Assertive: You should not waste time.",
       "Imperative: Do not waste time."
     ],
-    category: 'assertive-imperative'
+    category: 'assertive-imperative',
+    topic: 'transformation',
+    level: 'HSC'
   },
   {
     id: 20,
@@ -377,7 +413,9 @@ export const transformationRules: TransformationRule[] = [
       "Assertive: You are advised to be careful.",
       "Imperative: Please be careful."
     ],
-    category: 'assertive-imperative'
+    category: 'assertive-imperative',
+    topic: 'transformation',
+    level: 'HSC'
   },
 
   // Degree Transformation Rules
@@ -397,7 +435,9 @@ export const transformationRules: TransformationRule[] = [
       "Comparative: Rahim is taller than any other boy in the class.",
       "Superlative: Rahim is the tallest boy in the class."
     ],
-    category: 'degree'
+    category: 'degree',
+    topic: 'transformation',
+    level: 'HSC'
   },
   {
     id: 22,
@@ -415,21 +455,18 @@ export const transformationRules: TransformationRule[] = [
       "Comparative: Dhaka is more beautiful than most other cities.",
       "Superlative: Dhaka is one of the most beautiful cities."
     ],
-    category: 'degree'
+    category: 'degree',
+    topic: 'transformation',
+    level: 'HSC'
   }
 ];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Export metadata for the topic
+export const transformationMetadata = {
+  topic: 'transformation' as const,
+  slug: 'transformation' as const,
+  level: 'HSC' as GrammarLevel,
+  totalRules: transformationRules.length,
+  lastUpdated: new Date().toISOString(),
+  version: '1.0.0'
+};

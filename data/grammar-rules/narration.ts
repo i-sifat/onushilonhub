@@ -1,11 +1,11 @@
-export interface NarrationRule {
-  id: number;
-  ruleNo: string;
-  title: string;
-  bengali: string;
-  description: string;
-  structures: string[];
-  examples: string[];
+// Centralized Narration Grammar Rules Data
+// ADD MORE RULES HERE - just follow the same structure
+
+import { GrammarRule, GrammarLevel, GrammarTopicSlug } from '../../types/grammar.types';
+
+export interface NarrationRule extends Omit<GrammarRule, 'topic' | 'level'> {
+  topic: 'narration';
+  level: GrammarLevel;
 }
 
 export const narrationRules: NarrationRule[] = [
@@ -28,7 +28,9 @@ export const narrationRules: NarrationRule[] = [
       "Direct: The teacher said to the student, 'Get out.' → Indirect: The teacher ordered the student to get out.",
       "Direct: Father said, 'May you pass.' → Indirect: Father prayed that I might pass.",
       "Direct: The man said, 'Alas! I am undone.' → Indirect: The man exclaimed with sorrow that he was undone."
-    ]
+    ],
+    topic: 'narration',
+    level: 'HSC'
   },
   {
     id: 2,
@@ -47,7 +49,9 @@ export const narrationRules: NarrationRule[] = [
       "Direct: She said, 'He is a student.' → Indirect: She said that he was a student.",
       "Direct: The teacher said, 'We are mortal.' → Indirect: The teacher said that we are mortal. (No change for universal 'we')",
       "Direct: He said to me, 'We should do our duty.' → Indirect: He said to me that we should do our duty."
-    ]
+    ],
+    topic: 'narration',
+    level: 'HSC'
   },
   {
     id: 3,
@@ -73,7 +77,9 @@ export const narrationRules: NarrationRule[] = [
       "Direct: They said, 'We went to Dhaka.' → Indirect: They said that they had gone to Dhaka.",
       "Direct: He said, 'You must obey your parents.' → Indirect: He said that I must obey my parents. (No change for eternal obligation)",
       "Direct: She said, 'I can swim.' → Indirect: She said that she could swim."
-    ]
+    ],
+    topic: 'narration',
+    level: 'HSC'
   },
   {
     id: 4,
@@ -97,7 +103,9 @@ export const narrationRules: NarrationRule[] = [
       "Direct: They said, 'This is our book.' → Indirect: They said that that was their book.",
       "Direct: He said, 'Come here.' → Indirect: He told me to go there.",
       "Direct: She said, 'I saw him yesterday.' → Indirect: She said that she had seen him the previous day."
-    ]
+    ],
+    topic: 'narration',
+    level: 'HSC'
   },
   {
     id: 5,
@@ -119,7 +127,9 @@ export const narrationRules: NarrationRule[] = [
       "Direct: The teacher said to the student, 'Get out.' → Indirect: The teacher ordered the student to get out.",
       "Direct: Father said, 'May you pass.' → Indirect: Father prayed that I might pass.",
       "Direct: Silvia said, 'What a fine bird it is.' → Indirect: Silvia exclaimed with joy that it was a very fine bird."
-    ]
+    ],
+    topic: 'narration',
+    level: 'HSC'
   },
   {
     id: 6,
@@ -145,6 +155,18 @@ export const narrationRules: NarrationRule[] = [
       "Direct: Jamal said to Raihan, 'You are honest. I will trust you.' → Indirect: Jamal told Raihan that he was honest and added that he would trust him forever.",
       "Direct: By Allah, he said to me, 'He will do the work.' → Indirect: Swearing by Allah, he told me that he would do the work.",
       "Direct: He said, 'Honesty is the best policy.' → Indirect: He said that honesty is the best policy."
-    ]
+    ],
+    topic: 'narration',
+    level: 'HSC'
   }
 ];
+
+// Export metadata for the topic
+export const narrationMetadata = {
+  topic: 'narration' as const,
+  slug: 'narration' as const,
+  level: 'HSC' as GrammarLevel,
+  totalRules: narrationRules.length,
+  lastUpdated: new Date().toISOString(),
+  version: '1.0.0'
+};

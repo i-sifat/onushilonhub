@@ -1,14 +1,11 @@
 // Centralized Punctuation Grammar Rules Data
 // ADD MORE RULES HERE - just follow the same structure
 
-export interface PunctuationRule {
-  id: number;
-  ruleNo: string;
-  title: string;
-  bengali: string;
-  description: string;
-  structures: string[];
-  examples: string[];
+import { GrammarRule, GrammarLevel, GrammarTopicSlug } from '../../types/grammar.types';
+
+export interface PunctuationRule extends Omit<GrammarRule, 'topic' | 'level'> {
+  topic: 'punctuation';
+  level: GrammarLevel;
 }
 
 export const punctuationRules: PunctuationRule[] = [
@@ -29,7 +26,9 @@ export const punctuationRules: PunctuationRule[] = [
       "Abu, Bangladesh, January, Monday (proper nouns)",
       "He said, \"My dear sons...\" (after direct speech)",
       "I am going to die soon. (pronoun I)"
-    ]
+    ],
+    topic: 'punctuation',
+    level: 'HSC'
   },
   {
     id: 2,
@@ -46,7 +45,9 @@ export const punctuationRules: PunctuationRule[] = [
       "He had three sons. (declarative sentence)",
       "Mr. Abu was a farmer. (abbreviation)",
       "Abu said that he was going to die. (indirect speech)"
-    ]
+    ],
+    topic: 'punctuation',
+    level: 'HSC'
   },
   {
     id: 3,
@@ -65,7 +66,9 @@ export const punctuationRules: PunctuationRule[] = [
       "They dug, but found nothing. (before conjunction)",
       "Abu, the farmer, was poor. (around non-essential info)",
       "Red, blue, and green (series)"
-    ]
+    ],
+    topic: 'punctuation',
+    level: 'HSC'
   },
   {
     id: 4,
@@ -82,7 +85,9 @@ export const punctuationRules: PunctuationRule[] = [
       "Abu said, \"My dear sons, I am going to die.\"",
       "He called it \"the real treasure.\"",
       "\"If you can find it,\" he said, \"you will be rich.\""
-    ]
+    ],
+    topic: 'punctuation',
+    level: 'HSC'
   },
   {
     id: 5,
@@ -98,7 +103,9 @@ export const punctuationRules: PunctuationRule[] = [
       "Where is the treasure?",
       "Can you find it?",
       "Isn't hard work the real treasure?"
-    ]
+    ],
+    topic: 'punctuation',
+    level: 'HSC'
   },
   {
     id: 6,
@@ -115,6 +122,18 @@ export const punctuationRules: PunctuationRule[] = [
       "What a surprise!",
       "Alas! He died.",
       "Stop! Don't go there."
-    ]
+    ],
+    topic: 'punctuation',
+    level: 'HSC'
   }
 ];
+
+// Export metadata for the topic
+export const punctuationMetadata = {
+  topic: 'punctuation' as const,
+  slug: 'punctuation' as const,
+  level: 'HSC' as GrammarLevel,
+  totalRules: punctuationRules.length,
+  lastUpdated: new Date().toISOString(),
+  version: '1.0.0'
+};

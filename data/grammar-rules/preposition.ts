@@ -1,14 +1,11 @@
 // Centralized Preposition Grammar Rules Data
 // ADD MORE RULES HERE - just follow the same structure
 
-export interface PrepositionRule {
-  id: number;
-  ruleNo: string;
-  title: string;
-  bengali: string;
-  description: string;
-  structures: string[];
-  examples: string[];
+import { GrammarRule, GrammarLevel, GrammarTopicSlug } from '../../types/grammar.types';
+
+export interface PrepositionRule extends Omit<GrammarRule, 'topic' | 'level'> {
+  topic: 'preposition';
+  level: GrammarLevel;
 }
 
 export const prepositionRules: PrepositionRule[] = [
@@ -27,7 +24,9 @@ export const prepositionRules: PrepositionRule[] = [
       "Conscious of their rights (তাদের অধিকার সম্পর্কে সচেতন)",
       "The roof of the house (বাড়ির ছাদ)",
       "Proud of his success (তার সাফল্যে গর্বিত)"
-    ]
+    ],
+    topic: 'preposition',
+    level: 'HSC'
   },
   {
     id: 2,
@@ -44,7 +43,9 @@ export const prepositionRules: PrepositionRule[] = [
       "Between good and bad (ভাল ও মন্দের মধ্যে)",
       "Between you and me (তোমার ও আমার মধ্যে)",
       "Choose between tea and coffee (চা ও কফির মধ্যে বেছে নাও)"
-    ]
+    ],
+    topic: 'preposition',
+    level: 'HSC'
   },
   {
     id: 3,
@@ -61,7 +62,9 @@ export const prepositionRules: PrepositionRule[] = [
       "On the table (টেবিলের উপর)",
       "On Monday (সোমবারে)",
       "On 21st February (২১শে ফেব্রুয়ারিতে)"
-    ]
+    ],
+    topic: 'preposition',
+    level: 'HSC'
   },
   {
     id: 4,
@@ -79,7 +82,9 @@ export const prepositionRules: PrepositionRule[] = [
       "Go to school (স্কুলে যাওয়া)",
       "Listen to music (গান শোনা)",
       "Talk to someone (কারো সাথে কথা বলা)"
-    ]
+    ],
+    topic: 'preposition',
+    level: 'HSC'
   },
   {
     id: 5,
@@ -96,7 +101,9 @@ export const prepositionRules: PrepositionRule[] = [
       "Among the students (ছাত্রদের মধ্যে)",
       "Distribute among the poor (গরিবদের মধ্যে বিতরণ)",
       "Popular among youth (যুবকদের মধ্যে জনপ্রিয়)"
-    ]
+    ],
+    topic: 'preposition',
+    level: 'HSC'
   },
   {
     id: 6,
@@ -114,6 +121,18 @@ export const prepositionRules: PrepositionRule[] = [
       "In Bangladesh (বাংলাদেশে)",
       "In a proper way (যথাযথ উপায়ে)",
       "In the morning (সকালে)"
-    ]
+    ],
+    topic: 'preposition',
+    level: 'HSC'
   }
 ];
+
+// Export metadata for the topic
+export const prepositionMetadata = {
+  topic: 'preposition' as const,
+  slug: 'preposition' as const,
+  level: 'HSC' as GrammarLevel,
+  totalRules: prepositionRules.length,
+  lastUpdated: new Date().toISOString(),
+  version: '1.0.0'
+};

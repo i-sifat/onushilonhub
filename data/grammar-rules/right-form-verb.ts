@@ -1,14 +1,11 @@
 // Centralized Right Form of Verb Grammar Rules Data
 // ADD MORE RULES HERE - just follow the same structure
 
-export interface RightFormVerbRule {
-  id: number;
-  ruleNo: string;
-  title: string;
-  bengali: string;
-  description: string;
-  structures: string[];
-  examples: string[];
+import { GrammarRule, GrammarLevel, GrammarTopicSlug } from '../../types/grammar.types';
+
+export interface RightFormVerbRule extends Omit<GrammarRule, 'topic' | 'level'> {
+  topic: 'use-of-verbs';
+  level: GrammarLevel;
   notes?: string[];
 }
 
@@ -32,7 +29,9 @@ export const rightFormVerbRules: RightFormVerbRule[] = [
     notes: [
       "Modal auxiliary এর পরে কখনো to বসে না (ought to ব্যতীত)",
       "Modal auxiliary এর কোনো past form নেই"
-    ]
+    ],
+    topic: 'use-of-verbs',
+    level: 'HSC'
   },
   {
     id: 2,
@@ -49,7 +48,9 @@ export const rightFormVerbRules: RightFormVerbRule[] = [
       "She decided to study medicine. (সে চিকিৎসাবিদ্যা পড়ার সিদ্ধান্ত নিল।)",
       "It is difficult to understand this. (এটি বোঝা কঠিন।)",
       "We came here to help you. (আমরা তোমাকে সাহায্য করতে এখানে এসেছি।)"
-    ]
+    ],
+    topic: 'use-of-verbs',
+    level: 'HSC'
   },
   {
     id: 3,
@@ -66,7 +67,9 @@ export const rightFormVerbRules: RightFormVerbRule[] = [
       "Let us play football. (আসুন আমরা ফুটবল খেলি।)",
       "Let him come in. (তাকে ভিতরে আসতে দাও।)",
       "Let them finish their work. (তাদের কাজ শেষ করতে দাও।)"
-    ]
+    ],
+    topic: 'use-of-verbs',
+    level: 'HSC'
   },
   {
     id: 4,
@@ -84,7 +87,9 @@ export const rightFormVerbRules: RightFormVerbRule[] = [
       "The letter was written by me. (চিঠিটি আমার দ্বারা লেখা হয়েছিল।)",
       "The house is being built by them. (বাড়িটি তাদের দ্বারা নির্মিত হচ্ছে।)",
       "The book has been read by her. (বইটি তার দ্বারা পড়া হয়েছে।)"
-    ]
+    ],
+    topic: 'use-of-verbs',
+    level: 'HSC'
   },
   {
     id: 5,
@@ -102,7 +107,9 @@ export const rightFormVerbRules: RightFormVerbRule[] = [
       "I enjoy reading books. (আমি বই পড়তে উপভোগ করি।)",
       "He is fond of playing cricket. (সে ক্রিকেট খেলতে পছন্দ করে।)",
       "After finishing the work, he left. (কাজ শেষ করার পর সে চলে গেল।)"
-    ]
+    ],
+    topic: 'use-of-verbs',
+    level: 'HSC'
   },
   {
     id: 6,
@@ -124,7 +131,9 @@ export const rightFormVerbRules: RightFormVerbRule[] = [
     notes: [
       "Third person singular subject এর সাথে verb এ s/es যোগ হয়",
       "Collective noun singular verb নেয় যদি group হিসেবে কাজ করে"
-    ]
+    ],
+    topic: 'use-of-verbs',
+    level: 'HSC'
   },
   {
     id: 7,
@@ -140,7 +149,9 @@ export const rightFormVerbRules: RightFormVerbRule[] = [
       "If you work hard, you will succeed. (তুমি কঠোর পরিশ্রম করলে সফল হবে।)",
       "If I were rich, I would help the poor. (আমি ধনী হলে গরিবদের সাহায্য করতাম।)",
       "If he had studied, he would have passed. (সে পড়াশোনা করলে পাশ করত।)"
-    ]
+    ],
+    topic: 'use-of-verbs',
+    level: 'HSC'
   },
   {
     id: 8,
@@ -156,7 +167,9 @@ export const rightFormVerbRules: RightFormVerbRule[] = [
       "I am reading a book. (আমি একটি বই পড়ছি।)",
       "The running water is clean. (প্রবাহমান পানি পরিষ্কার।)",
       "Walking in the park, I met my friend. (পার্কে হাঁটতে হাঁটতে আমি আমার বন্ধুর সাথে দেখা করলাম।)"
-    ]
+    ],
+    topic: 'use-of-verbs',
+    level: 'HSC'
   },
   {
     id: 9,
@@ -173,7 +186,9 @@ export const rightFormVerbRules: RightFormVerbRule[] = [
       "I have finished my work. (আমি আমার কাজ শেষ করেছি।)",
       "The work was completed yesterday. (কাজটি গতকাল সম্পন্ন হয়েছিল।)",
       "Broken by the storm, the tree fell down. (ঝড়ে ভেঙে গিয়ে গাছটি পড়ে গেল।)"
-    ]
+    ],
+    topic: 'use-of-verbs',
+    level: 'HSC'
   },
   {
     id: 10,
@@ -191,6 +206,18 @@ export const rightFormVerbRules: RightFormVerbRule[] = [
       "She used to live in Dhaka. (সে ঢাকায় থাকত।)",
       "We did not use to watch TV much. (আমরা খুব বেশি টিভি দেখতাম না।)",
       "Did you use to study at night? (তুমি কি রাতে পড়াশোনা করতে?)"
-    ]
+    ],
+    topic: 'use-of-verbs',
+    level: 'HSC'
   }
 ];
+
+// Export metadata for the topic
+export const rightFormVerbMetadata = {
+  topic: 'use-of-verbs' as const,
+  slug: 'use-of-verbs' as const,
+  level: 'HSC' as GrammarLevel,
+  totalRules: rightFormVerbRules.length,
+  lastUpdated: new Date().toISOString(),
+  version: '1.0.0'
+};

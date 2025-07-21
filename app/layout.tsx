@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import { Toaster } from '@/components/ui/toaster';
+import ErrorBoundary from '@/components/common/ErrorBoundary';
 
 const poppins = Poppins({ 
   subsets: ['latin'],
@@ -55,7 +56,9 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="dark" className={poppins.variable}>
       <body className={`${poppins.className} bg-sf-bg text-sf-text antialiased`}>
-        {children}
+        <ErrorBoundary>
+          {children}
+        </ErrorBoundary>
         <Toaster />
       </body>
     </html>

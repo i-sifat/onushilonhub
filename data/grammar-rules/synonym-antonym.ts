@@ -1,17 +1,17 @@
 // Centralized Synonym and Antonym Grammar Rules Data
+// ADD MORE RULES HERE - just follow the same structure
 
-export interface SynonymAntonymRule {
-  id: number;
-  title: string;
-  bengali: string;
-  description: string;
-  structures: string[];
-  examples: string[];
+import { GrammarRule, GrammarLevel, GrammarTopicSlug } from '../../types/grammar.types';
+
+export interface SynonymAntonymRule extends Omit<GrammarRule, 'topic' | 'level'> {
+  topic: 'synonym-antonym';
+  level: GrammarLevel;
 }
 
 export const synonymAntonymRules: SynonymAntonymRule[] = [
   {
     id: 1,
+    ruleNo: "Rule 1",
     title: "Common Synonyms (সমার্থক শব্দ)",
     bengali: "সাধারণ সমার্থক শব্দ",
     description: "Words that have similar meanings and can be used interchangeably in most contexts",
@@ -25,10 +25,13 @@ export const synonymAntonymRules: SynonymAntonymRule[] = [
       "Big → Large, Huge, Enormous, Massive",
       "Good → Excellent, Fine, Great, Wonderful",
       "Fast → Quick, Rapid, Swift, Speedy"
-    ]
+    ],
+    topic: 'synonym-antonym',
+    level: 'HSC'
   },
   {
     id: 2,
+    ruleNo: "Rule 2",
     title: "Common Antonyms (বিপরীত শব্দ)",
     bengali: "সাধারণ বিপরীত শব্দ",
     description: "Words that have opposite meanings and express contrasting ideas",
@@ -42,10 +45,13 @@ export const synonymAntonymRules: SynonymAntonymRule[] = [
       "Big → Small, Tiny, Little",
       "Good → Bad, Poor, Terrible",
       "Fast → Slow, Sluggish"
-    ]
+    ],
+    topic: 'synonym-antonym',
+    level: 'HSC'
   },
   {
     id: 3,
+    ruleNo: "Rule 3",
     title: "Academic Vocabulary Synonyms",
     bengali: "একাডেমিক শব্দভাণ্ডারের সমার্থক শব্দ",
     description: "Advanced synonyms commonly used in academic and formal writing",
@@ -59,6 +65,18 @@ export const synonymAntonymRules: SynonymAntonymRule[] = [
       "Important → Significant, Crucial, Essential",
       "Think → Consider, Contemplate, Reflect",
       "Use → Utilize, Employ, Apply"
-    ]
+    ],
+    topic: 'synonym-antonym',
+    level: 'HSC'
   }
 ];
+
+// Export metadata for the topic
+export const synonymAntonymMetadata = {
+  topic: 'synonym-antonym' as const,
+  slug: 'synonym-antonym' as const,
+  level: 'HSC' as GrammarLevel,
+  totalRules: synonymAntonymRules.length,
+  lastUpdated: new Date().toISOString(),
+  version: '1.0.0'
+};
