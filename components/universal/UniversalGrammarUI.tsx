@@ -11,11 +11,11 @@ import {
   RotateCcw, 
   ChevronDown,
   ChevronUp,
-  Grid,
-  List,
   Copy,
   Check
 } from 'lucide-react';
+import { ViewModeToggle, ViewMode } from '@/components/ui/view-mode-toggle';
+import { ContentBox } from '@/components/ui/content-box';
 import { GrammarRule, GrammarTopicSlug } from '@/types/grammar.types';
 
 interface UniversalGrammarUIProps {
@@ -41,7 +41,7 @@ export default function UniversalGrammarUI({
 }: UniversalGrammarUIProps) {
   const [selectedRuleId, setSelectedRuleId] = useState<number | null>(null);
   const [expandedRules, setExpandedRules] = useState<{[key: string]: boolean}>({});
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
+  const [viewMode, setViewMode] = useState<ViewMode>('list');
   const [copiedRules, setCopiedRules] = useState<{[key: string]: boolean}>({});
   const [filters, setFilters] = useState<FilterState>({
     searchTerm: ''
@@ -133,33 +133,10 @@ ${rule.examples.map(e => `• ${e}`).join('\n')}
           <Badge variant="secondary" className="bg-sf-button/20 text-sf-button">
             Grammar Only
           </Badge>
-          <div className="flex items-center border border-sf-text-muted/20 rounded-lg overflow-hidden">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setViewMode('list')}
-              className={`rounded-none border-0 transition-all duration-200 ${
-                viewMode === 'list' 
-                  ? 'bg-sf-button text-sf-bg hover:bg-sf-button/90 shadow-sm' 
-                  : 'text-sf-text-subtle hover:bg-sf-button/10 hover:text-sf-button'
-              }`}
-            >
-              <List className="h-4 w-4" />
-            </Button>
-            <div className="w-px h-6 bg-sf-text-muted/20" />
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setViewMode('grid')}
-              className={`rounded-none border-0 transition-all duration-200 ${
-                viewMode === 'grid' 
-                  ? 'bg-sf-button text-sf-bg hover:bg-sf-button/90 shadow-sm' 
-                  : 'text-sf-text-subtle hover:bg-sf-button/10 hover:text-sf-button'
-              }`}
-            >
-              <Grid className="h-4 w-4" />
-            </Button>
-          </div>
+          <ViewModeToggle 
+            viewMode={viewMode} 
+            onViewModeChange={setViewMode}
+          />
         </div>
       </div>
 
@@ -363,57 +340,29 @@ ${rule.examples.map(e => `• ${e}`).join('\n')}
                 {selectedRule.title}
               </h4>
 
-              {selectedRule.structures && selectedRule.structures.length > 0 && (
-                <div className="mb-4">
-                  <h5 className="text-md font-semibold text-sf-text-bold mb-2">Structures:</h5>
-                  <div className="space-y-2">
-                    {selectedRule.structures.map((structure, index) => (
-                      <div
-                        key={index}
-                        className="bg-sf-highlight/10 border-l-4 border-sf-button p-3 rounded-r-lg"
-                      >
-                        <p className="text-sf-text-subtle text-sm font-mono leading-relaxed">
-                          {structure}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+              <div className="space-y-6">
+                {selectedRule.structures && selectedRule.structures.length > 0 && (
+                  <ContentBox
+                    type="structure"
+                    title="Structures"
+                    content={selectedRule.structures}
+                  />
+                )}
 
-              <div>
-                <h5 className="text-md font-semibold text-sf-text-bold mb-3">Examples:</h5>
-                <div className="space-y-2">
-                  {selectedRule.examples.map((example, index) => (
-                    <div
-                      key={index}
-                      className="bg-sf-highlight/10 border-l-4 border-sf-button p-3 rounded-r-lg"
-                    >
-                      <p className="text-sf-text-subtle text-sm leading-relaxed">
-                        {example}
-                      </p>
-                    </div>
-                  ))}
-                </div>
+                <ContentBox
+                  type="example"
+                  title="Examples"
+                  content={selectedRule.examples}
+                />
+
+                {selectedRule.tips && selectedRule.tips.length > 0 && (
+                  <ContentBox
+                    type="tip"
+                    title="Tips"
+                    content={selectedRule.tips}
+                  />
+                )}
               </div>
-
-              {selectedRule.tips && selectedRule.tips.length > 0 && (
-                <div className="mt-4">
-                  <h5 className="text-md font-semibold text-sf-text-bold mb-3">Tips:</h5>
-                  <div className="space-y-2">
-                    {selectedRule.tips.map((tip, index) => (
-                      <div
-                        key={index}
-                        className="bg-blue-500/10 border-l-4 border-blue-500 p-3 rounded-r-lg"
-                      >
-                        <p className="text-sf-text-subtle text-sm leading-relaxed">
-                          💡 {tip}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
           ) : (
             <div className="bg-sf-bg border border-sf-text-muted/20 rounded-lg p-6 text-center">

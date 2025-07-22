@@ -1,4 +1,5 @@
 import BackButton from '@/components/common/BackButton';
+import SafeAreaWrapper from '@/components/common/SafeAreaWrapper';
 import UniversalCombinedUI from '@/components/universal/UniversalCombinedUI';
 import { completingSentenceRules } from '@/data/grammar-rules/completing-sentence';
 import { completingSentenceQuestions } from '@/data/questions/completing-sentence';
@@ -14,7 +15,7 @@ export default function CompletingSentenceGetStartedPage() {
       {/* Back Button - Fixed top-left position */}
       <BackButton />
       
-      <div className="w-full">
+      <SafeAreaWrapper>
         {/* Universal Combined UI */}
         <UniversalCombinedUI
           topic="Completing Sentence"
@@ -23,7 +24,7 @@ export default function CompletingSentenceGetStartedPage() {
           questions={completingSentenceQuestions}
           level="HSC"
         />
-      </div>
+      </SafeAreaWrapper>
     </div>
   );
 }

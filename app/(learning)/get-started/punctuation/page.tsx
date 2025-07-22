@@ -1,4 +1,5 @@
 import BackButton from '@/components/common/BackButton';
+import SafeAreaWrapper from '@/components/common/SafeAreaWrapper';
 import UniversalCombinedUI from '@/components/universal/UniversalCombinedUI';
 import { punctuationRules } from '@/data/grammar-rules/punctuation';
 import { punctuationQuestions } from '@/data/questions/punctuation';
@@ -14,7 +15,7 @@ export default function PunctuationGetStartedPage() {
       {/* Back Button - Fixed top-left position */}
       <BackButton />
       
-      <div className="w-full">
+      <SafeAreaWrapper>
         {/* Universal Combined UI */}
         <UniversalCombinedUI
           topic="Punctuation"
@@ -23,7 +24,7 @@ export default function PunctuationGetStartedPage() {
           questions={punctuationQuestions}
           level="HSC"
         />
-      </div>
+      </SafeAreaWrapper>
     </div>
   );
 }

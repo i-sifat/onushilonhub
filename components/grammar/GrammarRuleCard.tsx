@@ -1,6 +1,7 @@
 'use client';
 
 import { Badge } from '@/components/ui/badge';
+import { ContentBox } from '@/components/ui/content-box';
 
 interface GrammarRuleCardProps {
   id: number;
@@ -50,37 +51,21 @@ export default function GrammarRuleCard({
       {/* Structures */}
       {structures && structures.length > 0 && (
         <div className="mb-6">
-          <h3 className="text-lg font-semibold text-sf-text-bold mb-3">Structures:</h3>
-          <div className="space-y-3">
-            {structures.map((structure, index) => (
-              <div
-                key={index}
-                className="bg-sf-highlight/10 border-l-4 border-sf-button p-4 rounded-r-lg"
-              >
-                <p className="text-sf-text-subtle font-mono text-sm leading-relaxed">
-                  {structure}
-                </p>
-              </div>
-            ))}
-          </div>
+          <ContentBox
+            type="structure"
+            title="Structures"
+            content={structures}
+          />
         </div>
       )}
 
       {/* Examples */}
       <div>
-        <h3 className="text-lg font-semibold text-sf-text-bold mb-3">Examples:</h3>
-        <div className="space-y-3">
-          {examples.map((example, index) => (
-            <div
-              key={index}
-              className="bg-sf-highlight/10 border-l-4 border-sf-button p-4 rounded-r-lg"
-            >
-              <p className="text-sf-text-subtle leading-relaxed">
-                {example}
-              </p>
-            </div>
-          ))}
-        </div>
+        <ContentBox
+          type="example"
+          title="Examples"
+          content={examples}
+        />
       </div>
     </div>
   );

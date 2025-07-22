@@ -1,4 +1,5 @@
 import BackButton from '@/components/common/BackButton';
+import SafeAreaWrapper from '@/components/common/SafeAreaWrapper';
 import UniversalQuestionsUI from '@/components/universal/UniversalQuestionsUI';
 import { modifierQuestions } from '@/data/questions/modifier';
 
@@ -8,7 +9,7 @@ export default function HSCModifierPage() {
       {/* Back Button - Fixed top-left position */}
       <BackButton />
       
-      <div className="w-full">
+      <SafeAreaWrapper>
         {/* Universal Questions UI */}
         <UniversalQuestionsUI
           topic="Modifier"
@@ -18,7 +19,7 @@ export default function HSCModifierPage() {
           showPagination={true}
           itemsPerPage={15}
         />
-      </div>
+      </SafeAreaWrapper>
     </div>
   );
 }

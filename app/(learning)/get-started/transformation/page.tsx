@@ -1,4 +1,5 @@
 import BackButton from '@/components/common/BackButton';
+import SafeAreaWrapper from '@/components/common/SafeAreaWrapper';
 import UniversalCombinedUI from '@/components/universal/UniversalCombinedUI';
 import { transformationRules } from '@/data/grammar-rules/transformation';
 import { transformationQuestions } from '@/data/questions/transformation';
@@ -14,7 +15,7 @@ export default function TransformationGetStartedPage() {
       {/* Back Button - Fixed top-left position */}
       <BackButton />
       
-      <div className="w-full">
+      <SafeAreaWrapper>
         {/* Universal Combined UI */}
         <UniversalCombinedUI
           topic="Transformation"
@@ -23,7 +24,7 @@ export default function TransformationGetStartedPage() {
           questions={transformationQuestions}
           level="HSC"
         />
-      </div>
+      </SafeAreaWrapper>
     </div>
   );
 }

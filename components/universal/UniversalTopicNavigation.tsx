@@ -8,6 +8,7 @@ import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { StandardizedTopicCard } from '@/components/ui/standardized-topic-card';
 import { 
   BookOpen, 
   Target, 
@@ -40,9 +41,7 @@ interface TopicStats {
 }
 
 interface FilterOptions {
-  difficulty: 'ALL' | 'EASY' | 'MEDIUM' | 'HARD';
-  category: 'ALL' | 'grammar-rules' | 'questions' | 'both';
-  sortBy: 'order' | 'name' | 'difficulty' | 'rules' | 'questions';
+  sortBy: 'order' | 'name' | 'rules' | 'questions';
   sortOrder: 'asc' | 'desc';
 }
 
@@ -61,63 +60,7 @@ const getTopicStats = (topicSlug: string): TopicStats => {
   };
 };
 
-const TopicCard = ({ 
-  topic, 
-  stats, 
-  section = 'get-started'
-}: { 
-  topic: TopicConfig; 
-  stats: TopicStats;
-  section?: string;
-}) => {
-  const pathname = usePathname();
-  
-  // Determine the correct route based on section
-  const getTopicRoute = () => {
-    switch (section) {
-      case 'grammar-items':
-        return topic.routes.grammarRules || `/grammar-items/${topic.level.toLowerCase()}/${topic.slug}`;
-      case 'board-questions':
-        return topic.routes.questions || `/board-questions/${topic.level.toLowerCase()}/${topic.slug}`;
-      case 'get-started':
-      default:
-        return topic.routes.practice || `/get-started/${topic.slug}`;
-    }
-  };
-
-  const route = getTopicRoute();
-  const isActive = pathname === route;
-
-  return (
-    <Link href={route}>
-      <Card className={`h-full transition-all duration-300 hover:shadow-lg hover:shadow-sf-button/10 hover:border-sf-button/50 cursor-pointer border-sf-text-muted/20 ${
-        isActive ? 'ring-2 ring-sf-button/50 border-sf-button/50' : ''
-      }`}>
-        <CardContent className="p-6">
-          <div className="flex items-center space-x-4">
-            <div className="text-3xl" style={{ color: topic.color }}>
-              {topic.icon}
-            </div>
-            <div className="flex-1">
-              <CardTitle className="text-lg text-sf-text-bold leading-tight mb-2">
-                {topic.name}
-              </CardTitle>
-              {/* Hide question count for grammar-items section */}
-              {section !== 'grammar-items' && (
-                <div className="text-sm text-sf-text-subtle">
-                  {stats.questionCount} Questions
-                </div>
-              )}
-            </div>
-            {isActive && (
-              <CheckCircle className="h-5 w-5 text-sf-button" data-testid="check-circle" />
-            )}
-          </div>
-        </CardContent>
-      </Card>
-    </Link>
-  );
-};
+// Using StandardizedTopicCard for consistent design across all sections
 
 export default function UniversalTopicNavigation({
   level,
@@ -130,8 +73,6 @@ export default function UniversalTopicNavigation({
 }: UniversalTopicNavigationProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<FilterOptions>({
-    difficulty: 'ALL',
-    category: 'ALL',
     sortBy: 'order',
     sortOrder: 'asc'
   });
@@ -156,17 +97,7 @@ export default function UniversalTopicNavigation({
       );
     }
 
-    // Apply difficulty filter
-    if (filters.difficulty !== 'ALL') {
-      topics = topics.filter(topic => topic.difficulty === filters.difficulty);
-    }
 
-    // Apply category filter
-    if (filters.category !== 'ALL') {
-      topics = topics.filter(topic => 
-        topic.category === filters.category || topic.category === 'both'
-      );
-    }
 
     // Apply sorting
     topics.sort((a, b) => {
@@ -176,10 +107,7 @@ export default function UniversalTopicNavigation({
         case 'name':
           comparison = a.name.localeCompare(b.name);
           break;
-        case 'difficulty':
-          const difficultyOrder = { 'EASY': 1, 'MEDIUM': 2, 'HARD': 3 };
-          comparison = difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty];
-          break;
+
         case 'rules':
           const aRules = getTopicStats(a.slug).ruleCount;
           const bRules = getTopicStats(b.slug).ruleCount;
@@ -304,36 +232,6 @@ export default function UniversalTopicNavigation({
               {showFiltersPanel && (
                 <div className="flex flex-wrap items-center gap-3">
                   <Select
-                    value={filters.difficulty}
-                    onValueChange={(value) => setFilters(prev => ({ ...prev, difficulty: value as FilterOptions['difficulty'] }))}
-                  >
-                    <SelectTrigger className="w-32">
-                      <SelectValue placeholder="Difficulty" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="ALL">All Levels</SelectItem>
-                      <SelectItem value="EASY">Easy</SelectItem>
-                      <SelectItem value="MEDIUM">Medium</SelectItem>
-                      <SelectItem value="HARD">Hard</SelectItem>
-                    </SelectContent>
-                  </Select>
-
-                  <Select
-                    value={filters.category}
-                    onValueChange={(value) => setFilters(prev => ({ ...prev, category: value as FilterOptions['category'] }))}
-                  >
-                    <SelectTrigger className="w-36">
-                      <SelectValue placeholder="Category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="ALL">All Categories</SelectItem>
-                      <SelectItem value="grammar-rules">Grammar Rules</SelectItem>
-                      <SelectItem value="questions">Questions</SelectItem>
-                      <SelectItem value="both">Both</SelectItem>
-                    </SelectContent>
-                  </Select>
-
-                  <Select
                     value={filters.sortBy}
                     onValueChange={(value) => setFilters(prev => ({ ...prev, sortBy: value as FilterOptions['sortBy'] }))}
                   >
@@ -343,7 +241,6 @@ export default function UniversalTopicNavigation({
                     <SelectContent>
                       <SelectItem value="order">Default</SelectItem>
                       <SelectItem value="name">Name</SelectItem>
-                      <SelectItem value="difficulty">Difficulty</SelectItem>
                       <SelectItem value="rules">Rules Count</SelectItem>
                       <SelectItem value="questions">Questions Count</SelectItem>
                     </SelectContent>
@@ -369,14 +266,25 @@ export default function UniversalTopicNavigation({
 
       {/* Topics Grid */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredTopics.map((topic) => (
-          <TopicCard
-            key={topic.id}
-            topic={topic}
-            stats={getTopicStats(topic.slug)}
-            section={section}
-          />
-        ))}
+        {filteredTopics.map((topic) => {
+          const stats = getTopicStats(topic.slug);
+          return (
+            <StandardizedTopicCard
+              key={topic.id}
+              topic={{
+                id: topic.id,
+                name: topic.name,
+                slug: topic.slug,
+                icon: topic.icon || '📚',
+                color: topic.color || '#3B82F6'
+              }}
+              section={section}
+              questionCount={stats.questionCount}
+              size="standard"
+              showHoverEffects={true}
+            />
+          );
+        })}
       </div>
 
       {/* No Results */}
@@ -392,8 +300,6 @@ export default function UniversalTopicNavigation({
             onClick={() => {
               setSearchQuery('');
               setFilters({
-                difficulty: 'ALL',
-                category: 'ALL',
                 sortBy: 'order',
                 sortOrder: 'asc'
               });

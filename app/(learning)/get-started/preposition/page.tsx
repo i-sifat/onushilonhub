@@ -1,4 +1,5 @@
 import BackButton from '@/components/common/BackButton';
+import SafeAreaWrapper from '@/components/common/SafeAreaWrapper';
 import UniversalCombinedUI from '@/components/universal/UniversalCombinedUI';
 import { prepositionRules } from '@/data/grammar-rules/preposition';
 import { prepositionQuestions } from '@/data/questions/preposition';
@@ -14,7 +15,7 @@ export default function PrepositionGetStartedPage() {
       {/* Back Button - Fixed top-left position */}
       <BackButton />
       
-      <div className="w-full">
+      <SafeAreaWrapper>
         {/* Universal Combined UI */}
         <UniversalCombinedUI
           topic="Preposition"
@@ -23,7 +24,7 @@ export default function PrepositionGetStartedPage() {
           questions={prepositionQuestions}
           level="HSC"
         />
-      </div>
+      </SafeAreaWrapper>
     </div>
   );
 }

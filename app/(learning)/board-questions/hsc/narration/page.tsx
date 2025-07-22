@@ -1,4 +1,5 @@
 import BackButton from '@/components/common/BackButton';
+import SafeAreaWrapper from '@/components/common/SafeAreaWrapper';
 import UniversalQuestionsUI from '@/components/universal/UniversalQuestionsUI';
 import { narrationQuestions } from '@/data/questions/narration';
 
@@ -8,7 +9,7 @@ export default function HSCNarrationPage() {
       {/* Back Button - Fixed top-left position */}
       <BackButton />
       
-      <div className="w-full">
+      <SafeAreaWrapper>
         {/* Universal Questions UI */}
         <UniversalQuestionsUI
           topic="Narration"
@@ -18,7 +19,7 @@ export default function HSCNarrationPage() {
           showPagination={true}
           itemsPerPage={15}
         />
-      </div>
+      </SafeAreaWrapper>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import BackButton from '@/components/common/BackButton';
+import SafeAreaWrapper from '@/components/common/SafeAreaWrapper';
 import UniversalGrammarUI from '@/components/universal/UniversalGrammarUI';
 import { completingSentenceRules } from '@/data/grammar-rules/completing-sentence';
 
@@ -8,7 +9,7 @@ export default function HSCCompletingSentenceGrammarPage() {
       {/* Back Button - Fixed top-left position */}
       <BackButton />
       
-      <div className="w-full">
+      <SafeAreaWrapper>
         {/* Universal Grammar UI */}
         <UniversalGrammarUI
           topic="Completing Sentence"
@@ -18,7 +19,7 @@ export default function HSCCompletingSentenceGrammarPage() {
           showSearch={true}
           showFilters={true}
         />
-      </div>
+      </SafeAreaWrapper>
     </div>
   );
 }

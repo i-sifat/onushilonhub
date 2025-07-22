@@ -1,4 +1,5 @@
 import BackButton from '@/components/common/BackButton';
+import SafeAreaWrapper from '@/components/common/SafeAreaWrapper';
 import UniversalGrammarUI from '@/components/universal/UniversalGrammarUI';
 import { connectorsRules } from '@/data/grammar-rules/connectors';
 
@@ -8,7 +9,7 @@ export default function HSCConnectorsGrammarPage() {
       {/* Back Button - Fixed top-left position */}
       <BackButton />
       
-      <div className="w-full">
+      <SafeAreaWrapper>
         {/* Universal Grammar UI */}
         <UniversalGrammarUI
           topic="Connectors"
@@ -18,7 +19,7 @@ export default function HSCConnectorsGrammarPage() {
           showSearch={true}
           showFilters={true}
         />
-      </div>
+      </SafeAreaWrapper>
     </div>
   );
 }

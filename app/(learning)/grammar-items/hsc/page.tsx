@@ -1,4 +1,5 @@
 import BackButton from '@/components/common/BackButton';
+import SafeAreaWrapper from '@/components/common/SafeAreaWrapper';
 import UniversalTopicNavigation from '@/components/universal/UniversalTopicNavigation';
 
 export default function HSCGrammarItemsPage() {
@@ -7,7 +8,7 @@ export default function HSCGrammarItemsPage() {
       {/* Back Button - Fixed top-left position */}
       <BackButton />
       
-      <div className="w-full px-4 sm:px-6 lg:px-8">
+      <SafeAreaWrapper>
         {/* Universal Topic Navigation */}
         <UniversalTopicNavigation
           level="HSC"
@@ -17,7 +18,7 @@ export default function HSCGrammarItemsPage() {
           showStats={true}
           showProgress={false}
         />
-      </div>
+      </SafeAreaWrapper>
     </div>
   );
 }

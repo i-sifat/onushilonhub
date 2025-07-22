@@ -1,4 +1,5 @@
 import BackButton from '@/components/common/BackButton';
+import SafeAreaWrapper from '@/components/common/SafeAreaWrapper';
 import UniversalCombinedUI from '@/components/universal/UniversalCombinedUI';
 import { narrationRules } from '@/data/grammar-rules/narration';
 import { narrationQuestions } from '@/data/questions/narration';
@@ -14,7 +15,7 @@ export default function NarrationGetStartedPage() {
       {/* Back Button - Fixed top-left position */}
       <BackButton />
       
-      <div className="w-full">
+      <SafeAreaWrapper>
         {/* Universal Combined UI */}
         <UniversalCombinedUI
           topic="Narration"
@@ -23,7 +24,7 @@ export default function NarrationGetStartedPage() {
           questions={narrationQuestions}
           level="HSC"
         />
-      </div>
+      </SafeAreaWrapper>
     </div>
   );
 }

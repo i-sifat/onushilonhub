@@ -142,7 +142,7 @@ describe('UniversalTopicNavigation', () => {
     });
   });
 
-  it('filters topics based on difficulty', async () => {
+  it('shows simplified filters without difficulty options', async () => {
     render(<UniversalTopicNavigation level="HSC" showFilters={true} />);
     
     // Open filters panel
@@ -151,20 +151,14 @@ describe('UniversalTopicNavigation', () => {
     
     // Wait for filters panel to appear
     await waitFor(() => {
-      expect(screen.getByText('All Levels')).toBeInTheDocument();
+      expect(screen.getByText('Default')).toBeInTheDocument();
     });
     
-    // Select HARD difficulty
-    const difficultySelect = screen.getByText('All Levels');
-    fireEvent.click(difficultySelect);
-    
-    const hardOption = screen.getByText('Hard');
-    fireEvent.click(hardOption);
-    
-    await waitFor(() => {
-      expect(screen.getByText('Connectors')).toBeInTheDocument();
-      expect(screen.queryByText('Completing Sentence')).not.toBeInTheDocument();
-    });
+    // Difficulty filter should not be present
+    expect(screen.queryByText('All Levels')).not.toBeInTheDocument();
+    expect(screen.queryByText('Easy')).not.toBeInTheDocument();
+    expect(screen.queryByText('Medium')).not.toBeInTheDocument();
+    expect(screen.queryByText('Hard')).not.toBeInTheDocument();
   });
 
   it('shows different sections correctly', () => {

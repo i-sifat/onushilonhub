@@ -14,10 +14,9 @@ import {
   EyeOff,
   Eye,
   ChevronLeft,
-  ChevronRight,
-  Grid,
-  List
+  ChevronRight
 } from 'lucide-react';
+import { ViewModeToggle, ViewMode } from '@/components/ui/view-mode-toggle';
 import { Question, QuestionTopicSlug, QuestionBoard, QuestionDifficulty } from '@/types/question.types';
 
 interface UniversalQuestionsUIProps {
@@ -33,14 +32,12 @@ interface FilterConfiguration {
   showQuestionTypeFilter: boolean;
   availableBoards: string[];
   availableYears: string[];
-  availableDifficulties: string[];
 }
 
 interface FilterState {
   searchTerm: string;
   selectedBoard: string;
   selectedYear: string;
-  selectedDifficulty: string;
   selectedQuestionType: string;
 }
 
@@ -53,8 +50,6 @@ const YEARS = [
   'All Years', '2024', '2023', '2022', '2021', '2020', 
   '2019', '2018', '2017', '2016', '2015'
 ];
-
-const DIFFICULTIES = ['All Difficulties', 'EASY', 'MEDIUM', 'HARD'];
 
 const QUESTION_TYPES = [
   'All Types', 'Passage', 'Direct Question', 'Transformation', 
@@ -75,8 +70,7 @@ const getFilterConfiguration = (topicSlug: QuestionTopicSlug): FilterConfigurati
   return {
     showQuestionTypeFilter: !topicSpecificPages.includes(topicSlug),
     availableBoards: BOARDS,
-    availableYears: YEARS,
-    availableDifficulties: DIFFICULTIES
+    availableYears: YEARS
   };
 };
 
@@ -90,12 +84,11 @@ export default function UniversalQuestionsUI({
 }: UniversalQuestionsUIProps) {
   const [showAnswers, setShowAnswers] = useState<{[key: string]: boolean}>({});
   const [currentPage, setCurrentPage] = useState(1);
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
+  const [viewMode, setViewMode] = useState<ViewMode>('list');
   const [filters, setFilters] = useState<FilterState>({
     searchTerm: '',
     selectedBoard: 'All Boards',
     selectedYear: 'All Years',
-    selectedDifficulty: 'All Difficulties',
     selectedQuestionType: 'All Types'
   });
 
@@ -141,9 +134,7 @@ export default function UniversalQuestionsUI({
         question.year?.toString() === filters.selectedYear ||
         question.id?.includes(filters.selectedYear);
 
-      // Difficulty filter
-      const matchesDifficulty = filters.selectedDifficulty === 'All Difficulties' ||
-        question.difficulty === filters.selectedDifficulty;
+
 
       // Question type filter - only apply if showQuestionTypeFilter is true
       let matchesType = true;
@@ -153,7 +144,7 @@ export default function UniversalQuestionsUI({
           questionType === filters.selectedQuestionType;
       }
 
-      return matchesSearch && matchesBoard && matchesYear && matchesDifficulty && matchesType;
+      return matchesSearch && matchesBoard && matchesYear && matchesType;
     });
   }, [questions, filters, getQuestionType, filterConfig.showQuestionTypeFilter]);
 
@@ -173,7 +164,6 @@ export default function UniversalQuestionsUI({
       searchTerm: '',
       selectedBoard: 'All Boards',
       selectedYear: 'All Years',
-      selectedDifficulty: 'All Difficulties',
       selectedQuestionType: 'All Types'
     });
     setCurrentPage(1);
@@ -183,8 +173,7 @@ export default function UniversalQuestionsUI({
   const hasActiveFilters = useMemo(() => {
     const baseFiltersActive = filters.searchTerm || 
            filters.selectedBoard !== 'All Boards' || 
-           filters.selectedYear !== 'All Years' || 
-           filters.selectedDifficulty !== 'All Difficulties';
+           filters.selectedYear !== 'All Years';
     
     const questionTypeFilterActive = filterConfig.showQuestionTypeFilter && 
            filters.selectedQuestionType !== 'All Types';
@@ -386,33 +375,10 @@ export default function UniversalQuestionsUI({
           <Badge variant="secondary" className="bg-sf-button/20 text-sf-button">
             Questions Only
           </Badge>
-          <div className="flex items-center border border-sf-text-muted/20 rounded-lg overflow-hidden">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setViewMode('list')}
-              className={`rounded-none border-0 transition-all duration-200 ${
-                viewMode === 'list' 
-                  ? 'bg-sf-button text-sf-bg hover:bg-sf-button/90 shadow-sm' 
-                  : 'text-sf-text-subtle hover:bg-sf-button/10 hover:text-sf-button'
-              }`}
-            >
-              <List className="h-4 w-4" />
-            </Button>
-            <div className="w-px h-6 bg-sf-text-muted/20" />
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setViewMode('grid')}
-              className={`rounded-none border-0 transition-all duration-200 ${
-                viewMode === 'grid' 
-                  ? 'bg-sf-button text-sf-bg hover:bg-sf-button/90 shadow-sm' 
-                  : 'text-sf-text-subtle hover:bg-sf-button/10 hover:text-sf-button'
-              }`}
-            >
-              <Grid className="h-4 w-4" />
-            </Button>
-          </div>
+          <ViewModeToggle 
+            viewMode={viewMode} 
+            onViewModeChange={setViewMode}
+          />
         </div>
       </div>
 
@@ -436,7 +402,7 @@ export default function UniversalQuestionsUI({
           )}
         </div>
 
-        <div className={`grid gap-3 ${filterConfig.showQuestionTypeFilter ? 'grid-cols-5' : 'grid-cols-4'}`}>
+        <div className={`grid gap-3 ${filterConfig.showQuestionTypeFilter ? 'grid-cols-4' : 'grid-cols-3'}`}>
           <div className="relative">
             <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-3 w-3 text-sf-text-muted" />
             <input
@@ -468,15 +434,7 @@ export default function UniversalQuestionsUI({
             ))}
           </select>
 
-          <select
-            value={filters.selectedDifficulty}
-            onChange={(e) => updateFilter('selectedDifficulty', e.target.value)}
-            className="px-2 py-2 text-sm border border-sf-text-muted/20 rounded bg-sf-bg text-sf-text-subtle focus:outline-none focus:ring-1 focus:ring-sf-button"
-          >
-            {DIFFICULTIES.map(difficulty => (
-              <option key={difficulty} value={difficulty}>{difficulty}</option>
-            ))}
-          </select>
+
 
           {filterConfig.showQuestionTypeFilter && (
             <select
@@ -542,18 +500,6 @@ export default function UniversalQuestionsUI({
                         >
                           {getQuestionType(question)}
                         </Badge>
-                        {question.difficulty && (
-                          <Badge 
-                            variant="secondary" 
-                            className={`text-xs ${
-                              question.difficulty === 'EASY' ? 'bg-green-500/20 text-green-400' :
-                              question.difficulty === 'MEDIUM' ? 'bg-yellow-500/20 text-yellow-400' :
-                              'bg-red-500/20 text-red-400'
-                            }`}
-                          >
-                            {question.difficulty}
-                          </Badge>
-                        )}
                       </div>
                       <div className="flex items-center space-x-3 text-xs text-sf-text-muted">
                         <div className="flex items-center space-x-1">

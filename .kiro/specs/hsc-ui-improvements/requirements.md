@@ -104,3 +104,124 @@ This feature focuses on improving the user interface and user experience of the 
 3. WHEN rendering control buttons THEN the system SHALL ensure proper contrast and accessibility
 4. WHEN buttons are active/inactive THEN the system SHALL provide clear visual feedback using theme colors
 5. WHEN displaying interface controls THEN the system SHALL maintain visual harmony with the overall design system
+
+### Requirement 9
+
+**User Story:** As a student navigating get-started/hsc grammar topic pages, I want proper spacing around content areas, so that the interface feels comfortable and not cramped against the borders.
+
+#### Acceptance Criteria
+
+1. WHEN visiting get-started/hsc grammar topic pages THEN the system SHALL provide adequate safe area spacing around content
+2. WHEN displaying topic content THEN the system SHALL ensure content is not too close to page borders
+3. WHEN rendering on mobile devices THEN the system SHALL maintain proper spacing for touch interactions
+4. WHEN showing content areas THEN the system SHALL provide consistent padding for better readability
+5. WHEN displaying multiple content sections THEN the system SHALL ensure proper spacing between sections
+
+### Requirement 10
+
+**User Story:** As a student using filter functionality, I want a simplified filter interface with only essential options, so that I can quickly find what I need without being overwhelmed by choices.
+
+#### Acceptance Criteria
+
+1. WHEN displaying filter options THEN the system SHALL show only Search, All Boards, and All Years
+2. WHEN rendering filter interface THEN the system SHALL remove all categories and rules functionality
+3. WHEN showing filter controls THEN the system SHALL remove difficulty dropdown from all pages
+4. WHEN displaying question filters THEN the system SHALL remove easy, medium, hard badges from questions and rules
+5. WHEN filtering content THEN the system SHALL maintain functionality with simplified options
+
+### Requirement 11
+
+**User Story:** As a student viewing HSC and SSC selection cards across different sections, I want consistent card design and behavior, so that the interface feels unified and predictable.
+
+#### Acceptance Criteria
+
+1. WHEN displaying HSC selection cards THEN the system SHALL use the same shared component across grammar, question, and combined sections
+2. WHEN showing SSC selection cards THEN the system SHALL use the same shared component across grammar, question, and combined sections
+3. WHEN rendering selection cards THEN the system SHALL pass different data and text while maintaining consistent design
+4. WHEN hovering over cards THEN the system SHALL display shadow effects consistently
+5. WHEN displaying cards THEN the system SHALL reduce code duplication by using shared components
+
+### Requirement 12
+
+**User Story:** As a student browsing grammar topic cards after choosing HSC or SSC, I want consistent card sizing and design, so that the interface looks organized and professional.
+
+#### Acceptance Criteria
+
+1. WHEN displaying grammar topic cards THEN the system SHALL use one shared component across grammar, question, and combined sections
+2. WHEN showing topic cards THEN the system SHALL maintain same size and design with different topic names
+3. WHEN rendering cards THEN the system SHALL ensure consistent dimensions across all sections
+4. WHEN displaying topic information THEN the system SHALL use standardized layout and typography
+5. WHEN showing multiple topic cards THEN the system SHALL maintain visual consistency
+
+### Requirement 13
+
+**User Story:** As a student using card icons and functionality across different pages, I want consistent behavior and appearance, so that I can rely on familiar interactions throughout the site.
+
+#### Acceptance Criteria
+
+1. WHEN displaying card icons THEN the system SHALL function properly on every page
+2. WHEN showing list/card view toggles THEN the system SHALL work consistently across all sections
+3. WHEN rendering icons THEN the system SHALL maintain consistent styling and behavior
+4. WHEN displaying functionality controls THEN the system SHALL prevent inconsistent issues
+5. WHEN showing interactive elements THEN the system SHALL ensure reliable functionality
+
+### Requirement 14
+
+**User Story:** As a student viewing content structures and examples, I want well-designed, readable presentation boxes, so that I can easily understand the information being presented.
+
+#### Acceptance Criteria
+
+1. WHEN displaying Structures and Examples boxes THEN the system SHALL use rounded corners for better visual appeal
+2. WHEN showing content boxes THEN the system SHALL ensure better readability with proper typography
+3. WHEN rendering information containers THEN the system SHALL remove duplicated data boxes
+4. WHEN displaying structured content THEN the system SHALL use consistent styling across all boxes
+5. WHEN showing examples THEN the system SHALL maintain clear visual hierarchy
+
+### Requirement 15
+
+**User Story:** As a student visiting the homepage, I want an engaging and modern design that feels welcoming for students, so that I feel motivated to use the learning platform.
+
+#### Acceptance Criteria
+
+1. WHEN visiting the homepage THEN the system SHALL display a renovated design with student-friendly aesthetics
+2. WHEN showing homepage content THEN the system SHALL maintain current color theme with more engaging styling
+3. WHEN displaying left side content THEN the system SHALL show dynamic text that appeals to students
+4. WHEN showing right side content THEN the system SHALL display current animated card but larger in size
+5. WHEN rendering navigation THEN the system SHALL provide updated navbar with better visual and user experience
+6. WHEN displaying overall design THEN the system SHALL convey a non-organizational, free learning vibe
+
+### Requirement 16
+
+**User Story:** As a student using the website, I want smooth loading states and beautiful animations, so that the interface feels responsive and engaging during interactions.
+
+#### Acceptance Criteria
+
+1. WHEN pages are loading THEN the system SHALL display suitable beautiful loading indicators
+2. WHEN content is building THEN the system SHALL show top horizontal loading lines
+3. WHEN displaying loading states THEN the system SHALL use animations consistent with website theme
+4. WHEN showing progress indicators THEN the system SHALL provide clear feedback about loading status
+5. WHEN rendering loading animations THEN the system SHALL maintain smooth performance
+
+### Requirement 17
+
+**User Story:** As a student interacting with buttons, cards, and interface elements, I want subtle animations and interactions, so that the interface feels modern and responsive to my actions.
+
+#### Acceptance Criteria
+
+1. WHEN hovering over buttons THEN the system SHALL display subtle animation effects
+2. WHEN interacting with cards THEN the system SHALL provide smooth hover and click animations
+3. WHEN using interface elements THEN the system SHALL show minimal, clean animation feedback
+4. WHEN displaying animations THEN the system SHALL maintain subtle and professional appearance
+5. WHEN showing interactive feedback THEN the system SHALL ensure animations enhance rather than distract from content
+
+### Requirement 18
+
+**User Story:** As a student viewing answers and interactive elements, I want consistent color schemes that match the website theme, so that the visual experience feels cohesive throughout.
+
+#### Acceptance Criteria
+
+1. WHEN hovering over answer elements THEN the system SHALL use colors consistent with website theme
+2. WHEN displaying interactive states THEN the system SHALL maintain color consistency across all components
+3. WHEN showing hover effects THEN the system SHALL use theme-appropriate color variations
+4. WHEN rendering interactive elements THEN the system SHALL ensure proper contrast and accessibility
+5. WHEN displaying color changes THEN the system SHALL maintain visual harmony with overall design system

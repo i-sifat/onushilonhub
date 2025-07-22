@@ -1,4 +1,5 @@
 import BackButton from '@/components/common/BackButton';
+import SafeAreaWrapper from '@/components/common/SafeAreaWrapper';
 import UniversalGrammarUI from '@/components/universal/UniversalGrammarUI';
 import { transformationRules } from '@/data/grammar-rules/transformation';
 
@@ -8,7 +9,7 @@ export default function HSCTransformationGrammarPage() {
       {/* Back Button - Fixed top-left position */}
       <BackButton />
       
-      <div className="w-full">
+      <SafeAreaWrapper>
         {/* Universal Grammar UI */}
         <UniversalGrammarUI
           topic="Transformation"
@@ -18,7 +19,7 @@ export default function HSCTransformationGrammarPage() {
           showSearch={true}
           showFilters={true}
         />
-      </div>
+      </SafeAreaWrapper>
     </div>
   );
 }

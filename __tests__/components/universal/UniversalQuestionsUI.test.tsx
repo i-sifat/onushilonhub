@@ -68,7 +68,6 @@ describe('UniversalQuestionsUI Filter Configuration', () => {
     // Check that other filters are still present
     expect(screen.getByDisplayValue('All Boards')).toBeInTheDocument();
     expect(screen.getByDisplayValue('All Years')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('All Difficulties')).toBeInTheDocument();
   });
 
   it('should hide question type filter for connectors topic', () => {
@@ -160,7 +159,6 @@ describe('UniversalQuestionsUI Filter Configuration', () => {
     expect(screen.getByDisplayValue('All Types')).toBeInTheDocument();
     expect(screen.getByDisplayValue('All Boards')).toBeInTheDocument();
     expect(screen.getByDisplayValue('All Years')).toBeInTheDocument();
-    expect(screen.getByDisplayValue('All Difficulties')).toBeInTheDocument();
   });
 
   it('should adjust grid layout when question type filter is hidden', () => {
@@ -173,15 +171,15 @@ describe('UniversalQuestionsUI Filter Configuration', () => {
       />
     );
 
-    // Check that the grid has 4 columns instead of 5 when question type filter is hidden
-    const filterGrid = container.querySelector('.grid-cols-4');
+    // Check that the grid has 3 columns instead of 4 when question type filter is hidden
+    const filterGrid = container.querySelector('.grid-cols-3');
     expect(filterGrid).toBeInTheDocument();
     
-    const fiveColumnGrid = container.querySelector('.grid-cols-5');
-    expect(fiveColumnGrid).not.toBeInTheDocument();
+    const fourColumnGrid = container.querySelector('.grid-cols-4');
+    expect(fourColumnGrid).not.toBeInTheDocument();
   });
 
-  it('should use 5-column grid layout when question type filter is shown', () => {
+  it('should use 4-column grid layout when question type filter is shown', () => {
     const { container } = render(
       <UniversalQuestionsUI
         topic="Preposition"
@@ -191,8 +189,8 @@ describe('UniversalQuestionsUI Filter Configuration', () => {
       />
     );
 
-    // Check that the grid has 5 columns when question type filter is shown
-    const filterGrid = container.querySelector('.grid-cols-5');
+    // Check that the grid has 4 columns when question type filter is shown
+    const filterGrid = container.querySelector('.grid-cols-4');
     expect(filterGrid).toBeInTheDocument();
   });
 });

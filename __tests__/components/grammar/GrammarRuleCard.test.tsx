@@ -40,7 +40,7 @@ describe('GrammarRuleCard', () => {
   it('renders structures when provided', () => {
     render(<GrammarRuleCard {...mockGrammarRule} />)
     
-    expect(screen.getByText('Structures:')).toBeInTheDocument()
+    expect(screen.getByText('Structures')).toBeInTheDocument()
     expect(screen.getByText('Subject + Verb (base form) + Object')).toBeInTheDocument()
     expect(screen.getByText('Subject + do/does + not + Verb + Object')).toBeInTheDocument()
   })
@@ -53,13 +53,13 @@ describe('GrammarRuleCard', () => {
     
     render(<GrammarRuleCard {...ruleWithoutStructures} />)
     
-    expect(screen.queryByText('Structures:')).not.toBeInTheDocument()
+    expect(screen.queryByText('Structures')).not.toBeInTheDocument()
   })
 
   it('renders examples section', () => {
     render(<GrammarRuleCard {...mockGrammarRule} />)
     
-    expect(screen.getByText('Examples:')).toBeInTheDocument()
+    expect(screen.getByText('Examples')).toBeInTheDocument()
     expect(screen.getByText('I eat rice every day.')).toBeInTheDocument()
     expect(screen.getByText('She does not like coffee.')).toBeInTheDocument()
   })

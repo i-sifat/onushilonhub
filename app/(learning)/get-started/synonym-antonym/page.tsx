@@ -1,4 +1,5 @@
 import BackButton from '@/components/common/BackButton';
+import SafeAreaWrapper from '@/components/common/SafeAreaWrapper';
 import UniversalCombinedUI from '@/components/universal/UniversalCombinedUI';
 import { synonymAntonymRules } from '@/data/grammar-rules/synonym-antonym';
 import { synonymAntonymQuestions } from '@/data/questions/synonym-antonym';
@@ -14,7 +15,7 @@ export default function SynonymAntonymGetStartedPage() {
       {/* Back Button - Fixed top-left position */}
       <BackButton />
       
-      <div className="w-full">
+      <SafeAreaWrapper>
         {/* Universal Combined UI */}
         <UniversalCombinedUI
           topic="Synonym & Antonym"
@@ -23,7 +24,7 @@ export default function SynonymAntonymGetStartedPage() {
           questions={synonymAntonymQuestions}
           level="HSC"
         />
-      </div>
+      </SafeAreaWrapper>
     </div>
   );
 }

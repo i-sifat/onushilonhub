@@ -1,4 +1,5 @@
 import BackButton from '@/components/common/BackButton';
+import SafeAreaWrapper from '@/components/common/SafeAreaWrapper';
 import UniversalCombinedUI from '@/components/universal/UniversalCombinedUI';
 import { rightFormVerbRules } from '@/data/grammar-rules/right-form-verb';
 import { useOfVerbsQuestions } from '@/data/questions/use-of-verbs';
@@ -14,7 +15,7 @@ export default function UseOfVerbsGetStartedPage() {
       {/* Back Button - Fixed top-left position */}
       <BackButton />
       
-      <div className="w-full">
+      <SafeAreaWrapper>
         {/* Universal Combined UI */}
         <UniversalCombinedUI
           topic="Use of Verbs"
@@ -23,7 +24,7 @@ export default function UseOfVerbsGetStartedPage() {
           questions={useOfVerbsQuestions}
           level="HSC"
         />
-      </div>
+      </SafeAreaWrapper>
     </div>
   );
 }

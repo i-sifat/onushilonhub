@@ -1,4 +1,5 @@
 import BackButton from '@/components/common/BackButton';
+import SafeAreaWrapper from '@/components/common/SafeAreaWrapper';
 import UniversalGrammarUI from '@/components/universal/UniversalGrammarUI';
 import { modifierRules } from '@/data/grammar-rules/modifier';
 
@@ -8,7 +9,7 @@ export default function HSCModifierGrammarPage() {
       {/* Back Button - Fixed top-left position */}
       <BackButton />
       
-      <div className="w-full">
+      <SafeAreaWrapper>
         {/* Universal Grammar UI */}
         <UniversalGrammarUI
           topic="Modifier"
@@ -18,7 +19,7 @@ export default function HSCModifierGrammarPage() {
           showSearch={true}
           showFilters={true}
         />
-      </div>
+      </SafeAreaWrapper>
     </div>
   );
 }

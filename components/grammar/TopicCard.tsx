@@ -1,10 +1,6 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { BookOpen, Clock, Target } from 'lucide-react';
+import { StandardizedTopicCard } from '@/components/ui/standardized-topic-card';
 
 interface TopicCardProps {
   id: string;
@@ -18,34 +14,12 @@ interface TopicCardProps {
   details?: string;
 }
 
-const CardWrapper = ({ 
-  available, 
-  level, 
-  id, 
-  isGrammarItems = false, 
-  children 
-}: {
-  available: boolean;
-  level: 'hsc' | 'ssc';
-  id: string;
-  isGrammarItems?: boolean;
-  children: React.ReactNode;
-}) => {
-  const pathname = usePathname();
-  
-  if (available) {
-    // Special handling for get-started page - route to combined page for specific topics
-    const isGetStartedPage = pathname.startsWith('/get-started');
-    const href = isGetStartedPage 
-      ? `/get-started/${id}`
-      : isGrammarItems 
-        ? `/grammar-items/${level}/${id}` 
-        : `/board-questions/${level}/${id}`;
-    return <Link href={href}>{children}</Link>;
-  }
-  return <div>{children}</div>;
-};
-
+/**
+ * TopicCard - Legacy wrapper component that uses StandardizedTopicCard
+ * 
+ * This component maintains backward compatibility while using the new
+ * standardized topic card design across all sections.
+ */
 export default function TopicCard({ 
   id, 
   name, 
@@ -57,93 +31,70 @@ export default function TopicCard({
   marks,
   details
 }: TopicCardProps) {
-  return (
-    <CardWrapper available={available} level={level} id={id} isGrammarItems={isGrammarItems}>
-      <Card className={`h-full transition-all duration-300 ${
-        available 
-          ? 'hover:shadow-lg hover:shadow-sf-button/10 hover:border-sf-button/50 cursor-pointer' 
-          : 'opacity-75 cursor-not-allowed'
-      } border-sf-text-muted/20`}>
-        <CardHeader className="pb-3">
-          <div className="flex items-start justify-between">
-            <div className="flex items-center space-x-2">
-              {available ? (
-                <BookOpen className="h-5 w-5 text-sf-button" />
-              ) : (
-                <Clock className="h-5 w-5 text-sf-text-muted" />
-              )}
-              <CardTitle className={`text-lg ${
-                available ? 'text-sf-text-bold' : 'text-sf-text-muted'
-              }`}>
-                {name}
-              </CardTitle>
-            </div>
-            {available && (
-              <Badge variant="secondary" className="bg-sf-button/20 text-sf-button border-sf-button/30">
-                Available
-              </Badge>
-            )}
-            {!available && (
-              <Badge variant="outline" className="border-sf-text-muted/30 text-sf-text-muted">
-                Coming Soon
-              </Badge>
-            )}
+  // Only render if available - maintain legacy behavior
+  if (!available) {
+    return (
+      <div className="h-full opacity-75 cursor-not-allowed">
+        <div className="h-full border border-sf-text-muted/20 bg-neutral-800/50 rounded-xl p-6 flex items-center justify-center">
+          <div className="text-center space-y-2">
+            <div className="text-sf-text-muted text-lg font-medium">{name}</div>
+            <div className="text-sf-text-muted/70 text-sm">Coming Soon</div>
           </div>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className={`text-sm ${
-            available ? 'text-sf-text-subtle' : 'text-sf-text-muted'
-          }`}>
-            {description}
-          </p>
-          
-          {/* Marks and Details */}
-          {marks && (
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-1">
-                  <Target className="h-4 w-4 text-sf-button" />
-                  <span className="text-sm font-medium text-sf-text-bold">Marks:</span>
-                </div>
-                <Badge variant="outline" className="text-sf-button border-sf-button/30">
-                  {marks}
-                </Badge>
-              </div>
-              
-              {details && (
-                <div className="text-xs text-sf-text-muted leading-relaxed">
-                  <span className="font-medium">Topics:</span> {details}
-                </div>
-              )}
-            </div>
-          )}
-          
-          {available && questionCount && (
-            <div className="flex items-center justify-between text-xs text-sf-text-muted">
-              <span>{questionCount} questions available</span>
-              <span className="text-sf-button">
-                {isGrammarItems ? 'Click to learn rules →' : 'Click to explore →'}
-              </span>
-            </div>
-          )}
-          
-          {available && !questionCount && !marks && (
-            <div className="flex items-center justify-between text-xs text-sf-text-muted">
-              <span>{isGrammarItems ? 'Grammar rules available' : 'Practice questions available'}</span>
-              <span className="text-sf-button">
-                {isGrammarItems ? 'Click to learn rules →' : 'Click to explore →'}
-              </span>
-            </div>
-          )}
-          
-          {!available && (
-            <div className="flex items-center text-xs text-sf-text-muted">
-              <Clock className="h-3 w-3 mr-1" />
-              <span>Coming soon</span>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-    </CardWrapper>
+        </div>
+      </div>
+    );
+  }
+
+  // Map to standardized topic structure
+  const standardizedTopic = {
+    id,
+    name,
+    slug: id,
+    icon: getTopicIcon(id),
+    color: getTopicColor(id)
+  };
+
+  // Determine section based on isGrammarItems prop
+  const section = isGrammarItems ? 'grammar-items' : 'board-questions';
+
+  return (
+    <StandardizedTopicCard
+      topic={standardizedTopic}
+      section={section}
+      questionCount={questionCount}
+      size="standard"
+      showHoverEffects={true}
+    />
   );
+}
+
+// Helper functions to maintain topic consistency
+function getTopicIcon(topicId: string): string {
+  const iconMap: Record<string, string> = {
+    'completing-sentence': '📝',
+    'connectors': '🔗',
+    'modifier': '🎯',
+    'narration': '💬',
+    'transformation': '🔄',
+    'use-of-verbs': '⚡',
+    'preposition': '📍',
+    'punctuation': '❗',
+    'synonym-antonym': '📚'
+  };
+  return iconMap[topicId] || '📚';
+}
+
+function getTopicColor(topicId: string): string {
+  const colorMap: Record<string, string> = {
+    'completing-sentence': '#3B82F6',
+    'connectors': '#10B981',
+    'modifier': '#F59E0B',
+    'narration': '#8B5CF6',
+    'transformation': '#EF4444',
+    'use-of-verbs': '#06B6D4',
+    'preposition': '#84CC16',
+    'punctuation': '#F97316',
+    'synonym-antonym': '#EC4899'
+  };
+  return colorMap[topicId] || '#3B82F6';
 }

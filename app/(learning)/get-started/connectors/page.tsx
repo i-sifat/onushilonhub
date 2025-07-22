@@ -1,4 +1,5 @@
 import BackButton from '@/components/common/BackButton';
+import SafeAreaWrapper from '@/components/common/SafeAreaWrapper';
 import UniversalCombinedUI from '@/components/universal/UniversalCombinedUI';
 import { connectorsRules } from '@/data/grammar-rules/connectors';
 import { connectorsQuestions } from '@/data/questions/connectors';
@@ -14,7 +15,7 @@ export default function ConnectorsGetStartedPage() {
       {/* Back Button - Fixed top-left position */}
       <BackButton />
       
-      <div className="w-full">
+      <SafeAreaWrapper>
         {/* Universal Combined UI */}
         <UniversalCombinedUI
           topic="Connectors"
@@ -23,7 +24,7 @@ export default function ConnectorsGetStartedPage() {
           questions={connectorsQuestions}
           level="HSC"
         />
-      </div>
+      </SafeAreaWrapper>
     </div>
   );
 }

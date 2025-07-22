@@ -1,4 +1,5 @@
 import BackButton from '@/components/common/BackButton';
+import SafeAreaWrapper from '@/components/common/SafeAreaWrapper';
 import UniversalQuestionsUI from '@/components/universal/UniversalQuestionsUI';
 import { transformationQuestions } from '@/data/questions/transformation';
 
@@ -8,7 +9,7 @@ export default function HSCTransformationPage() {
       {/* Back Button - Fixed top-left position */}
       <BackButton />
       
-      <div className="w-full">
+      <SafeAreaWrapper>
         {/* Universal Questions UI */}
         <UniversalQuestionsUI
           topic="Transformation"
@@ -18,7 +19,7 @@ export default function HSCTransformationPage() {
           showPagination={true}
           itemsPerPage={15}
         />
-      </div>
+      </SafeAreaWrapper>
     </div>
   );
 }

@@ -216,7 +216,6 @@ describe('UI Improvements Validation', () => {
       // Should show other filters
       expect(screen.getByDisplayValue('All Boards')).toBeInTheDocument();
       expect(screen.getByDisplayValue('All Years')).toBeInTheDocument();
-      expect(screen.getByDisplayValue('All Difficulties')).toBeInTheDocument();
     });
 
     test('General pages show all filters including question types', () => {
@@ -233,7 +232,6 @@ describe('UI Improvements Validation', () => {
       expect(screen.getByDisplayValue('All Types')).toBeInTheDocument();
       expect(screen.getByDisplayValue('All Boards')).toBeInTheDocument();
       expect(screen.getByDisplayValue('All Years')).toBeInTheDocument();
-      expect(screen.getByDisplayValue('All Difficulties')).toBeInTheDocument();
     });
   });
 

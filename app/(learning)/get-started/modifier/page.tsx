@@ -1,4 +1,5 @@
 import BackButton from '@/components/common/BackButton';
+import SafeAreaWrapper from '@/components/common/SafeAreaWrapper';
 import UniversalCombinedUI from '@/components/universal/UniversalCombinedUI';
 import { modifierRules } from '@/data/grammar-rules/modifier';
 import { modifierQuestions } from '@/data/questions/modifier';
@@ -14,7 +15,7 @@ export default function ModifierGetStartedPage() {
       {/* Back Button - Fixed top-left position */}
       <BackButton />
       
-      <div className="w-full">
+      <SafeAreaWrapper>
         {/* Universal Combined UI */}
         <UniversalCombinedUI
           topic="Modifier"
@@ -23,7 +24,7 @@ export default function ModifierGetStartedPage() {
           questions={modifierQuestions}
           level="HSC"
         />
-      </div>
+      </SafeAreaWrapper>
     </div>
   );
 }
