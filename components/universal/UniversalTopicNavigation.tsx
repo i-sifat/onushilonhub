@@ -231,40 +231,40 @@ export default function UniversalTopicNavigation({
   return (
     <div className={`space-y-8 ${className}`}>
       {/* Enhanced Header Section - Prominently displayed at top */}
-      <div className="space-y-8 bg-gradient-to-br from-sf-bg via-sf-bg/98 to-sf-bg/95 p-6 sm:p-8 md:p-12 lg:p-16 rounded-xl border border-sf-text-muted/10 shadow-2xl">
-        <div className="text-center space-y-6">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-sf-text-bold leading-tight tracking-tight">
+      <div className="space-y-6 bg-gradient-to-br from-sf-bg via-sf-bg/98 to-sf-bg/95 p-4 sm:p-6 md:p-8 rounded-xl border border-sf-text-muted/10 shadow-lg">
+        <div className="text-center space-y-4">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-sf-text-bold leading-tight tracking-tight">
             {level} {getSectionTitle()}
           </h1>
-          <p className="text-sf-text-subtle text-lg sm:text-xl md:text-2xl lg:text-3xl max-w-5xl mx-auto leading-relaxed font-light">
+          <p className="text-sf-text-subtle text-sm sm:text-base md:text-lg max-w-3xl mx-auto leading-relaxed">
             {getSectionDescription()}
           </p>
         </div>
 
-        {/* Prominent Statistics Display */}
+        {/* Compact Statistics Display */}
         {showStats && (
-          <div className={`grid grid-cols-1 ${section === 'grammar-items' ? 'sm:grid-cols-2' : 'sm:grid-cols-3'} gap-6 sm:gap-8 max-w-6xl mx-auto`}>
-            <Card className="p-6 sm:p-8 text-center bg-gradient-to-br from-sf-button/10 to-sf-button/5 border-sf-button/30 hover:bg-sf-button/15 transition-all duration-300 hover:scale-105 hover:shadow-xl">
-              <div className="space-y-3 sm:space-y-4">
-                <BookOpen className="h-10 w-10 sm:h-12 sm:w-12 text-sf-button mx-auto" />
-                <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-sf-text-bold">9</div>
-                <div className="text-lg sm:text-xl text-sf-text-muted font-semibold">Topics</div>
+          <div className={`grid grid-cols-1 ${section === 'grammar-items' ? 'sm:grid-cols-2' : 'sm:grid-cols-3'} gap-4 max-w-4xl mx-auto`}>
+            <Card className="p-4 text-center bg-gradient-to-br from-sf-button/10 to-sf-button/5 border-sf-button/30 hover:bg-sf-button/15 transition-all duration-300">
+              <div className="space-y-2">
+                <BookOpen className="h-6 w-6 text-sf-button mx-auto" />
+                <div className="text-2xl font-bold text-sf-text-bold">9</div>
+                <div className="text-sm text-sf-text-muted font-semibold">Topics</div>
               </div>
             </Card>
-            <Card className="p-6 sm:p-8 text-center bg-gradient-to-br from-sf-button/10 to-sf-button/5 border-sf-button/30 hover:bg-sf-button/15 transition-all duration-300 hover:scale-105 hover:shadow-xl">
-              <div className="space-y-3 sm:space-y-4">
-                <Target className="h-10 w-10 sm:h-12 sm:w-12 text-sf-button mx-auto" />
-                <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-sf-text-bold">112</div>
-                <div className="text-lg sm:text-xl text-sf-text-muted font-semibold">Rules</div>
+            <Card className="p-4 text-center bg-gradient-to-br from-sf-button/10 to-sf-button/5 border-sf-button/30 hover:bg-sf-button/15 transition-all duration-300">
+              <div className="space-y-2">
+                <Target className="h-6 w-6 text-sf-button mx-auto" />
+                <div className="text-2xl font-bold text-sf-text-bold">112</div>
+                <div className="text-sm text-sf-text-muted font-semibold">Rules</div>
               </div>
             </Card>
             {/* Hide Questions card for grammar-items section */}
             {section !== 'grammar-items' && (
-              <Card className="p-6 sm:p-8 text-center bg-gradient-to-br from-sf-button/10 to-sf-button/5 border-sf-button/30 hover:bg-sf-button/15 transition-all duration-300 hover:scale-105 hover:shadow-xl">
-                <div className="space-y-3 sm:space-y-4">
-                  <Users className="h-10 w-10 sm:h-12 sm:w-12 text-sf-button mx-auto" />
-                  <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-sf-text-bold">74</div>
-                  <div className="text-lg sm:text-xl text-sf-text-muted font-semibold">Questions</div>
+              <Card className="p-4 text-center bg-gradient-to-br from-sf-button/10 to-sf-button/5 border-sf-button/30 hover:bg-sf-button/15 transition-all duration-300">
+                <div className="space-y-2">
+                  <Users className="h-6 w-6 text-sf-button mx-auto" />
+                  <div className="text-2xl font-bold text-sf-text-bold">74</div>
+                  <div className="text-sm text-sf-text-muted font-semibold">Questions</div>
                 </div>
               </Card>
             )}
@@ -293,7 +293,9 @@ export default function UniversalTopicNavigation({
                 variant="outline"
                 size="sm"
                 onClick={() => setShowFiltersPanel(!showFiltersPanel)}
-                className="flex items-center space-x-2"
+                className={`flex items-center space-x-2 border-sf-text-muted/20 text-sf-text-subtle hover:bg-sf-button/10 hover:border-sf-button/50 hover:text-sf-button transition-all duration-200 focus:ring-2 focus:ring-sf-button focus:ring-offset-2 focus:ring-offset-sf-bg ${
+                  showFiltersPanel ? 'bg-sf-button/10 border-sf-button/50 text-sf-button' : ''
+                }`}
               >
                 <Filter className="h-4 w-4" />
                 <span>Filters</span>
@@ -354,6 +356,7 @@ export default function UniversalTopicNavigation({
                       ...prev, 
                       sortOrder: prev.sortOrder === 'asc' ? 'desc' : 'asc' 
                     }))}
+                    className="border-sf-text-muted/20 text-sf-text-subtle hover:bg-sf-button/10 hover:border-sf-button/50 hover:text-sf-button transition-all duration-200 focus:ring-2 focus:ring-sf-button focus:ring-offset-2 focus:ring-offset-sf-bg"
                   >
                     {filters.sortOrder === 'asc' ? '↑' : '↓'}
                   </Button>

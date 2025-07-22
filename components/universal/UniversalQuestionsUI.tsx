@@ -386,20 +386,29 @@ export default function UniversalQuestionsUI({
           <Badge variant="secondary" className="bg-sf-button/20 text-sf-button">
             Questions Only
           </Badge>
-          <div className="flex items-center border border-sf-text-muted/20 rounded-lg">
+          <div className="flex items-center border border-sf-text-muted/20 rounded-lg overflow-hidden">
             <Button
-              variant={viewMode === 'list' ? 'default' : 'ghost'}
+              variant="ghost"
               size="sm"
               onClick={() => setViewMode('list')}
-              className="rounded-r-none"
+              className={`rounded-none border-0 transition-all duration-200 ${
+                viewMode === 'list' 
+                  ? 'bg-sf-button text-sf-bg hover:bg-sf-button/90 shadow-sm' 
+                  : 'text-sf-text-subtle hover:bg-sf-button/10 hover:text-sf-button'
+              }`}
             >
               <List className="h-4 w-4" />
             </Button>
+            <div className="w-px h-6 bg-sf-text-muted/20" />
             <Button
-              variant={viewMode === 'grid' ? 'default' : 'ghost'}
+              variant="ghost"
               size="sm"
               onClick={() => setViewMode('grid')}
-              className="rounded-l-none"
+              className={`rounded-none border-0 transition-all duration-200 ${
+                viewMode === 'grid' 
+                  ? 'bg-sf-button text-sf-bg hover:bg-sf-button/90 shadow-sm' 
+                  : 'text-sf-text-subtle hover:bg-sf-button/10 hover:text-sf-button'
+              }`}
             >
               <Grid className="h-4 w-4" />
             </Button>
