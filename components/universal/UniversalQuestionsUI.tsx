@@ -29,6 +29,13 @@ interface UniversalQuestionsUIProps {
   itemsPerPage?: number;
 }
 
+interface FilterConfiguration {
+  showQuestionTypeFilter: boolean;
+  availableBoards: string[];
+  availableYears: string[];
+  availableDifficulties: string[];
+}
+
 interface FilterState {
   searchTerm: string;
   selectedBoard: string;
@@ -54,6 +61,25 @@ const QUESTION_TYPES = [
   'Narration', 'Multiple Choice', 'Fill in Blanks'
 ];
 
+// Filter configuration for topic-specific pages
+const getFilterConfiguration = (topicSlug: QuestionTopicSlug): FilterConfiguration => {
+  const topicSpecificPages: QuestionTopicSlug[] = [
+    'transformation', 
+    'connectors', 
+    'modifier', 
+    'narration', 
+    'completing-sentence', 
+    'use-of-verbs'
+  ];
+  
+  return {
+    showQuestionTypeFilter: !topicSpecificPages.includes(topicSlug),
+    availableBoards: BOARDS,
+    availableYears: YEARS,
+    availableDifficulties: DIFFICULTIES
+  };
+};
+
 export default function UniversalQuestionsUI({ 
   topic, 
   topicSlug, 
@@ -72,6 +98,9 @@ export default function UniversalQuestionsUI({
     selectedDifficulty: 'All Difficulties',
     selectedQuestionType: 'All Types'
   });
+
+  // Get filter configuration for current topic
+  const filterConfig = useMemo(() => getFilterConfiguration(topicSlug), [topicSlug]);
 
   // Update filter state
   const updateFilter = useCallback((key: keyof FilterState, value: string) => {
@@ -116,14 +145,17 @@ export default function UniversalQuestionsUI({
       const matchesDifficulty = filters.selectedDifficulty === 'All Difficulties' ||
         question.difficulty === filters.selectedDifficulty;
 
-      // Question type filter
-      const questionType = getQuestionType(question);
-      const matchesType = filters.selectedQuestionType === 'All Types' ||
-        questionType === filters.selectedQuestionType;
+      // Question type filter - only apply if showQuestionTypeFilter is true
+      let matchesType = true;
+      if (filterConfig.showQuestionTypeFilter) {
+        const questionType = getQuestionType(question);
+        matchesType = filters.selectedQuestionType === 'All Types' ||
+          questionType === filters.selectedQuestionType;
+      }
 
       return matchesSearch && matchesBoard && matchesYear && matchesDifficulty && matchesType;
     });
-  }, [questions, filters, getQuestionType]);
+  }, [questions, filters, getQuestionType, filterConfig.showQuestionTypeFilter]);
 
   // Pagination
   const totalPages = Math.ceil(filteredQuestions.length / itemsPerPage);
@@ -149,12 +181,16 @@ export default function UniversalQuestionsUI({
 
   // Check if any filters are active
   const hasActiveFilters = useMemo(() => {
-    return filters.searchTerm || 
+    const baseFiltersActive = filters.searchTerm || 
            filters.selectedBoard !== 'All Boards' || 
            filters.selectedYear !== 'All Years' || 
-           filters.selectedDifficulty !== 'All Difficulties' ||
+           filters.selectedDifficulty !== 'All Difficulties';
+    
+    const questionTypeFilterActive = filterConfig.showQuestionTypeFilter && 
            filters.selectedQuestionType !== 'All Types';
-  }, [filters]);
+    
+    return baseFiltersActive || questionTypeFilterActive;
+  }, [filters, filterConfig.showQuestionTypeFilter]);
 
   // Get question metadata from ID
   const getQuestionMetadata = useCallback((questionId: string) => {
@@ -391,7 +427,7 @@ export default function UniversalQuestionsUI({
           )}
         </div>
 
-        <div className="grid grid-cols-5 gap-3">
+        <div className={`grid gap-3 ${filterConfig.showQuestionTypeFilter ? 'grid-cols-5' : 'grid-cols-4'}`}>
           <div className="relative">
             <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-3 w-3 text-sf-text-muted" />
             <input
@@ -433,15 +469,17 @@ export default function UniversalQuestionsUI({
             ))}
           </select>
 
-          <select
-            value={filters.selectedQuestionType}
-            onChange={(e) => updateFilter('selectedQuestionType', e.target.value)}
-            className="px-2 py-2 text-sm border border-sf-text-muted/20 rounded bg-sf-bg text-sf-text-subtle focus:outline-none focus:ring-1 focus:ring-sf-button"
-          >
-            {QUESTION_TYPES.map(type => (
-              <option key={type} value={type}>{type}</option>
-            ))}
-          </select>
+          {filterConfig.showQuestionTypeFilter && (
+            <select
+              value={filters.selectedQuestionType}
+              onChange={(e) => updateFilter('selectedQuestionType', e.target.value)}
+              className="px-2 py-2 text-sm border border-sf-text-muted/20 rounded bg-sf-bg text-sf-text-subtle focus:outline-none focus:ring-1 focus:ring-sf-button"
+            >
+              {QUESTION_TYPES.map(type => (
+                <option key={type} value={type}>{type}</option>
+              ))}
+            </select>
+          )}
         </div>
       </div>
 

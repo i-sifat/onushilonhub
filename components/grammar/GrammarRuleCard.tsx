@@ -40,16 +40,11 @@ export default function GrammarRuleCard({
           </div>
         </div>
         
-        <div className="space-y-2">
-          {bengali && (
-            <p className="text-sf-text-muted text-sm">
-              <span className="font-medium">Bengali:</span> {bengali}
-            </p>
-          )}
-          <p className="text-sf-text-subtle">
-            <span className="font-medium">Usage:</span> {description}
+        {bengali && (
+          <p className="text-sf-text-muted text-sm">
+            <span className="font-medium">Bengali:</span> {bengali}
           </p>
-        </div>
+        )}
       </div>
       
       {/* Structures */}

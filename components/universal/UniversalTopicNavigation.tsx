@@ -3,24 +3,20 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { 
   BookOpen, 
-  Clock, 
   Target, 
   Search, 
   Filter,
-  TrendingUp,
   Users,
-  CheckCircle,
-  AlertCircle,
-  Star
+  CheckCircle
 } from 'lucide-react';
-import { TopicConfig, getTopicsByLevel, getActiveTopics } from '@/data/topics';
+import { TopicConfig, getActiveTopics } from '@/data/topics';
 import { grammarRulesData } from '@/data/grammar-rules';
 import { questionsData } from '@/data/questions';
 import { GrammarLevel } from '@/types/grammar.types';
@@ -50,14 +46,7 @@ interface FilterOptions {
   sortOrder: 'asc' | 'desc';
 }
 
-const getDifficultyColor = (difficulty: string) => {
-  switch (difficulty) {
-    case 'EASY': return 'bg-green-100 text-green-800 border-green-200';
-    case 'MEDIUM': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-    case 'HARD': return 'bg-red-100 text-red-800 border-red-200';
-    default: return 'bg-gray-100 text-gray-800 border-gray-200';
-  }
-};
+
 
 const getTopicStats = (topicSlug: string): TopicStats => {
   const grammarData = grammarRulesData[topicSlug as keyof typeof grammarRulesData];
@@ -75,15 +64,11 @@ const getTopicStats = (topicSlug: string): TopicStats => {
 const TopicCard = ({ 
   topic, 
   stats, 
-  section = 'get-started',
-  showProgress = false,
-  showStats = false 
+  section = 'get-started'
 }: { 
   topic: TopicConfig; 
   stats: TopicStats;
   section?: string;
-  showProgress?: boolean;
-  showStats?: boolean;
 }) => {
   const pathname = usePathname();
   
@@ -108,122 +93,26 @@ const TopicCard = ({
       <Card className={`h-full transition-all duration-300 hover:shadow-lg hover:shadow-sf-button/10 hover:border-sf-button/50 cursor-pointer border-sf-text-muted/20 ${
         isActive ? 'ring-2 ring-sf-button/50 border-sf-button/50' : ''
       }`}>
-        <CardHeader className="pb-3">
-          <div className="flex items-start justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="text-2xl" style={{ color: topic.color }}>
-                {topic.icon}
-              </div>
-              <div className="flex-1">
-                <CardTitle className="text-lg text-sf-text-bold leading-tight">
-                  {topic.name}
-                </CardTitle>
-                <div className="flex items-center space-x-2 mt-1">
-                  <Badge 
-                    variant="outline" 
-                    className={`text-xs ${getDifficultyColor(topic.difficulty)}`}
-                  >
-                    {topic.difficulty}
-                  </Badge>
-                  {topic.estimatedTime && (
-                    <div className="flex items-center text-xs text-sf-text-muted">
-                      <Clock className="h-3 w-3 mr-1" />
-                      {topic.estimatedTime}m
-                    </div>
-                  )}
+        <CardContent className="p-6">
+          <div className="flex items-center space-x-4">
+            <div className="text-3xl" style={{ color: topic.color }}>
+              {topic.icon}
+            </div>
+            <div className="flex-1">
+              <CardTitle className="text-lg text-sf-text-bold leading-tight mb-2">
+                {topic.name}
+              </CardTitle>
+              {/* Hide question count for grammar-items section */}
+              {section !== 'grammar-items' && (
+                <div className="text-sm text-sf-text-subtle">
+                  {stats.questionCount} Questions
                 </div>
-              </div>
+              )}
             </div>
             {isActive && (
               <CheckCircle className="h-5 w-5 text-sf-button" data-testid="check-circle" />
             )}
           </div>
-        </CardHeader>
-        
-        <CardContent className="space-y-4">
-          <p className="text-sm text-sf-text-subtle leading-relaxed">
-            {topic.description}
-          </p>
-          
-          {/* Statistics */}
-          {showStats && (
-            <div className="grid grid-cols-2 gap-3">
-              <div className="flex items-center space-x-2">
-                <BookOpen className="h-4 w-4 text-sf-button" />
-                <div className="text-xs">
-                  <div className="font-medium text-sf-text-bold">{stats.ruleCount}</div>
-                  <div className="text-sf-text-muted">Rules</div>
-                </div>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Target className="h-4 w-4 text-sf-button" />
-                <div className="text-xs">
-                  <div className="font-medium text-sf-text-bold">{stats.questionCount}</div>
-                  <div className="text-sf-text-muted">Questions</div>
-                </div>
-              </div>
-            </div>
-          )}
-          
-          {/* Progress Indicators */}
-          {showProgress && (
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-sf-text-muted">Progress</span>
-                <span className="font-medium text-sf-text-bold">{stats.completionRate}%</span>
-              </div>
-              <div className="w-full bg-sf-text-muted/20 rounded-full h-2">
-                <div 
-                  className="bg-sf-button h-2 rounded-full transition-all duration-300" 
-                  style={{ width: `${stats.completionRate}%` }}
-                />
-              </div>
-              {stats.averageScore && (
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-sf-text-muted">Avg. Score</span>
-                  <div className="flex items-center space-x-1">
-                    <Star className="h-3 w-3 text-yellow-500" />
-                    <span className="font-medium text-sf-text-bold">{stats.averageScore}%</span>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-          
-          {/* Tags */}
-          {topic.tags && topic.tags.length > 0 && (
-            <div className="flex flex-wrap gap-1">
-              {topic.tags.slice(0, 3).map((tag) => (
-                <Badge 
-                  key={tag} 
-                  variant="secondary" 
-                  className="text-xs bg-sf-button/10 text-sf-button border-sf-button/20"
-                >
-                  {tag}
-                </Badge>
-              ))}
-              {topic.tags.length > 3 && (
-                <Badge variant="outline" className="text-xs text-sf-text-muted">
-                  +{topic.tags.length - 3}
-                </Badge>
-              )}
-            </div>
-          )}
-          
-          {/* Prerequisites */}
-          {topic.prerequisites && topic.prerequisites.length > 0 && (
-            <div className="flex items-center space-x-1 text-xs text-sf-text-muted">
-              <AlertCircle className="h-3 w-3" />
-              <span>Requires: {topic.prerequisites.join(', ')}</span>
-            </div>
-          )}
-          
-          {/* Last accessed */}
-          {showProgress && stats.lastAccessed && (
-            <div className="text-xs text-sf-text-muted">
-              Last accessed: {stats.lastAccessed.toLocaleDateString()}
-            </div>
-          )}
         </CardContent>
       </Card>
     </Link>
@@ -313,22 +202,7 @@ export default function UniversalTopicNavigation({
     return topics;
   }, [allTopics, searchQuery, filters]);
 
-  // Calculate overall statistics
-  const overallStats = useMemo(() => {
-    const totalRules = filteredTopics.reduce((sum, topic) => 
-      sum + getTopicStats(topic.slug).ruleCount, 0
-    );
-    const totalQuestions = filteredTopics.reduce((sum, topic) => 
-      sum + getTopicStats(topic.slug).questionCount, 0
-    );
-    const avgCompletion = Math.round(
-      filteredTopics.reduce((sum, topic) => 
-        sum + (getTopicStats(topic.slug).completionRate || 0), 0
-      ) / filteredTopics.length
-    );
 
-    return { totalRules, totalQuestions, avgCompletion };
-  }, [filteredTopics]);
 
   const getSectionTitle = () => {
     switch (section) {
@@ -355,56 +229,42 @@ export default function UniversalTopicNavigation({
   };
 
   return (
-    <div className={`space-y-6 ${className}`}>
-      {/* Header Section */}
-      <div className="space-y-4">
-        <div>
-          <h1 className="text-3xl font-bold text-sf-text-bold mb-2">
+    <div className={`space-y-8 ${className}`}>
+      {/* Enhanced Header Section - Prominently displayed at top */}
+      <div className="space-y-8 bg-gradient-to-br from-sf-bg via-sf-bg/98 to-sf-bg/95 p-6 sm:p-8 md:p-12 lg:p-16 rounded-xl border border-sf-text-muted/10 shadow-2xl">
+        <div className="text-center space-y-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-sf-text-bold leading-tight tracking-tight">
             {level} {getSectionTitle()}
           </h1>
-          <p className="text-sf-text-subtle text-lg">
+          <p className="text-sf-text-subtle text-lg sm:text-xl md:text-2xl lg:text-3xl max-w-5xl mx-auto leading-relaxed font-light">
             {getSectionDescription()}
           </p>
         </div>
 
-        {/* Overall Statistics */}
+        {/* Prominent Statistics Display */}
         {showStats && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Card className="p-4">
-              <div className="flex items-center space-x-2">
-                <BookOpen className="h-5 w-5 text-sf-button" />
-                <div>
-                  <div className="text-2xl font-bold text-sf-text-bold">{filteredTopics.length}</div>
-                  <div className="text-sm text-sf-text-muted">Topics</div>
-                </div>
+          <div className={`grid grid-cols-1 ${section === 'grammar-items' ? 'sm:grid-cols-2' : 'sm:grid-cols-3'} gap-6 sm:gap-8 max-w-6xl mx-auto`}>
+            <Card className="p-6 sm:p-8 text-center bg-gradient-to-br from-sf-button/10 to-sf-button/5 border-sf-button/30 hover:bg-sf-button/15 transition-all duration-300 hover:scale-105 hover:shadow-xl">
+              <div className="space-y-3 sm:space-y-4">
+                <BookOpen className="h-10 w-10 sm:h-12 sm:w-12 text-sf-button mx-auto" />
+                <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-sf-text-bold">9</div>
+                <div className="text-lg sm:text-xl text-sf-text-muted font-semibold">Topics</div>
               </div>
             </Card>
-            <Card className="p-4">
-              <div className="flex items-center space-x-2">
-                <Target className="h-5 w-5 text-sf-button" />
-                <div>
-                  <div className="text-2xl font-bold text-sf-text-bold">{overallStats.totalRules}</div>
-                  <div className="text-sm text-sf-text-muted">Rules</div>
-                </div>
+            <Card className="p-6 sm:p-8 text-center bg-gradient-to-br from-sf-button/10 to-sf-button/5 border-sf-button/30 hover:bg-sf-button/15 transition-all duration-300 hover:scale-105 hover:shadow-xl">
+              <div className="space-y-3 sm:space-y-4">
+                <Target className="h-10 w-10 sm:h-12 sm:w-12 text-sf-button mx-auto" />
+                <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-sf-text-bold">112</div>
+                <div className="text-lg sm:text-xl text-sf-text-muted font-semibold">Rules</div>
               </div>
             </Card>
-            <Card className="p-4">
-              <div className="flex items-center space-x-2">
-                <Users className="h-5 w-5 text-sf-button" />
-                <div>
-                  <div className="text-2xl font-bold text-sf-text-bold">{overallStats.totalQuestions}</div>
-                  <div className="text-sm text-sf-text-muted">Questions</div>
-                </div>
-              </div>
-            </Card>
-            {showProgress && (
-              <Card className="p-4">
-                <div className="flex items-center space-x-2">
-                  <TrendingUp className="h-5 w-5 text-sf-button" />
-                  <div>
-                    <div className="text-2xl font-bold text-sf-text-bold">{overallStats.avgCompletion}%</div>
-                    <div className="text-sm text-sf-text-muted">Progress</div>
-                  </div>
+            {/* Hide Questions card for grammar-items section */}
+            {section !== 'grammar-items' && (
+              <Card className="p-6 sm:p-8 text-center bg-gradient-to-br from-sf-button/10 to-sf-button/5 border-sf-button/30 hover:bg-sf-button/15 transition-all duration-300 hover:scale-105 hover:shadow-xl">
+                <div className="space-y-3 sm:space-y-4">
+                  <Users className="h-10 w-10 sm:h-12 sm:w-12 text-sf-button mx-auto" />
+                  <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-sf-text-bold">74</div>
+                  <div className="text-lg sm:text-xl text-sf-text-muted font-semibold">Questions</div>
                 </div>
               </Card>
             )}
@@ -512,8 +372,6 @@ export default function UniversalTopicNavigation({
             topic={topic}
             stats={getTopicStats(topic.slug)}
             section={section}
-            showProgress={showProgress}
-            showStats={showStats}
           />
         ))}
       </div>

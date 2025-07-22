@@ -1,0 +1,19 @@
+Build Test
+npm run build
+Lint Check
+npm run lint
+Type Check
+npx tsc --noEmit
+
+
+Testing Commands
+Run All Tests
+npm test
+Run Tests in Watch Mode
+npm run test:watch
+Run Component Tests Specifically
+npm test -- --testPathPattern=components
+Run BackButton Component Tests
+
+
+npm test -- BackButton.test

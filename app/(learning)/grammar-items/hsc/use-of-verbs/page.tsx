@@ -5,12 +5,10 @@ import { rightFormVerbRules } from '@/data/grammar-rules/right-form-verb';
 export default function HSCUseOfVerbsGrammarPage() {
   return (
     <div className="min-h-screen bg-sf-bg pt-20">
+      {/* Back Button - Fixed top-left position */}
+      <BackButton />
+      
       <div className="w-full">
-        {/* Back Button */}
-        <div className="mb-6">
-          <BackButton />
-        </div>
-
         {/* Universal Grammar UI */}
         <UniversalGrammarUI
           topic="Use of Verbs"

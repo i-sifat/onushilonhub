@@ -6,20 +6,20 @@
   - Ensure responsive behavior is maintained across all screen sizes
   - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5_
 
-- [ ] 2. Implement consistent back button positioning
+- [x] 2. Implement consistent back button positioning
   - Update BackButton component positioning to top-left corner across all pages
   - Modify page layouts to accommodate absolute positioning of back button
   - Ensure back button remains accessible and properly sized on mobile devices
   - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
 
-- [ ] 3. Enhance UniversalTopicNavigation header section prominence
+- [x] 3. Enhance UniversalTopicNavigation header section prominence
   - Move main content section (title, description, statistics) to top of page
   - Ensure "HSC Board Questions & Practice" section appears before other content
   - Update statistics display to show "9 Topics", "112 Rules", "74 Questions" prominently
   - Maintain responsive layout for mobile devices
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5_
 
-- [ ] 4. Simplify topic cards in UniversalTopicNavigation
+- [x] 4. Simplify topic cards in UniversalTopicNavigation
   - Remove difficulty indicators (MEDIUM, 45m) from topic cards
   - Remove descriptive text about learning objectives
   - Remove rule count information from cards
@@ -28,21 +28,21 @@
   - Keep only topic icon, title, and question count in format "45 Questions"
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7_
 
-- [ ] 5. Remove contextual filters from topic-specific question pages
+- [x] 5. Remove contextual filters from topic-specific question pages
   - Update UniversalQuestionsUI to conditionally hide "All Types" filter
   - Create filter configuration system for topic-specific pages
   - Remove question type filter for transformation, connectors, modifier, narration, completing-sentence, and use-of-verbs pages
   - Maintain other relevant filters (search, board, year, difficulty)
   - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5_
 
-- [ ] 6. Remove questions card from HSC Grammar Rules pages
+- [x] 6. Remove questions card from HSC Grammar Rules pages
   - Update UniversalTopicNavigation to hide questions-related cards in grammar-items section
   - Remove "74 Questions in HSC Grammar Rules & Concepts" card display
   - Ensure grammar pages focus only on grammar rules content
   - Maintain consistent layout without questions information
   - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6_
 
-- [ ] 7. Simplify grammar rule cards display
+- [x] 7. Simplify grammar rule cards display
   - Remove difficulty indicators (MEDIUM, 45m) from grammar rule cards
   - Remove descriptive learning objective text from rule cards
   - Remove question count information from grammar rule cards
@@ -50,7 +50,7 @@
   - Focus content on rule information only
   - _Requirements: 6.2, 6.3, 6.4, 6.5_
 
-- [ ] 8. Remove complexity badges from individual grammar rules
+- [x] 8. Remove complexity badges from individual grammar rules
   - Update UniversalGrammarUI to remove complexity badges (Complex, Simple, Moderate)
   - Modify rule title display to present without difficulty indicators
   - Focus rule content on educational material without complexity classifications

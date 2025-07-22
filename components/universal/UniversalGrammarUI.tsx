@@ -29,17 +29,7 @@ interface UniversalGrammarUIProps {
 
 interface FilterState {
   searchTerm: string;
-  selectedCategory: string;
-  selectedComplexity: string;
 }
-
-const CATEGORIES = [
-  'All Categories', 'Basic', 'Intermediate', 'Advanced', 'Complex'
-];
-
-const COMPLEXITIES = [
-  'All Complexities', 'Simple', 'Moderate', 'Complex', 'Very Complex'
-];
 
 export default function UniversalGrammarUI({ 
   topic, 
@@ -54,9 +44,7 @@ export default function UniversalGrammarUI({
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
   const [copiedRules, setCopiedRules] = useState<{[key: string]: boolean}>({});
   const [filters, setFilters] = useState<FilterState>({
-    searchTerm: '',
-    selectedCategory: 'All Categories',
-    selectedComplexity: 'All Complexities'
+    searchTerm: ''
   });
 
   // Update filter state
@@ -64,17 +52,7 @@ export default function UniversalGrammarUI({
     setFilters(prev => ({ ...prev, [key]: value }));
   }, []);
 
-  // Determine rule complexity based on structures and examples
-  const getRuleComplexity = useCallback((rule: GrammarRule) => {
-    const structureCount = rule.structures?.length || 0;
-    const exampleCount = rule.examples?.length || 0;
-    const totalContent = structureCount + exampleCount;
-    
-    if (totalContent <= 2) return 'Simple';
-    if (totalContent <= 4) return 'Moderate';
-    if (totalContent <= 6) return 'Complex';
-    return 'Very Complex';
-  }, []);
+
 
   // Filter rules based on criteria
   const filteredRules = useMemo(() => {
@@ -87,36 +65,20 @@ export default function UniversalGrammarUI({
         rule.structures?.some(s => s.toLowerCase().includes(filters.searchTerm.toLowerCase())) ||
         rule.examples?.some(e => e.toLowerCase().includes(filters.searchTerm.toLowerCase()));
 
-      // Category filter (based on rule number or title keywords)
-      const matchesCategory = filters.selectedCategory === 'All Categories' ||
-        (filters.selectedCategory === 'Basic' && (rule.id <= 5 || rule.title.toLowerCase().includes('basic'))) ||
-        (filters.selectedCategory === 'Intermediate' && (rule.id > 5 && rule.id <= 10)) ||
-        (filters.selectedCategory === 'Advanced' && (rule.id > 10 && rule.id <= 15)) ||
-        (filters.selectedCategory === 'Complex' && rule.id > 15);
-
-      // Complexity filter
-      const ruleComplexity = getRuleComplexity(rule);
-      const matchesComplexity = filters.selectedComplexity === 'All Complexities' ||
-        ruleComplexity === filters.selectedComplexity;
-
-      return matchesSearch && matchesCategory && matchesComplexity;
+      return matchesSearch;
     });
-  }, [rules, filters, getRuleComplexity]);
+  }, [rules, filters]);
 
   // Clear all filters
   const clearFilters = useCallback(() => {
     setFilters({
-      searchTerm: '',
-      selectedCategory: 'All Categories',
-      selectedComplexity: 'All Complexities'
+      searchTerm: ''
     });
   }, []);
 
   // Check if any filters are active
   const hasActiveFilters = useMemo(() => {
-    return filters.searchTerm || 
-           filters.selectedCategory !== 'All Categories' || 
-           filters.selectedComplexity !== 'All Complexities';
+    return filters.searchTerm;
   }, [filters]);
 
   // Toggle rule expansion
@@ -213,7 +175,7 @@ ${rule.examples.map(e => `• ${e}`).join('\n')}
             )}
           </div>
 
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 gap-3">
             {showSearch && (
               <div className="relative">
                 <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-3 w-3 text-sf-text-muted" />
@@ -226,26 +188,6 @@ ${rule.examples.map(e => `• ${e}`).join('\n')}
                 />
               </div>
             )}
-            
-            <select
-              value={filters.selectedCategory}
-              onChange={(e) => updateFilter('selectedCategory', e.target.value)}
-              className="px-2 py-2 text-sm border border-sf-text-muted/20 rounded bg-sf-bg text-sf-text-subtle focus:outline-none focus:ring-1 focus:ring-sf-button"
-            >
-              {CATEGORIES.map(category => (
-                <option key={category} value={category}>{category}</option>
-              ))}
-            </select>
-
-            <select
-              value={filters.selectedComplexity}
-              onChange={(e) => updateFilter('selectedComplexity', e.target.value)}
-              className="px-2 py-2 text-sm border border-sf-text-muted/20 rounded bg-sf-bg text-sf-text-subtle focus:outline-none focus:ring-1 focus:ring-sf-button"
-            >
-              {COMPLEXITIES.map(complexity => (
-                <option key={complexity} value={complexity}>{complexity}</option>
-              ))}
-            </select>
           </div>
         </div>
       )}
@@ -263,7 +205,6 @@ ${rule.examples.map(e => `• ${e}`).join('\n')}
 
           <div className="space-y-3 max-h-[80vh] overflow-y-auto">
             {filteredRules.map((rule) => {
-              const complexity = getRuleComplexity(rule);
               const isExpanded = expandedRules[rule.id];
               
               return (
@@ -283,28 +224,11 @@ ${rule.examples.map(e => `• ${e}`).join('\n')}
                       <Badge variant="outline" className="text-sf-button border-sf-button/30 text-xs">
                         {rule.ruleNo || `Rule ${rule.id}`}
                       </Badge>
-                      <Badge 
-                        variant="secondary" 
-                        className={`text-xs ${
-                          complexity === 'Simple' ? 'bg-green-500/20 text-green-400' :
-                          complexity === 'Moderate' ? 'bg-blue-500/20 text-blue-400' :
-                          complexity === 'Complex' ? 'bg-yellow-500/20 text-yellow-400' :
-                          'bg-red-500/20 text-red-400'
-                        }`}
-                      >
-                        {complexity}
-                      </Badge>
                     </div>
                     
                     <h3 className="text-sm font-semibold text-sf-text-bold mb-2 leading-tight">
                       {rule.title}
                     </h3>
-                    
-                    {rule.bengali && (
-                      <p className="text-xs text-sf-text-muted mb-2">
-                        {rule.bengali}
-                      </p>
-                    )}
                   </div>
 
                   {selectedRuleId === rule.id && (
@@ -351,10 +275,6 @@ ${rule.examples.map(e => `• ${e}`).join('\n')}
                       
                       {isExpanded && (
                         <div className="space-y-2">
-                          <p className="text-xs text-sf-text-subtle leading-relaxed">
-                            {rule.description}
-                          </p>
-                          
                           {rule.structures && rule.structures.length > 0 && (
                             <div>
                               <p className="text-xs font-medium text-sf-text-bold mb-1">Structures:</p>
@@ -430,19 +350,9 @@ ${rule.examples.map(e => `• ${e}`).join('\n')}
                 </Button>
               </div>
               
-              <h4 className="text-lg font-semibold text-sf-text-bold mb-3 leading-relaxed">
+              <h4 className="text-lg font-semibold text-sf-text-bold mb-4 leading-relaxed">
                 {selectedRule.title}
               </h4>
-              
-              {selectedRule.bengali && (
-                <p className="text-sf-text-muted mb-2 text-sm">
-                  <span className="font-medium">Bengali:</span> {selectedRule.bengali}
-                </p>
-              )}
-              
-              <p className="text-sf-text-subtle mb-4 leading-relaxed">
-                <span className="font-medium">Usage:</span> {selectedRule.description}
-              </p>
 
               {selectedRule.structures && selectedRule.structures.length > 0 && (
                 <div className="mb-4">
@@ -514,8 +424,6 @@ ${rule.examples.map(e => `• ${e}`).join('\n')}
       {viewMode === 'grid' && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
           {filteredRules.map((rule) => {
-            const complexity = getRuleComplexity(rule);
-            
             return (
               <Card 
                 key={rule.id}
@@ -526,38 +434,13 @@ ${rule.examples.map(e => `• ${e}`).join('\n')}
                     <Badge variant="outline" className="text-sf-button border-sf-button/30 text-xs">
                       {rule.ruleNo || `Rule ${rule.id}`}
                     </Badge>
-                    <Badge 
-                      variant="secondary" 
-                      className={`text-xs ${
-                        complexity === 'Simple' ? 'bg-green-500/20 text-green-400' :
-                        complexity === 'Moderate' ? 'bg-blue-500/20 text-blue-400' :
-                        complexity === 'Complex' ? 'bg-yellow-500/20 text-yellow-400' :
-                        'bg-red-500/20 text-red-400'
-                      }`}
-                    >
-                      {complexity}
-                    </Badge>
                   </div>
                   
                   <h3 className="text-md font-semibold text-sf-text-bold mb-2 leading-tight">
                     {rule.title}
                   </h3>
                   
-                  {rule.bengali && (
-                    <p className="text-xs text-sf-text-muted mb-2">
-                      {rule.bengali}
-                    </p>
-                  )}
-                  
-                  <p className="text-sm text-sf-text-subtle mb-3 leading-relaxed">
-                    {rule.description}
-                  </p>
-                  
-                  <div className="flex items-center justify-between">
-                    <div className="text-xs text-sf-text-muted">
-                      {rule.structures?.length || 0} structures • {rule.examples?.length || 0} examples
-                    </div>
-                    
+                  <div className="flex items-center justify-end">
                     <Button
                       variant="ghost"
                       size="sm"

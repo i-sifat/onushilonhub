@@ -5,12 +5,10 @@ import { transformationRules } from '@/data/grammar-rules/transformation';
 export default function HSCTransformationGrammarPage() {
   return (
     <div className="min-h-screen bg-sf-bg pt-20">
+      {/* Back Button - Fixed top-left position */}
+      <BackButton />
+      
       <div className="w-full">
-        {/* Back Button */}
-        <div className="mb-6">
-          <BackButton />
-        </div>
-
         {/* Universal Grammar UI */}
         <UniversalGrammarUI
           topic="Transformation"

@@ -5,12 +5,10 @@ import { useOfVerbsQuestions } from '@/data/questions/use-of-verbs';
 export default function HSCUseOfVerbsPage() {
   return (
     <div className="min-h-screen bg-sf-bg pt-20">
+      {/* Back Button - Fixed top-left position */}
+      <BackButton />
+      
       <div className="w-full">
-        {/* Back Button */}
-        <div className="mb-6">
-          <BackButton />
-        </div>
-
         {/* Universal Questions UI */}
         <UniversalQuestionsUI
           topic="Use of Verbs"

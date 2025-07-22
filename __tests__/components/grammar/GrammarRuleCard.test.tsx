@@ -18,7 +18,7 @@ describe('GrammarRuleCard', () => {
     expect(screen.getByText('Rule 1')).toBeInTheDocument()
     expect(screen.getByText('Present Simple Tense')).toBeInTheDocument()
     expect(screen.getByText('বর্তমান সাধারণ কাল')).toBeInTheDocument()
-    expect(screen.getByText('Used for habitual actions and general truths')).toBeInTheDocument()
+    // Description text removed as per task requirements
   })
 
   it('renders without optional fields', () => {
@@ -33,7 +33,7 @@ describe('GrammarRuleCard', () => {
     
     expect(screen.getByText('Rule 1')).toBeInTheDocument() // fallback rule number
     expect(screen.getByText('Test Rule')).toBeInTheDocument()
-    expect(screen.getByText('Test description')).toBeInTheDocument()
+    // Description text removed as per task requirements
     expect(screen.getByText('Test example')).toBeInTheDocument()
   })
 

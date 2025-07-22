@@ -104,27 +104,30 @@ describe('UniversalTopicNavigation', () => {
   });
 
   it('displays topic cards with correct information', () => {
-    render(<UniversalTopicNavigation level="HSC" showStats={true} />);
+    render(<UniversalTopicNavigation level="HSC" />);
     
     expect(screen.getByText('Completing Sentence')).toBeInTheDocument();
     expect(screen.getByText('Connectors')).toBeInTheDocument();
-    expect(screen.getByText('Learn to complete sentences using appropriate grammar rules')).toBeInTheDocument();
-    expect(screen.getByText('Master the use of linking words and connectors')).toBeInTheDocument();
+    expect(screen.getByText('4 Questions')).toBeInTheDocument();
+    expect(screen.getByText('3 Questions')).toBeInTheDocument();
   });
 
   it('shows statistics when showStats is true', () => {
     render(<UniversalTopicNavigation level="HSC" showStats={true} />);
     
-    // Should show overall statistics
+    // Should show overall statistics in header only
     expect(screen.getByText('Topics')).toBeInTheDocument();
-    expect(screen.getAllByText('Rules')).toHaveLength(3); // 1 in header + 2 in topic cards
-    expect(screen.getAllByText('Questions')).toHaveLength(3); // 1 in header + 2 in topic cards
+    expect(screen.getAllByText('Rules')).toHaveLength(1); // Only in header
+    expect(screen.getByText('Questions')).toBeInTheDocument(); // In header
+    expect(screen.getByText('4 Questions')).toBeInTheDocument(); // In topic card
+    expect(screen.getByText('3 Questions')).toBeInTheDocument(); // In topic card
   });
 
-  it('shows progress indicators when showProgress is true', () => {
-    render(<UniversalTopicNavigation level="HSC" showProgress={true} />);
+  it('shows simplified topic cards without progress indicators', () => {
+    render(<UniversalTopicNavigation level="HSC" />);
     
-    expect(screen.getAllByText('Progress')).toHaveLength(3); // 1 in header + 2 in topic cards
+    // Progress indicators should not be shown in simplified cards
+    expect(screen.queryByText('Progress')).not.toBeInTheDocument();
   });
 
   it('filters topics based on search query', async () => {
@@ -234,7 +237,7 @@ describe('UniversalTopicNavigation', () => {
     });
   });
 
-  it('shows topic tags and prerequisites', () => {
+  it('shows simplified topic cards without tags and prerequisites', () => {
     const topicsWithPrerequisites = [
       {
         ...mockTopics[0],
@@ -248,9 +251,10 @@ describe('UniversalTopicNavigation', () => {
     
     render(<UniversalTopicNavigation level="HSC" />);
     
-    expect(screen.getByText('sentence-completion')).toBeInTheDocument();
-    expect(screen.getByText('grammar-rules')).toBeInTheDocument();
-    expect(screen.getByText('Requires: basic-grammar')).toBeInTheDocument();
+    // Tags and prerequisites should not be shown in simplified cards
+    expect(screen.queryByText('sentence-completion')).not.toBeInTheDocument();
+    expect(screen.queryByText('grammar-rules')).not.toBeInTheDocument();
+    expect(screen.queryByText('Requires: basic-grammar')).not.toBeInTheDocument();
   });
 
   it('handles different levels correctly', () => {
@@ -259,11 +263,12 @@ describe('UniversalTopicNavigation', () => {
     expect(screen.getByText('SSC Get Started with Learning')).toBeInTheDocument();
   });
 
-  it('shows estimated time for topics', () => {
+  it('shows simplified topic cards without estimated time', () => {
     render(<UniversalTopicNavigation level="HSC" />);
     
-    expect(screen.getByText('45m')).toBeInTheDocument();
-    expect(screen.getByText('60m')).toBeInTheDocument();
+    // Estimated time should not be shown in simplified cards
+    expect(screen.queryByText('45m')).not.toBeInTheDocument();
+    expect(screen.queryByText('60m')).not.toBeInTheDocument();
   });
 
   it('highlights active topic based on current pathname', () => {
@@ -274,5 +279,21 @@ describe('UniversalTopicNavigation', () => {
     // The active topic card should have a checkmark icon
     const checkCircleIcons = screen.getAllByTestId('check-circle');
     expect(checkCircleIcons).toHaveLength(1);
+  });
+
+  it('hides questions card and question counts in grammar-items section', () => {
+    render(<UniversalTopicNavigation level="HSC" section="grammar-items" showStats={true} />);
+    
+    // Should show Topics and Rules cards but not Questions card in statistics
+    expect(screen.getByText('Topics')).toBeInTheDocument();
+    expect(screen.getByText('Rules')).toBeInTheDocument();
+    
+    // Questions card should not be present in statistics section
+    const questionsTexts = screen.queryAllByText('Questions');
+    expect(questionsTexts).toHaveLength(0);
+    
+    // Question counts should not be shown in topic cards
+    expect(screen.queryByText('4 Questions')).not.toBeInTheDocument();
+    expect(screen.queryByText('3 Questions')).not.toBeInTheDocument();
   });
 });
