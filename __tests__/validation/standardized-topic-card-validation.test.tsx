@@ -191,7 +191,7 @@ describe('StandardizedTopicCard Integration Validation', () => {
           expect(card).toHaveClass(
             'hover:border-sf-button/50',
             'hover:shadow-lg', 'hover:shadow-sf-button/10',
-            'hover:-translate-y-1', 'hover:scale-[1.02]'
+            'hover:-translate-y-1', 'hover:scale-[1.01]'
           );
         });
 

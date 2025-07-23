@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 import { ViewModeToggle, ViewMode } from '@/components/ui/view-mode-toggle';
 import { ContentBox } from '@/components/ui/content-box';
+import { GrammarRuleDisplay } from '@/components/grammar/GrammarRuleDisplay';
+import { TopicIntroduction } from '@/components/grammar/TopicIntroduction';
 import { GrammarRule, GrammarTopicSlug } from '@/types/grammar.types';
 
 interface UniversalGrammarUIProps {
@@ -25,6 +27,15 @@ interface UniversalGrammarUIProps {
   level?: 'HSC' | 'SSC';
   showSearch?: boolean;
   showFilters?: boolean;
+  topicIntroduction?: {
+    title: string;
+    banglaDescription: string;
+    types?: {
+      title: string;
+      description: string;
+      list: string[];
+    };
+  };
 }
 
 interface FilterState {
@@ -37,7 +48,8 @@ export default function UniversalGrammarUI({
   rules, 
   level = 'HSC',
   showSearch = true,
-  showFilters = true
+  showFilters = true,
+  topicIntroduction
 }: UniversalGrammarUIProps) {
   const [selectedRuleId, setSelectedRuleId] = useState<number | null>(null);
   const [expandedRules, setExpandedRules] = useState<{[key: string]: boolean}>({});
@@ -62,6 +74,7 @@ export default function UniversalGrammarUI({
         rule.title?.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
         rule.description?.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
         rule.bengali?.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
+        (rule as any).banglaDescription?.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
         rule.structures?.some(s => s.toLowerCase().includes(filters.searchTerm.toLowerCase())) ||
         rule.examples?.some(e => e.toLowerCase().includes(filters.searchTerm.toLowerCase()));
 
@@ -121,6 +134,15 @@ ${rule.examples.map(e => `• ${e}`).join('\n')}
 
   return (
     <div className="space-y-6">
+      {/* Topic Introduction */}
+      {topicIntroduction && (
+        <TopicIntroduction
+          title={topicIntroduction.title}
+          banglaDescription={topicIntroduction.banglaDescription}
+          types={topicIntroduction.types}
+        />
+      )}
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -308,7 +330,7 @@ ${rule.examples.map(e => `• ${e}`).join('\n')}
         <div className="col-span-3">
           {selectedRule ? (
             <div className="bg-sf-bg border border-sf-button/30 rounded-lg p-6">
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center space-x-3">
                   <Badge variant="outline" className="text-sf-button border-sf-button/30">
                     {selectedRule.ruleNo || `Rule ${selectedRule.id}`}
@@ -336,33 +358,11 @@ ${rule.examples.map(e => `• ${e}`).join('\n')}
                 </Button>
               </div>
               
-              <h4 className="text-lg font-semibold text-sf-text-bold mb-4 leading-relaxed">
-                {selectedRule.title}
-              </h4>
-
-              <div className="space-y-6">
-                {selectedRule.structures && selectedRule.structures.length > 0 && (
-                  <ContentBox
-                    type="structure"
-                    title="Structures"
-                    content={selectedRule.structures}
-                  />
-                )}
-
-                <ContentBox
-                  type="example"
-                  title="Examples"
-                  content={selectedRule.examples}
-                />
-
-                {selectedRule.tips && selectedRule.tips.length > 0 && (
-                  <ContentBox
-                    type="tip"
-                    title="Tips"
-                    content={selectedRule.tips}
-                  />
-                )}
-              </div>
+              <GrammarRuleDisplay
+                title={selectedRule.title}
+                banglaDescription={(selectedRule as any).banglaDescription || selectedRule.bengali || selectedRule.description || ''}
+                examples={selectedRule.examples}
+              />
             </div>
           ) : (
             <div className="bg-sf-bg border border-sf-text-muted/20 rounded-lg p-6 text-center">

@@ -1,7 +1,7 @@
 import BackButton from '@/components/common/BackButton';
 import SafeAreaWrapper from '@/components/common/SafeAreaWrapper';
 import UniversalGrammarUI from '@/components/universal/UniversalGrammarUI';
-import { modifierRules } from '@/data/grammar-rules/modifier';
+import { modifierRules, modifierIntroduction } from '@/data/grammar-rules/modifier';
 
 export default function HSCModifierGrammarPage() {
   return (
@@ -18,6 +18,7 @@ export default function HSCModifierGrammarPage() {
           level="HSC"
           showSearch={true}
           showFilters={true}
+          topicIntroduction={modifierIntroduction}
         />
       </SafeAreaWrapper>
     </div>

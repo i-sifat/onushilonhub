@@ -215,8 +215,8 @@ export default function UniversalQuestionsUI({
         
         const answer = blank.ans || blank.answer || '';
         const blankElement = isAnswerVisible 
-          ? `<span class="inline-flex items-center bg-green-500/20 text-green-400 border border-green-400/30 px-2 py-1 rounded text-sm font-medium cursor-pointer hover:bg-green-500/40 hover:scale-105 hover:-translate-y-0.5 hover:shadow-sm transition-all duration-200 ease-out active:scale-95" data-blank="${blank.id}" data-question="${question.id}">${answer}</span>`
-          : `<span class="inline-flex items-center bg-sf-button/20 text-sf-button border border-sf-button/30 px-2 py-1 rounded text-sm font-medium cursor-pointer hover:bg-sf-button/40 hover:scale-105 hover:-translate-y-0.5 hover:shadow-sm transition-all duration-200 ease-out active:scale-95" data-blank="${blank.id}" data-question="${question.id}">[${blank.id}]</span>`;
+          ? `<span class="inline-flex items-center bg-success-500/20 text-success-600 border border-success-500/30 px-2 py-1 rounded text-sm font-medium cursor-pointer hover:bg-success-500/30 hover:text-success-700 hover:border-success-500/50 hover:scale-105 hover:-translate-y-0.5 hover:shadow-sm hover:shadow-success-500/10 transition-all duration-200 ease-out active:scale-95" data-blank="${blank.id}" data-question="${question.id}">${answer}</span>`
+          : `<span class="inline-flex items-center bg-sf-button/20 text-sf-button border border-sf-button/30 px-2 py-1 rounded text-sm font-medium cursor-pointer hover:bg-sf-button/30 hover:text-sf-button hover:border-sf-button/50 hover:scale-105 hover:-translate-y-0.5 hover:shadow-sm hover:shadow-sf-button/10 transition-all duration-200 ease-out active:scale-95" data-blank="${blank.id}" data-question="${question.id}">[${blank.id}]</span>`;
         
         passageWithBlanks = passageWithBlanks.replace(blankPattern, blankElement);
       });
@@ -262,8 +262,8 @@ export default function UniversalQuestionsUI({
               </p>
             </div>
             
-            <div className="bg-green-500/10 border-l-4 border-green-500 p-3 rounded-r-lg">
-              <p className="text-xs font-medium text-green-400 mb-1">Indirect Speech:</p>
+            <div className="bg-success-500/10 border-l-4 border-success-500 p-3 rounded-r-lg hover:bg-success-500/15 hover:border-success-600 transition-all duration-200">
+              <p className="text-xs font-medium text-success-600 mb-1">Indirect Speech:</p>
               <p className="text-sf-text-subtle text-sm leading-relaxed">
                 {questionAny.indirectSpeech}
               </p>
@@ -289,8 +289,8 @@ export default function UniversalQuestionsUI({
               </p>
             </div>
             
-            <div className="bg-green-500/10 border-l-4 border-green-500 p-3 rounded-r-lg">
-              <p className="text-xs font-medium text-green-400 mb-1">Transformed:</p>
+            <div className="bg-success-500/10 border-l-4 border-success-500 p-3 rounded-r-lg hover:bg-success-500/15 hover:border-success-600 transition-all duration-200">
+              <p className="text-xs font-medium text-success-600 mb-1">Transformed:</p>
               <p className="text-sf-text-subtle text-sm leading-relaxed">
                 {questionAny.transformedSentence}
               </p>
@@ -332,14 +332,14 @@ export default function UniversalQuestionsUI({
           </div>
           
           {isAnswerVisible && (
-            <div className="bg-green-500/10 border-l-4 border-green-500 p-3 rounded-r-lg">
-              <p className="text-xs font-medium text-green-400 mb-1">Answer:</p>
+            <div className="bg-success-500/10 border-l-4 border-success-500 p-3 rounded-r-lg hover:bg-success-500/15 hover:border-success-600 transition-all duration-200">
+              <p className="text-xs font-medium text-success-600 mb-1">Answer:</p>
               <p className="text-sf-text-subtle text-sm leading-relaxed">
                 {question.answer}
               </p>
               {question.explanation && (
-                <div className="mt-2 pt-2 border-t border-green-500/20">
-                  <p className="text-xs font-medium text-green-400 mb-1">Explanation:</p>
+                <div className="mt-2 pt-2 border-t border-success-500/20">
+                  <p className="text-xs font-medium text-success-600 mb-1">Explanation:</p>
                   <p className="text-sf-text-subtle text-xs leading-relaxed">
                     {question.explanation}
                   </p>
