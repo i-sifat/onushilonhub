@@ -3,6 +3,8 @@
 import { Calendar, MapPin } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
+import { animations } from '@/lib/utils/animations';
 
 interface QuestionCardProps {
   question: {
@@ -30,7 +32,11 @@ export default function QuestionCard({ question, index, className = '' }: Questi
 
   return (
     <Card 
-      className={`border-sf-text-muted/20 hover:border-sf-button/50 transition-all duration-300 ${className}`}
+      className={cn(
+        "border-sf-text-muted/20 group",
+        animations.presets.questionCard,
+        className
+      )}
     >
       <CardContent className="p-6">
         <div className="flex items-start justify-between mb-4">

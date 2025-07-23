@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Grid, List } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { animations } from '@/lib/utils/animations';
 
 export type ViewMode = 'list' | 'grid';
 
@@ -37,7 +38,8 @@ export const ViewModeToggle: React.FC<ViewModeToggleProps> = ({
         size="sm"
         onClick={() => onViewModeChange('list')}
         className={cn(
-          "rounded-none border-0 transition-all duration-200 px-3 py-2",
+          "rounded-none border-0 px-3 py-2",
+          animations.button.ghost,
           "focus:ring-2 focus:ring-sf-button focus:ring-offset-2 focus:ring-offset-sf-bg",
           viewMode === 'list' 
             ? [
@@ -52,7 +54,7 @@ export const ViewModeToggle: React.FC<ViewModeToggleProps> = ({
         aria-label="List view"
         aria-pressed={viewMode === 'list'}
       >
-        <List className="h-4 w-4" />
+        <List className={cn("h-4 w-4", animations.icon.subtle)} />
       </Button>
       
       <div className="w-px h-6 bg-sf-text-muted/20" />
@@ -62,7 +64,8 @@ export const ViewModeToggle: React.FC<ViewModeToggleProps> = ({
         size="sm"
         onClick={() => onViewModeChange('grid')}
         className={cn(
-          "rounded-none border-0 transition-all duration-200 px-3 py-2",
+          "rounded-none border-0 px-3 py-2",
+          animations.button.ghost,
           "focus:ring-2 focus:ring-sf-button focus:ring-offset-2 focus:ring-offset-sf-bg",
           viewMode === 'grid' 
             ? [
@@ -77,7 +80,7 @@ export const ViewModeToggle: React.FC<ViewModeToggleProps> = ({
         aria-label="Grid view"
         aria-pressed={viewMode === 'grid'}
       >
-        <Grid className="h-4 w-4" />
+        <Grid className={cn("h-4 w-4", animations.icon.subtle)} />
       </Button>
     </div>
   );

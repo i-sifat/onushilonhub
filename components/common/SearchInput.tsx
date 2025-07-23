@@ -45,12 +45,12 @@ export default function SearchInput({
         value={localValue}
         onChange={(e) => setLocalValue(e.target.value)}
         placeholder={placeholder}
-        className="block w-full pl-10 pr-10 py-3 border border-sf-text-muted/20 rounded-lg bg-sf-bg text-sf-text-subtle placeholder-sf-text-muted focus:outline-none focus:ring-2 focus:ring-sf-button focus:border-transparent"
+        className="block w-full pl-10 pr-10 py-3 border border-sf-text-muted/20 rounded-lg bg-sf-bg text-sf-text-subtle placeholder-sf-text-muted focus:outline-none focus:ring-2 focus:ring-sf-button focus:border-transparent transition-all duration-200 ease-out hover:border-sf-button/30 hover:shadow-sm focus:shadow-md focus:scale-[1.01]"
       />
       {localValue && (
         <button
           onClick={handleClear}
-          className="absolute inset-y-0 right-0 pr-3 flex items-center text-sf-text-muted hover:text-sf-button transition-colors"
+          className="absolute inset-y-0 right-0 pr-3 flex items-center text-sf-text-muted hover:text-sf-button hover:scale-110 transition-all duration-200 ease-out active:scale-95"
         >
           <X className="h-5 w-5" />
         </button>

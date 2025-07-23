@@ -215,8 +215,8 @@ export default function UniversalQuestionsUI({
         
         const answer = blank.ans || blank.answer || '';
         const blankElement = isAnswerVisible 
-          ? `<span class="inline-flex items-center bg-green-500/20 text-green-400 border border-green-400/30 px-2 py-1 rounded text-sm font-medium cursor-pointer hover:bg-green-500/30 transition-colors" data-blank="${blank.id}" data-question="${question.id}">${answer}</span>`
-          : `<span class="inline-flex items-center bg-sf-button/20 text-sf-button border border-sf-button/30 px-2 py-1 rounded text-sm font-medium cursor-pointer hover:bg-sf-button/30 transition-colors" data-blank="${blank.id}" data-question="${question.id}">[${blank.id}]</span>`;
+          ? `<span class="inline-flex items-center bg-green-500/20 text-green-400 border border-green-400/30 px-2 py-1 rounded text-sm font-medium cursor-pointer hover:bg-green-500/40 hover:scale-105 hover:-translate-y-0.5 hover:shadow-sm transition-all duration-200 ease-out active:scale-95" data-blank="${blank.id}" data-question="${question.id}">${answer}</span>`
+          : `<span class="inline-flex items-center bg-sf-button/20 text-sf-button border border-sf-button/30 px-2 py-1 rounded text-sm font-medium cursor-pointer hover:bg-sf-button/40 hover:scale-105 hover:-translate-y-0.5 hover:shadow-sm transition-all duration-200 ease-out active:scale-95" data-blank="${blank.id}" data-question="${question.id}">[${blank.id}]</span>`;
         
         passageWithBlanks = passageWithBlanks.replace(blankPattern, blankElement);
       });

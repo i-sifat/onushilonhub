@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import { CheckCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { animations } from '@/lib/utils/animations';
 
 export interface StandardizedTopicCardProps {
   topic: {
@@ -62,26 +63,25 @@ export const StandardizedTopicCard: React.FC<StandardizedTopicCardProps> = ({
   const route = getTopicRoute();
   const isActive = pathname === route;
 
-  // Standardized card classes with consistent sizing
+  // Standardized card classes with consistent sizing and animations
   const cardClasses = cn(
     // Base styling - consistent across all sections
     "group relative h-full w-full",
     "border border-sf-text-muted/20 bg-neutral-800",
-    "rounded-xl transition-all duration-300 ease-out",
-    "cursor-pointer overflow-hidden",
+    "rounded-xl overflow-hidden",
     
-    // Hover effects (when enabled)
-    showHoverEffects && [
-      "hover:border-sf-button/50",
-      "hover:shadow-lg hover:shadow-sf-button/10",
-      "hover:-translate-y-1 hover:scale-[1.02]"
-    ],
+    // Animation preset for topic cards
+    animations.presets.topicCard,
     
-    // Active state styling
+    // Conditional hover effects
+    !showHoverEffects && "hover:transform-none hover:shadow-none hover:border-sf-text-muted/20",
+    
+    // Active state styling with subtle animation
     isActive && [
       "ring-2 ring-sf-button/50",
       "border-sf-button/50",
-      "bg-neutral-800/80"
+      "bg-neutral-800/80",
+      "animate-in zoom-in-95 duration-200"
     ],
     
     // Size variants (currently only standard)
@@ -101,7 +101,10 @@ export const StandardizedTopicCard: React.FC<StandardizedTopicCardProps> = ({
         <CardContent className={contentClasses}>
           {/* Topic Icon */}
           <div 
-            className="text-3xl flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
+            className={cn(
+              "text-3xl flex-shrink-0",
+              animations.icon.subtle
+            )}
             style={{ color: topic.color }}
           >
             {topic.icon}
