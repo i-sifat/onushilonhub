@@ -79,7 +79,7 @@ export default function EnhancedNavbar() {
               className="bg-sf-button hover:bg-sf-button/90 text-sf-bg px-6 py-2 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-sf-button/25 hover:scale-105 flex items-center space-x-2"
             >
               <Sparkles className="w-4 h-4" />
-              <span>Start Learning</span>
+              <span>Get Started</span>
             </Link>
           </div>
 
@@ -114,7 +114,7 @@ export default function EnhancedNavbar() {
                   className="block bg-sf-button hover:bg-sf-button/90 text-sf-bg px-4 py-3 rounded-lg font-semibold transition-all duration-300 text-center"
                   onClick={() => setIsOpen(false)}
                 >
-                  Start Learning
+                  Get Started
                 </Link>
               </div>
             </div>

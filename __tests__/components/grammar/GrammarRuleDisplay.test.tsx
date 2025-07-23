@@ -13,6 +13,15 @@ describe('GrammarRuleDisplay', () => {
     ]
   };
 
+  const mockPropsWithAnswers = {
+    title: 'Test Grammar Rule',
+    banglaDescription: 'এটি একটি পরীক্ষার নিয়ম।',
+    examples: [
+      'Cricket is an [international] game. (Dhaka-2023)',
+      'She is a [beautiful] girl. (Chittagong-2022)'
+    ]
+  };
+
   it('renders title correctly', () => {
     render(<GrammarRuleDisplay {...mockProps} />);
     
@@ -39,27 +48,41 @@ describe('GrammarRuleDisplay', () => {
     expect(screen.queryByText('Examples:')).not.toBeInTheDocument();
   });
 
-  it('renders examples with toggle functionality', () => {
+  it('renders examples with interactive answer reveal functionality', () => {
+    render(<GrammarRuleDisplay {...mockPropsWithAnswers} />);
+    
+    // Examples should be visible by default
+    expect(screen.getByText(/Cricket is an/)).toBeInTheDocument();
+    expect(screen.getByText(/She is a/)).toBeInTheDocument();
+    
+    // Eye icons should be present for hidden answers
+    const eyeButtons = screen.getAllByTestId('eye-button');
+    expect(eyeButtons).toHaveLength(2);
+    
+    // Click first eye icon to reveal answer
+    fireEvent.click(eyeButtons[0]);
+    
+    // Answer should now be revealed
+    expect(screen.getByTestId('revealed-answer')).toBeInTheDocument();
+    expect(screen.getByText('international')).toBeInTheDocument();
+  });
+
+  it('handles examples without bracketed answers', () => {
     render(<GrammarRuleDisplay {...mockProps} />);
     
-    // Examples should be hidden initially
-    expect(screen.queryByText('Example 1: This is a test.')).not.toBeInTheDocument();
-    expect(screen.queryByText('Example 2: Another test example.')).not.toBeInTheDocument();
-    
-    // Click show answer button
-    const showButton = screen.getByRole('button', { name: /show answer/i });
-    fireEvent.click(showButton);
-    
-    // Examples should now be visible
+    // Examples should be visible
     expect(screen.getByText('Example 1: This is a test.')).toBeInTheDocument();
     expect(screen.getByText('Example 2: Another test example.')).toBeInTheDocument();
+    
+    // No eye icons should be present
+    expect(screen.queryByTestId('eye-button')).not.toBeInTheDocument();
   });
 
   it('handles empty examples array', () => {
     render(<GrammarRuleDisplay {...mockProps} examples={[]} />);
     
     expect(screen.queryByText('Examples:')).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /show answer/i })).not.toBeInTheDocument();
+    expect(screen.queryByTestId('eye-button')).not.toBeInTheDocument();
   });
 
   it('applies custom className', () => {
@@ -76,17 +99,49 @@ describe('GrammarRuleDisplay', () => {
     expect(container.firstChild).toHaveClass('space-y-4');
   });
 
-  it('handles single example correctly', () => {
+  it('handles single example with interactive answers correctly', () => {
     const singleExampleProps = {
       ...mockProps,
-      examples: ['Single example test.']
+      examples: ['This is a [simple] test.']
     };
     
     render(<GrammarRuleDisplay {...singleExampleProps} />);
     
-    const showButton = screen.getByRole('button', { name: /show answer/i });
-    fireEvent.click(showButton);
+    // Example should be visible
+    expect(screen.getByText(/This is a/)).toBeInTheDocument();
     
-    expect(screen.getByText('Single example test.')).toBeInTheDocument();
+    // Eye icon should be present
+    const eyeButton = screen.getByTestId('eye-button');
+    expect(eyeButton).toBeInTheDocument();
+    
+    // Click to reveal answer
+    fireEvent.click(eyeButton);
+    
+    // Answer should be revealed
+    expect(screen.getByText('simple')).toBeInTheDocument();
+  });
+
+  it('toggles answer visibility when clicking revealed answer', () => {
+    render(<GrammarRuleDisplay {...mockPropsWithAnswers} />);
+    
+    const eyeButton = screen.getAllByTestId('eye-button')[0];
+    
+    // Click to reveal answer
+    fireEvent.click(eyeButton);
+    expect(screen.getByText('international')).toBeInTheDocument();
+    
+    // Click revealed answer to hide it
+    const revealedAnswer = screen.getByTestId('revealed-answer');
+    fireEvent.click(revealedAnswer);
+    
+    // Answer should be hidden again, eye icon should be back
+    expect(screen.queryByText('international')).not.toBeInTheDocument();
+    expect(screen.getByTestId('eye-button')).toBeInTheDocument();
+  });
+
+  it('displays help text for interactive functionality', () => {
+    render(<GrammarRuleDisplay {...mockPropsWithAnswers} />);
+    
+    expect(screen.getByText(/Click on the eye icons to reveal answers/)).toBeInTheDocument();
   });
 });

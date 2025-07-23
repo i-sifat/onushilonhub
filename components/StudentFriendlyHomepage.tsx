@@ -93,7 +93,7 @@ export default function StudentFriendlyHomepage() {
                 className="group inline-flex items-center justify-center bg-sf-button hover:bg-sf-button/90 text-sf-bg px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 hover:shadow-lg hover:shadow-sf-button/25 hover:scale-105"
               >
                 <Zap className="w-5 h-5 mr-2 group-hover:animate-bounce" />
-                Start Learning Now
+                Get Started
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
               
@@ -102,7 +102,7 @@ export default function StudentFriendlyHomepage() {
                 className="group inline-flex items-center justify-center bg-transparent border-2 border-sf-button text-sf-button hover:bg-sf-button hover:text-sf-bg px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 hover:scale-105"
               >
                 <BookOpen className="w-5 h-5 mr-2" />
-                Explore Questions
+                Practice Questions
               </Link>
             </div>
 
@@ -123,12 +123,14 @@ export default function StudentFriendlyHomepage() {
             </div>
           </div>
 
-          {/* Right: Enhanced Animated Card */}
+          {/* Right: Fixed Dimensions Container for Animated Card */}
           <div className="flex justify-center items-center lg:justify-end">
-            <div className="relative">
+            <div className="relative w-96 h-96 flex items-center justify-center">
               {/* Glow effect behind card */}
               <div className="absolute inset-0 bg-sf-button/20 rounded-3xl blur-2xl scale-110 animate-pulse"></div>
-              <EnhancedHeroStatsCard />
+              <div className="relative w-full h-full">
+                <EnhancedHeroStatsCard />
+              </div>
             </div>
           </div>
         </div>

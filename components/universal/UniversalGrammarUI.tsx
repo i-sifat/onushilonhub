@@ -17,7 +17,7 @@ import {
 import { ViewModeToggle, ViewMode } from '@/components/ui/view-mode-toggle';
 import { ContentBox } from '@/components/ui/content-box';
 import { GrammarRuleDisplay } from '@/components/grammar/GrammarRuleDisplay';
-import { TopicIntroduction } from '@/components/grammar/TopicIntroduction';
+import { CollapsibleTopicIntroduction } from '@/components/ui/collapsible-topic-introduction';
 import { GrammarRule, GrammarTopicSlug } from '@/types/grammar.types';
 
 interface UniversalGrammarUIProps {
@@ -136,10 +136,11 @@ ${rule.examples.map(e => `• ${e}`).join('\n')}
     <div className="space-y-6">
       {/* Topic Introduction */}
       {topicIntroduction && (
-        <TopicIntroduction
+        <CollapsibleTopicIntroduction
           title={topicIntroduction.title}
           banglaDescription={topicIntroduction.banglaDescription}
           types={topicIntroduction.types}
+          defaultExpanded={false}
         />
       )}
 

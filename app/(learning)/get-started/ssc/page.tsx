@@ -1,25 +1,25 @@
-import BackButton from '@/components/common/BackButton';
+import { UnifiedPageLayout } from '@/components/layout';
 import UniversalTopicNavigation from '@/components/universal/UniversalTopicNavigation';
 
 export default function SSCGetStartedPage() {
   return (
-    <div className="min-h-screen bg-sf-bg pt-20">
-      <div className="w-full px-4 sm:px-6 lg:px-8 py-12">
-        {/* Back Button */}
-        <div className="mb-6">
-          <BackButton />
-        </div>
-
-        {/* Universal Topic Navigation */}
-        <UniversalTopicNavigation
-          level="SSC"
-          section="get-started"
-          showSearch={true}
-          showFilters={true}
-          showStats={true}
-          showProgress={false}
-        />
-      </div>
-    </div>
+    <UnifiedPageLayout
+      pageType="combined"
+      level="SSC"
+      title="Get Started with Learning"
+      description="Begin your learning journey with interactive lessons and practice exercises"
+      statistics={{ topics: 9, rules: 112, questions: 74 }}
+      showBackButton={true}
+    >
+      {/* Universal Topic Navigation */}
+      <UniversalTopicNavigation
+        level="SSC"
+        section="get-started"
+        showSearch={true}
+        showFilters={true}
+        showStats={false} // Disable stats since they're now in the header
+        showProgress={false}
+      />
+    </UnifiedPageLayout>
   );
 }

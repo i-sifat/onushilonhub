@@ -1,5 +1,7 @@
-import { BackButton, LevelSelectionGrid } from '@/components/common';
+import { BackButton } from '@/components/common';
+import UnifiedSelectionGrid from '@/components/ui/unified-selection-grid';
 import { BOARD_QUESTIONS_LEVELS } from '@/lib/constants/levelData';
+import { convertLevelArrayToUnifiedCards } from '@/lib/utils/level-data-converter';
 import { FileText } from 'lucide-react';
 
 export default function BoardQuestionsPage() {
@@ -29,10 +31,8 @@ export default function BoardQuestionsPage() {
         </div>
 
         {/* Level Cards */}
-        <LevelSelectionGrid
-          levels={BOARD_QUESTIONS_LEVELS}
-          basePath="/board-questions"
-          actionText="Explore {level} Questions"
+        <UnifiedSelectionGrid
+          cards={convertLevelArrayToUnifiedCards(BOARD_QUESTIONS_LEVELS, 'questions', '/board-questions')}
           className="mb-16"
         />
 

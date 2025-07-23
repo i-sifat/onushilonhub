@@ -1,24 +1,25 @@
-import BackButton from '@/components/common/BackButton';
-import SafeAreaWrapper from '@/components/common/SafeAreaWrapper';
+import { UnifiedPageLayout } from '@/components/layout';
 import UniversalTopicNavigation from '@/components/universal/UniversalTopicNavigation';
 
 export default function HSCBoardQuestionsPage() {
     return (
-        <div className="min-h-screen bg-sf-bg pt-20">
-            {/* Back Button - Fixed top-left position */}
-            <BackButton />
-            
-            <SafeAreaWrapper>
-                {/* Universal Topic Navigation */}
-                <UniversalTopicNavigation
-                  level="HSC"
-                  section="board-questions"
-                  showSearch={true}
-                  showFilters={true}
-                  showStats={true}
-                  showProgress={false}
-                />
-            </SafeAreaWrapper>
-        </div>
+        <UnifiedPageLayout
+            pageType="questions"
+            level="HSC"
+            title="Board Questions & Practice"
+            description="Practice with real board questions from previous years and mock tests"
+            statistics={{ topics: 9, rules: 112, questions: 74 }}
+            showBackButton={true}
+        >
+            {/* Universal Topic Navigation */}
+            <UniversalTopicNavigation
+              level="HSC"
+              section="board-questions"
+              showSearch={true}
+              showFilters={true}
+              showStats={false} // Disable stats since they're now in the header
+              showProgress={false}
+            />
+        </UnifiedPageLayout>
     );
 }

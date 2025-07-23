@@ -146,7 +146,7 @@ export default function AboutPage() {
             href="/board-questions"
             className="inline-flex items-center bg-sf-button hover:bg-sf-button/90 text-sf-bg px-8 py-3 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg"
           >
-            Start Learning Now
+            Get Started
           </a>
         </div>
       </div>

@@ -1,5 +1,7 @@
-import { BackButton, LevelSelectionGrid } from '@/components/common';
+import { BackButton } from '@/components/common';
+import UnifiedSelectionGrid from '@/components/ui/unified-selection-grid';
 import { GET_STARTED_LEVELS } from '@/lib/constants/levelData';
+import { convertLevelArrayToUnifiedCards } from '@/lib/utils/level-data-converter';
 import { Zap } from 'lucide-react';
 
 export default function GetStartedPage() {
@@ -29,9 +31,8 @@ export default function GetStartedPage() {
         </div>
 
         {/* Level Cards */}
-        <LevelSelectionGrid
-          levels={GET_STARTED_LEVELS}
-          basePath="/get-started"
+        <UnifiedSelectionGrid
+          cards={convertLevelArrayToUnifiedCards(GET_STARTED_LEVELS, 'combined', '/get-started')}
           className="mb-16"
         />
 

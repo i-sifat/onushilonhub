@@ -1,5 +1,7 @@
-import { BackButton, LevelSelectionGrid } from '@/components/common';
+import { BackButton } from '@/components/common';
+import UnifiedSelectionGrid from '@/components/ui/unified-selection-grid';
 import { GRAMMAR_ITEMS_LEVELS } from '@/lib/constants/levelData';
+import { convertLevelArrayToUnifiedCards } from '@/lib/utils/level-data-converter';
 import { BookOpen } from 'lucide-react';
 
 export default function GrammarItemsPage() {
@@ -29,10 +31,8 @@ export default function GrammarItemsPage() {
         </div>
 
         {/* Level Cards */}
-        <LevelSelectionGrid
-          levels={GRAMMAR_ITEMS_LEVELS}
-          basePath="/grammar-items"
-          actionText="Explore {level} Grammar Items"
+        <UnifiedSelectionGrid
+          cards={convertLevelArrayToUnifiedCards(GRAMMAR_ITEMS_LEVELS, 'grammar', '/grammar-items')}
           className="mb-16"
         />
 

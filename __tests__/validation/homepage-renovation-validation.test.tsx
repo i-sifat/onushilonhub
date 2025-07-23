@@ -65,12 +65,19 @@ describe('Homepage Renovation - Task 20 Validation', () => {
       expect(heading).toHaveClass('bg-gradient-to-r', 'from-sf-button', 'via-sf-highlight', 'to-sf-button');
       
       // Check CTA button exists and has proper structure
-      const ctaButton = screen.getByText('Start Learning Now').closest('a');
+      const ctaButtons = screen.getAllByText('Get Started');
+      const ctaButton = ctaButtons.find(button => 
+        button.closest('a')?.getAttribute('href') === '/get-started' &&
+        button.closest('.bg-sf-button')
+      )?.closest('a');
       expect(ctaButton).toBeInTheDocument();
       expect(ctaButton).toHaveAttribute('href', '/get-started');
       
       // Check secondary button exists and has proper structure
-      const secondaryButton = screen.getByText('Explore Questions').closest('a');
+      const secondaryButtons = screen.getAllByText('Practice Questions');
+      const secondaryButton = secondaryButtons.find(button => 
+        button.closest('a')?.getAttribute('href') === '/board-questions'
+      )?.closest('a');
       expect(secondaryButton).toBeInTheDocument();
       expect(secondaryButton).toHaveAttribute('href', '/board-questions');
     });
@@ -188,7 +195,11 @@ describe('Homepage Renovation - Task 20 Validation', () => {
       render(<EnhancedNavbar />);
       
       // Check for navigation links with proper structure
-      const navLink = screen.getByText('Get Started').closest('a');
+      const navLinks = screen.getAllByText('Get Started');
+      const navLink = navLinks.find(link => 
+        link.closest('a')?.getAttribute('href') === '/get-started' &&
+        !link.closest('.bg-sf-button')
+      )?.closest('a');
       expect(navLink).toBeInTheDocument();
       expect(navLink).toHaveAttribute('href', '/get-started');
     });
@@ -196,7 +207,11 @@ describe('Homepage Renovation - Task 20 Validation', () => {
     it('should include enhanced CTA button in navigation', () => {
       render(<EnhancedNavbar />);
       
-      const ctaButton = screen.getByText('Start Learning').closest('a');
+      const ctaButtons = screen.getAllByText('Get Started');
+      const ctaButton = ctaButtons.find(button => 
+        button.closest('a')?.getAttribute('href') === '/get-started' &&
+        button.closest('.bg-sf-button')
+      )?.closest('a');
       expect(ctaButton).toBeInTheDocument();
       expect(ctaButton).toHaveAttribute('href', '/get-started');
     });
@@ -234,7 +249,7 @@ describe('Homepage Renovation - Task 20 Validation', () => {
       
       // Should use casual, friendly language
       expect(screen.getByText(/Smart Way/)).toBeInTheDocument();
-      expect(screen.getByText(/Start Learning Now/)).toBeInTheDocument();
+      expect(screen.getByText(/Get Started/)).toBeInTheDocument();
     });
 
     it('should include community and collaborative elements', () => {

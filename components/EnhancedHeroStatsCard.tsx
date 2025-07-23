@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import CountUp from 'react-countup';
 import { Typewriter } from 'react-simple-typewriter';
-import { FaQuestionCircle, FaChartLine, FaBookOpen, FaUsers, FaTrophy, FaRocket } from 'react-icons/fa';
+import { FaQuestionCircle, FaBookOpen, FaUsers, FaTrophy, FaRocket } from 'react-icons/fa';
 
 export default function EnhancedHeroStatsCard() {
   const [isVisible, setIsVisible] = useState(false);
@@ -66,11 +66,11 @@ export default function EnhancedHeroStatsCard() {
 
   return (
     <div className={`
-      max-w-lg w-full bg-gradient-to-br from-sf-highlight via-sf-button to-sf-highlight 
+      w-96 h-96 bg-gradient-to-br from-sf-highlight via-sf-button to-sf-highlight 
       rounded-3xl shadow-2xl transform transition-all duration-1000 ease-out
       hover:scale-105 hover:shadow-3xl hover:rotate-1
       ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}
-      relative overflow-hidden p-8 min-h-[500px] flex flex-col justify-between
+      relative overflow-hidden p-8 flex flex-col justify-between
     `}>
       {/* Animated background elements */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-sf-bg/10 rounded-full -translate-y-16 translate-x-16 animate-pulse"></div>
@@ -88,10 +88,10 @@ export default function EnhancedHeroStatsCard() {
         </div>
       </div>
       
-      {/* Enhanced motivational text with larger container */}
+      {/* Enhanced motivational text with fixed container */}
       <div className="text-center flex-1 flex items-center justify-center mb-6">
-        <div className="h-20 overflow-hidden flex items-center justify-center px-4">
-          <h2 className="text-2xl font-extrabold text-sf-bg text-center leading-tight">
+        <div className="h-16 w-full overflow-hidden flex items-center justify-center px-4">
+          <h2 className="text-xl font-extrabold text-sf-bg text-center leading-tight">
             <Typewriter
               words={motivationalTexts}
               loop={0}
