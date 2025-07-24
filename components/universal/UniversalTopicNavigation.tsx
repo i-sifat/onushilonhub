@@ -26,7 +26,7 @@ import { GrammarLevel } from '@/types/grammar.types';
 
 interface UniversalTopicNavigationProps {
   level: GrammarLevel;
-  section?: 'get-started' | 'grammar-items' | 'board-questions';
+  section?: 'get-started' | 'grammar-items' | 'board-questions' | 'combined-section';
   showSearch?: boolean;
   showFilters?: boolean;
   showStats?: boolean;
@@ -181,6 +181,8 @@ const UniversalTopicNavigation = memo(function UniversalTopicNavigation({
         return 'Grammar Rules & Concepts';
       case 'board-questions':
         return 'Board Questions & Practice';
+      case 'combined-section':
+        return 'Combined Learning Experience';
       case 'get-started':
       default:
         return 'Get Started with Learning';
@@ -193,6 +195,8 @@ const UniversalTopicNavigation = memo(function UniversalTopicNavigation({
         return 'Explore comprehensive grammar rules, structures, and examples for each topic';
       case 'board-questions':
         return 'Practice with real board questions from previous years and mock tests';
+      case 'combined-section':
+        return 'Study grammar rules and practice questions together in an integrated learning experience';
       case 'get-started':
       default:
         return 'Begin your learning journey with interactive lessons and practice exercises';

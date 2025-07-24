@@ -16,7 +16,7 @@ export interface StandardizedTopicCardProps {
     icon: string;
     color: string;
   };
-  section: 'grammar' | 'questions' | 'combined' | 'get-started' | 'grammar-items' | 'board-questions';
+  section: 'grammar' | 'questions' | 'combined' | 'get-started' | 'grammar-items' | 'board-questions' | 'combined-section';
   questionCount?: number;
   size?: 'standard';
   showHoverEffects?: boolean;
@@ -55,8 +55,10 @@ export const StandardizedTopicCard: React.FC<StandardizedTopicCardProps> = memo(
       case 'board-questions':
       case 'questions':
         return `/board-questions/${level}/${topic.slug}`;
-      case 'get-started':
+      case 'combined-section':
       case 'combined':
+        return `/combined-section/${level}/${topic.slug}`;
+      case 'get-started':
       default:
         return `/get-started/${topic.slug}`;
     }

@@ -10,6 +10,7 @@ export const metadata = {
 };
 
 export default function ModifierGetStartedPage() {
+
   return (
     <div className="min-h-screen bg-sf-bg pt-20">
       {/* Back Button - Fixed top-left position */}
