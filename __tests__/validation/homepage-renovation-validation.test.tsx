@@ -65,9 +65,11 @@ describe('Homepage Renovation - Task 20 Validation', () => {
       expect(heading).toHaveClass('bg-gradient-to-r', 'from-sf-button', 'via-sf-highlight', 'to-sf-button');
       
       // Check CTA button exists and has proper structure
-      const ctaButton = screen.getByText('Login');
+      const ctaButton = screen.getByText('Get Started');
       expect(ctaButton).toBeInTheDocument();
-      expect(ctaButton.closest('button')).toHaveClass('bg-sf-button');
+      const linkElement = ctaButton.closest('a');
+      expect(linkElement).toBeInTheDocument();
+      expect(linkElement).toHaveAttribute('href', '/get-started');
       
       // Check secondary button exists and has proper structure
       const secondaryButtons = screen.getAllByText('Practice Questions');
@@ -240,7 +242,7 @@ describe('Homepage Renovation - Task 20 Validation', () => {
       
       // Should use casual, friendly language
       expect(screen.getByText(/Smart Way/)).toBeInTheDocument();
-      expect(screen.getByText(/Login/)).toBeInTheDocument();
+      expect(screen.getByText(/Get Started/)).toBeInTheDocument();
     });
 
     it('should include community and collaborative elements', () => {

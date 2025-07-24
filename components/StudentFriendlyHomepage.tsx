@@ -99,7 +99,8 @@ export default function StudentFriendlyHomepage() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <button 
+              <Link 
+                href="/get-started" 
                 className={cn(
                   "group inline-flex items-center justify-center bg-sf-button text-sf-bg px-8 py-4 rounded-xl font-bold text-lg",
                   animations.enhancedButton.primaryHover,
@@ -110,8 +111,12 @@ export default function StudentFriendlyHomepage() {
                   "w-5 h-5 mr-2 transition-all duration-200 ease-out",
                   "group-hover:animate-bounce group-hover:scale-110"
                 )} />
-                Login
-              </button>
+                Get Started
+                <ArrowRight className={cn(
+                  "w-5 h-5 ml-2 transition-transform duration-200 ease-out",
+                  "group-hover:translate-x-1 group-hover:scale-110"
+                )} />
+              </Link>
               
               <Link 
                 href="/board-questions" 
