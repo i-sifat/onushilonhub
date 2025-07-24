@@ -15,7 +15,7 @@ describe('PageLoadingSpinner', () => {
     render(<PageLoadingSpinner message={message} />);
     
     expect(screen.getByText(message)).toBeInTheDocument();
-    expect(screen.getByText(message)).toHaveClass('text-sf-text-subtle', 'animate-pulse');
+    expect(screen.getByText(message)).toHaveClass('text-sf-text-subtle', 'text-sm');
   });
 
   it('does not display message when not provided', () => {
@@ -28,18 +28,18 @@ describe('PageLoadingSpinner', () => {
   it('applies correct size classes', () => {
     const { rerender } = render(<PageLoadingSpinner size="sm" />);
     let spinner = screen.getByTestId('page-loading-spinner');
-    let outerRing = spinner.querySelector('.w-8.h-8');
-    expect(outerRing).toBeInTheDocument();
+    let loadingSpinner = spinner.querySelector('[data-testid="loading-spinner"]');
+    expect(loadingSpinner).toBeInTheDocument();
 
     rerender(<PageLoadingSpinner size="md" />);
     spinner = screen.getByTestId('page-loading-spinner');
-    outerRing = spinner.querySelector('.w-12.h-12');
-    expect(outerRing).toBeInTheDocument();
+    loadingSpinner = spinner.querySelector('[data-testid="loading-spinner"]');
+    expect(loadingSpinner).toBeInTheDocument();
 
     rerender(<PageLoadingSpinner size="lg" />);
     spinner = screen.getByTestId('page-loading-spinner');
-    outerRing = spinner.querySelector('.w-16.h-16');
-    expect(outerRing).toBeInTheDocument();
+    loadingSpinner = spinner.querySelector('[data-testid="loading-spinner"]');
+    expect(loadingSpinner).toBeInTheDocument();
   });
 
   it('applies custom className correctly', () => {
@@ -49,21 +49,18 @@ describe('PageLoadingSpinner', () => {
     expect(spinner).toHaveClass('custom-spinner');
   });
 
-  it('has dual ring structure with correct animations', () => {
+  it('uses the common loading spinner component', () => {
     render(<PageLoadingSpinner />);
     
     const spinner = screen.getByTestId('page-loading-spinner');
-    const rings = spinner.querySelectorAll('.animate-spin');
+    const loadingSpinner = spinner.querySelector('[data-testid="loading-spinner"]');
     
-    expect(rings).toHaveLength(2);
+    expect(loadingSpinner).toBeInTheDocument();
     
-    // Check outer ring classes
-    const outerRing = rings[0];
-    expect(outerRing).toHaveClass('border-4', 'border-sf-text-muted/20', 'border-t-sf-button', 'rounded-full');
-    
-    // Check inner ring classes
-    const innerRing = rings[1];
-    expect(innerRing).toHaveClass('absolute', 'inset-0', 'border-4', 'border-transparent', 'border-r-sf-highlight', 'rounded-full');
+    // Check that it uses the Loader2 icon from lucide-react
+    const spinnerIcon = spinner.querySelector('.animate-spin');
+    expect(spinnerIcon).toBeInTheDocument();
+    expect(spinnerIcon).toHaveClass('text-sf-button');
   });
 
   it('centers content properly', () => {
@@ -73,6 +70,6 @@ describe('PageLoadingSpinner', () => {
     expect(spinner).toHaveClass('items-center', 'justify-center');
     
     const message = screen.getByText('Test message');
-    expect(message).toHaveClass('text-center');
+    expect(message).toHaveClass('text-sf-text-subtle', 'text-sm');
   });
 });

@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { animations } from '@/lib/utils/animations';
 
 export interface UnifiedSelectionCardProps {
   type: 'HSC' | 'SSC';
@@ -64,26 +66,44 @@ export default function UnifiedSelectionCard({
 
   return (
     <div
-      className={`bg-sf-bg border rounded-xl p-8 transition-all duration-300 ease-out group ${
+      className={cn(
+        "bg-sf-bg border rounded-xl p-8 group",
         available 
-          ? 'border-sf-text-muted/20 hover:border-sf-button/50 hover:shadow-lg hover:shadow-sf-button/10 hover:-translate-y-2 hover:scale-[1.02] cursor-pointer' 
-          : 'border-sf-text-muted/20 opacity-75'
-      } ${className}`}
+          ? cn(
+              "border-sf-text-muted/20 cursor-pointer",
+              animations.presets.levelCard
+            )
+          : "border-sf-text-muted/20 opacity-75",
+        className
+      )}
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3">
-          <div className="text-2xl">{getSectionIcon()}</div>
+          <div className={cn(
+            "text-2xl transition-transform duration-200 ease-out",
+            "group-hover:scale-110 group-hover:rotate-3"
+          )}>
+            {getSectionIcon()}
+          </div>
           <div>
             <div className="flex items-center space-x-2 mb-1">
-              <span className="px-2 py-1 text-xs font-semibold rounded-full border bg-sf-button/10 text-sf-button border-sf-button/30">
+              <span className={cn(
+                "px-2 py-1 text-xs font-semibold rounded-full border",
+                "bg-sf-button/10 text-sf-button border-sf-button/30",
+                "transition-all duration-200 ease-out",
+                "group-hover:bg-sf-button/20 group-hover:scale-105"
+              )}>
                 {type}
               </span>
               <span className="text-sf-text-muted text-sm capitalize">
                 {section}
               </span>
             </div>
-            <h3 className="text-xl font-bold text-sf-text-bold group-hover:text-sf-button transition-colors">
+            <h3 className={cn(
+              "text-xl font-bold text-sf-text-bold transition-colors duration-200",
+              "group-hover:text-sf-button"
+            )}>
               {title}
             </h3>
           </div>
@@ -105,8 +125,19 @@ export default function UnifiedSelectionCard({
       <div className="mb-6">
         <div className="grid grid-cols-3 gap-4">
           {getStatisticsDisplay().slice(0, 3).map((stat, index) => (
-            <div key={index} className="text-center">
-              <div className="text-xl font-bold text-sf-button">
+            <div 
+              key={index} 
+              className={cn(
+                "text-center transition-all duration-200 ease-out",
+                "group-hover:scale-105",
+                animations.reveal.fadeIn,
+                `[animation-delay:${100 + index * 50}ms]`
+              )}
+            >
+              <div className={cn(
+                "text-xl font-bold text-sf-button transition-colors duration-200",
+                "group-hover:text-sf-highlight"
+              )}>
                 {formatStatValue(stat.value)}
               </div>
               <div className="text-xs text-sf-text-muted font-medium">
@@ -123,8 +154,21 @@ export default function UnifiedSelectionCard({
           <h4 className="text-sm font-semibold text-sf-text-bold mb-3">Features:</h4>
           <ul className="space-y-2">
             {features.slice(0, 3).map((feature, index) => (
-              <li key={index} className="flex items-center space-x-2 text-sm text-sf-text-subtle">
-                <div className="w-1.5 h-1.5 bg-sf-button rounded-full flex-shrink-0"></div>
+              <li 
+                key={index} 
+                className={cn(
+                  "flex items-center space-x-2 text-sm text-sf-text-subtle",
+                  "transition-all duration-200 ease-out",
+                  "group-hover:text-sf-text-bold group-hover:translate-x-1",
+                  animations.reveal.fadeIn,
+                  `[animation-delay:${200 + index * 75}ms]`
+                )}
+              >
+                <div className={cn(
+                  "w-1.5 h-1.5 bg-sf-button rounded-full flex-shrink-0",
+                  "transition-all duration-200 ease-out",
+                  "group-hover:scale-125 group-hover:bg-sf-highlight"
+                )}></div>
                 <span>{feature}</span>
               </li>
             ))}
@@ -137,12 +181,20 @@ export default function UnifiedSelectionCard({
         {available ? (
           <Link
             href={route}
-            className="inline-flex items-center justify-center w-full bg-sf-button hover:bg-sf-button/90 text-sf-bg px-6 py-3 rounded-lg font-semibold transition-all duration-200 ease-out hover:shadow-lg hover:-translate-y-0.5 hover:scale-[1.02] active:scale-[0.98] group"
+            className={cn(
+              "inline-flex items-center justify-center w-full bg-sf-button text-sf-bg px-6 py-3 rounded-lg font-semibold group",
+              animations.enhancedButton.primaryHover,
+              "hover:bg-sf-button/90 hover:shadow-lg hover:shadow-sf-button/20",
+              "active:scale-[0.98]"
+            )}
           >
             <span>
               Explore {type} {section === 'grammar' ? 'Grammar' : section === 'questions' ? 'Questions' : 'Learning'}
             </span>
-            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" />
+            <ArrowRight className={cn(
+              "ml-2 h-4 w-4 transition-transform duration-200 ease-out",
+              "group-hover:translate-x-1 group-hover:scale-110"
+            )} />
           </Link>
         ) : (
           <div className="inline-flex items-center justify-center w-full bg-sf-text-muted/20 text-sf-text-muted px-6 py-3 rounded-lg font-semibold cursor-not-allowed">

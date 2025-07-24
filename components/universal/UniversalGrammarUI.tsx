@@ -1,6 +1,8 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, memo } from 'react';
+import dynamic from 'next/dynamic';
+import { useDebounce } from '@/lib/utils/performance';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -42,7 +44,7 @@ interface FilterState {
   searchTerm: string;
 }
 
-export default function UniversalGrammarUI({ 
+const UniversalGrammarUI = memo(function UniversalGrammarUI({ 
   topic, 
   topicSlug, 
   rules, 
@@ -59,6 +61,9 @@ export default function UniversalGrammarUI({
     searchTerm: ''
   });
 
+  // Debounce search term to prevent excessive filtering
+  const debouncedSearchTerm = useDebounce(filters.searchTerm, 300);
+
   // Update filter state
   const updateFilter = useCallback((key: keyof FilterState, value: string) => {
     setFilters(prev => ({ ...prev, [key]: value }));
@@ -66,21 +71,21 @@ export default function UniversalGrammarUI({
 
 
 
-  // Filter rules based on criteria
+  // Filter rules based on criteria using debounced search for better performance
   const filteredRules = useMemo(() => {
     return rules.filter(rule => {
-      // Search filter
-      const matchesSearch = !filters.searchTerm || 
-        rule.title?.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
-        rule.description?.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
-        rule.bengali?.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
-        (rule as any).banglaDescription?.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
-        rule.structures?.some(s => s.toLowerCase().includes(filters.searchTerm.toLowerCase())) ||
-        rule.examples?.some(e => e.toLowerCase().includes(filters.searchTerm.toLowerCase()));
+      // Search filter with debounced search term
+      const matchesSearch = !debouncedSearchTerm || 
+        rule.title?.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+        rule.description?.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+        rule.bengali?.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+        (rule as any).banglaDescription?.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+        rule.structures?.some(s => s.toLowerCase().includes(debouncedSearchTerm.toLowerCase())) ||
+        rule.examples?.some(e => e.toLowerCase().includes(debouncedSearchTerm.toLowerCase()));
 
       return matchesSearch;
     });
-  }, [rules, filters]);
+  }, [rules, debouncedSearchTerm]);
 
   // Clear all filters
   const clearFilters = useCallback(() => {
@@ -427,4 +432,6 @@ ${rule.examples.map(e => `• ${e}`).join('\n')}
       )}
     </div>
   );
-}
+});
+
+export default UniversalGrammarUI;

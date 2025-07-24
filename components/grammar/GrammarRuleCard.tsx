@@ -28,29 +28,33 @@ export default function GrammarRuleCard({
     <div
       className={`bg-sf-bg border border-sf-text-muted/20 rounded-lg p-6 hover:border-sf-button/30 transition-all duration-300 ${className}`}
     >
-      {/* Rule Header */}
-      <div className="mb-6">
-        <div className="flex items-start justify-between mb-3">
-          <div className="flex items-center space-x-3">
-            <Badge variant="outline" className="text-sf-button border-sf-button/30">
-              {ruleNo || `Rule ${id}`}
-            </Badge>
-            <h2 className="text-xl font-bold text-sf-text-bold">
-              {title}
-            </h2>
-          </div>
+      {/* Rule Title - Prominently displayed at the top */}
+      <div className="space-y-3 mb-6">
+        <div className="flex items-start justify-between">
+          <Badge variant="outline" className="text-sf-button border-sf-button/30">
+            {ruleNo || `Rule ${id}`}
+          </Badge>
+        </div>
+        <div className="space-y-2">
+          <h2 className="text-2xl font-bold text-sf-text-bold leading-tight">
+            {title}
+          </h2>
+          <div className="h-px bg-gradient-to-r from-sf-button/30 via-sf-button/10 to-transparent"></div>
         </div>
         
+        {/* Bengali Description - Second line with proper spacing and typography */}
         {bengali && (
-          <p className="text-sf-text-muted text-sm">
-            <span className="font-medium">Bengali:</span> {bengali}
-          </p>
+          <div className="space-y-2 pt-2">
+            <p className="text-lg text-sf-text-subtle leading-relaxed font-medium">
+              {bengali}
+            </p>
+          </div>
         )}
       </div>
       
-      {/* Structures */}
+      {/* Structures - Clear visual separation */}
       {structures && structures.length > 0 && (
-        <div className="mb-6">
+        <div className="space-y-4 mb-6 pt-4 border-t border-sf-text-muted/10">
           <ContentBox
             type="structure"
             title="Structures"
@@ -59,8 +63,8 @@ export default function GrammarRuleCard({
         </div>
       )}
 
-      {/* Examples */}
-      <div>
+      {/* Examples - Below description with clear visual separation */}
+      <div className="space-y-4 pt-4 border-t border-sf-text-muted/10">
         <ContentBox
           type="example"
           title="Examples"

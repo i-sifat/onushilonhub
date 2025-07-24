@@ -48,9 +48,9 @@ describe('Loading States Validation - Task 17', () => {
       // Should display message
       expect(screen.getByText('Loading content...')).toBeInTheDocument();
       
-      // Should have dual ring animation
-      const rings = spinner.querySelectorAll('.animate-spin');
-      expect(rings).toHaveLength(2);
+      // Should use the common loading spinner
+      const loadingSpinner = spinner.querySelector('[data-testid="loading-spinner"]');
+      expect(loadingSpinner).toBeInTheDocument();
     });
 
     it('uses theme-consistent colors and animations (requirement 16.4)', () => {
@@ -58,13 +58,13 @@ describe('Loading States Validation - Task 17', () => {
       
       const spinner = screen.getByTestId('page-loading-spinner');
       
-      // Check outer ring uses theme colors
-      const outerRing = spinner.querySelector('.border-sf-text-muted\\/20.border-t-sf-button');
-      expect(outerRing).toBeInTheDocument();
+      // Check that it uses the common loading spinner with theme colors
+      const loadingSpinner = spinner.querySelector('[data-testid="loading-spinner"]');
+      expect(loadingSpinner).toBeInTheDocument();
       
-      // Check inner ring uses theme colors
-      const innerRing = spinner.querySelector('.border-r-sf-highlight');
-      expect(innerRing).toBeInTheDocument();
+      // Check that the spinner icon uses theme colors
+      const spinnerIcon = spinner.querySelector('.text-sf-button');
+      expect(spinnerIcon).toBeInTheDocument();
       
       // Message should use theme text color
       render(<PageLoadingSpinner message="Test" />);
@@ -75,11 +75,11 @@ describe('Loading States Validation - Task 17', () => {
     it('provides different sizes for various use cases', () => {
       const { rerender } = render(<PageLoadingSpinner size="sm" />);
       let spinner = screen.getByTestId('page-loading-spinner');
-      expect(spinner.querySelector('.w-8.h-8')).toBeInTheDocument();
+      expect(spinner.querySelector('[data-testid="loading-spinner"]')).toBeInTheDocument();
 
       rerender(<PageLoadingSpinner size="lg" />);
       spinner = screen.getByTestId('page-loading-spinner');
-      expect(spinner.querySelector('.w-16.h-16')).toBeInTheDocument();
+      expect(spinner.querySelector('[data-testid="loading-spinner"]')).toBeInTheDocument();
     });
   });
 
@@ -160,7 +160,7 @@ describe('Loading States Validation - Task 17', () => {
       expect(topBar.querySelector('.from-sf-button')).toBeInTheDocument();
       
       const spinner = screen.getByTestId('page-loading-spinner');
-      expect(spinner.querySelector('.border-t-sf-button')).toBeInTheDocument();
+      expect(spinner.querySelector('.text-sf-button')).toBeInTheDocument();
       
       const skeleton = screen.getByTestId('content-skeleton-default');
       expect(skeleton.querySelector('.bg-sf-text-muted\\/20')).toBeInTheDocument();

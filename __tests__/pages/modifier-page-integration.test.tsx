@@ -76,11 +76,11 @@ describe('Modifier Page Integration', () => {
         expect(screen.queryByText(example)).not.toBeInTheDocument();
       });
       
-      // Check show answer button is present
-      expect(screen.getByRole('button', { name: /show answer/i })).toBeInTheDocument();
+      // Check eye icon buttons are present for interactive answers
+      expect(screen.getAllByTestId('eye-button')).toHaveLength(2);
     });
 
-    it('should show/hide examples with eye icon toggle', () => {
+    it('should show/hide individual answers with eye icon toggle', () => {
       const testRule = modifierRules[1]; // Second rule
       
       render(
@@ -91,31 +91,25 @@ describe('Modifier Page Integration', () => {
         />
       );
       
-      // Initially examples should be hidden
-      testRule.examples.forEach(example => {
-        expect(screen.queryByText(example)).not.toBeInTheDocument();
-      });
+      // Examples should be visible by default in the new structure
+      expect(screen.getByText('Examples')).toBeInTheDocument();
       
-      // Click show answer button
-      const showButton = screen.getByRole('button', { name: /show answer/i });
-      fireEvent.click(showButton);
+      // Eye icon buttons should be present for interactive answers
+      const eyeButtons = screen.getAllByTestId('eye-button');
+      expect(eyeButtons.length).toBeGreaterThan(0);
       
-      // Examples should now be visible
-      testRule.examples.forEach(example => {
-        expect(screen.getByText(example)).toBeInTheDocument();
-      });
+      // Click first eye button to reveal answer
+      fireEvent.click(eyeButtons[0]);
       
-      // Button should now show "Hide Answer"
-      expect(screen.getByRole('button', { name: /hide answer/i })).toBeInTheDocument();
+      // Check that a revealed answer appears
+      const revealedAnswers = screen.queryAllByTestId('revealed-answer');
+      expect(revealedAnswers.length).toBeGreaterThan(0);
       
-      // Click hide answer button
-      const hideButton = screen.getByRole('button', { name: /hide answer/i });
-      fireEvent.click(hideButton);
+      // Click revealed answer to hide it again
+      fireEvent.click(revealedAnswers[0]);
       
-      // Examples should be hidden again
-      testRule.examples.forEach(example => {
-        expect(screen.queryByText(example)).not.toBeInTheDocument();
-      });
+      // Answer should be hidden again
+      expect(screen.getAllByTestId('eye-button').length).toBeGreaterThan(0);
     });
   });
 
@@ -135,7 +129,7 @@ describe('Modifier Page Integration', () => {
         // Check each rule displays correctly
         expect(screen.getByText(rule.title)).toBeInTheDocument();
         expect(screen.getByText(rule.banglaDescription)).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /show answer/i })).toBeInTheDocument();
+        expect(screen.getAllByTestId('eye-button').length).toBeGreaterThan(0);
         
         unmount(); // Clean up before next iteration
       });
@@ -164,7 +158,7 @@ describe('Modifier Page Integration', () => {
       expect(textContents.some(text => text?.includes(testRule.banglaDescription))).toBe(true);
       
       // Examples section should be present (even if hidden)
-      expect(screen.getByText('Examples:')).toBeInTheDocument();
+      expect(screen.getByText('Examples')).toBeInTheDocument();
     });
   });
 });

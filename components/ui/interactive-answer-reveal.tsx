@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, memo, useMemo } from 'react';
 import { Eye } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { animations } from '@/lib/utils/animations';
 
 interface InteractiveAnswerRevealProps {
   title: string;
@@ -15,7 +16,7 @@ interface AnswerState {
   [key: string]: boolean;
 }
 
-export const InteractiveAnswerReveal: React.FC<InteractiveAnswerRevealProps> = ({
+export const InteractiveAnswerReveal: React.FC<InteractiveAnswerRevealProps> = memo(({
   title,
   banglaDescription,
   examples,
@@ -57,20 +58,35 @@ export const InteractiveAnswerReveal: React.FC<InteractiveAnswerRevealProps> = (
           key={key}
           onClick={() => toggleAnswer(exampleIndex, answerIndex)}
           className={cn(
-            "inline-flex items-center justify-center px-2 py-1 mx-1 rounded-md text-sm font-medium transition-all duration-200",
+            "inline-flex items-center justify-center px-2 py-1 mx-1 rounded-md text-sm font-medium",
             "border focus:outline-none focus:ring-2 focus:ring-sf-button focus:ring-offset-2 focus:ring-offset-sf-bg",
+            animations.presets.answerButton,
             isRevealed 
-              ? "bg-success-500/20 text-success-600 border-success-500/30 hover:bg-success-500/30"
-              : "bg-sf-button/20 text-sf-button border-sf-button/30 hover:bg-sf-button/30 hover:scale-105"
+              ? cn(
+                  "bg-success-500/20 text-success-600 border-success-500/30 hover:bg-success-500/30",
+                  animations.reveal.answerReveal
+                )
+              : cn(
+                  "bg-sf-button/20 text-sf-button border-sf-button/30 hover:bg-sf-button/30",
+                  animations.enhancedButton.interactiveHover
+                )
           )}
           aria-label={isRevealed ? `Hide answer: ${answer}` : "Reveal answer"}
           data-testid={isRevealed ? "revealed-answer" : "eye-button"}
           data-answer-key={key}
         >
           {isRevealed ? (
-            <span className="min-w-0">{answer}</span>
+            <span className={cn(
+              "min-w-0 transition-all duration-200 ease-out",
+              animations.reveal.fadeIn
+            )}>
+              {answer}
+            </span>
           ) : (
-            <Eye className="h-3 w-3 flex-shrink-0" data-testid="eye-icon" />
+            <Eye className={cn(
+              "h-3 w-3 flex-shrink-0 transition-all duration-200 ease-out",
+              "hover:scale-110 hover:rotate-12"
+            )} data-testid="eye-icon" />
           )}
         </button>
       );
@@ -86,6 +102,13 @@ export const InteractiveAnswerReveal: React.FC<InteractiveAnswerRevealProps> = (
 
     return parts;
   }, [revealedAnswers, toggleAnswer]);
+
+  // Parse examples on each render to ensure state updates are reflected
+  const parsedExamples = examples.map((example, index) => ({
+    example,
+    index,
+    parsed: parseExampleWithAnswers(example, index)
+  }));
 
   return (
     <div className={cn("space-y-6", className)}>
@@ -105,13 +128,19 @@ export const InteractiveAnswerReveal: React.FC<InteractiveAnswerRevealProps> = (
           Examples
         </h3>
         <div className="space-y-3">
-          {examples.map((example, index) => (
+          {parsedExamples.map(({ index, parsed }) => (
             <div 
               key={index}
-              className="p-4 bg-neutral-800/50 border border-sf-text-muted/20 rounded-lg hover:border-sf-text-muted/30 transition-colors duration-200"
+              className={cn(
+                "p-4 bg-neutral-800/50 border border-sf-text-muted/20 rounded-lg",
+                "transition-all duration-200 ease-out",
+                "hover:border-sf-text-muted/30 hover:bg-neutral-800/60 hover:scale-[1.005]",
+                animations.reveal.fadeIn,
+                `[animation-delay:${index * 100}ms]`
+              )}
             >
               <div className="text-sf-text-subtle leading-relaxed text-base">
-                {parseExampleWithAnswers(example, index)}
+                {parsed}
               </div>
             </div>
           ))}
@@ -123,6 +152,6 @@ export const InteractiveAnswerReveal: React.FC<InteractiveAnswerRevealProps> = (
       </div>
     </div>
   );
-};
+});
 
 export default InteractiveAnswerReveal;

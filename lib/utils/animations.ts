@@ -156,6 +156,76 @@ export const staggerAnimations = {
   item6: '[animation-delay:500ms]',
 };
 
+// Reveal and collapse animation classes
+export const revealAnimations = {
+  // Fade animations
+  fadeIn: 'animate-in fade-in duration-300 ease-out',
+  fadeOut: 'animate-out fade-out duration-200 ease-in',
+  
+  // Scale animations
+  scaleIn: 'animate-in zoom-in-95 duration-200 ease-out',
+  scaleOut: 'animate-out zoom-out-95 duration-150 ease-in',
+  
+  // Slide animations
+  slideDown: 'animate-in slide-in-from-top-2 duration-300 ease-out',
+  slideUp: 'animate-out slide-out-to-top-2 duration-200 ease-in',
+  
+  // Combined reveal animations
+  answerReveal: cn(
+    'transition-all duration-200 ease-out',
+    'animate-in fade-in zoom-in-95'
+  ),
+  
+  answerHide: cn(
+    'transition-all duration-150 ease-in',
+    'animate-out fade-out zoom-out-95'
+  ),
+  
+  // Collapsible content animations
+  expandContent: cn(
+    'transition-all duration-300 ease-out',
+    'animate-in slide-in-from-top-2 fade-in'
+  ),
+  
+  collapseContent: cn(
+    'transition-all duration-200 ease-in',
+    'animate-out slide-out-to-top-2 fade-out'
+  ),
+};
+
+// Enhanced button animation classes with more subtle effects
+export const enhancedButtonAnimations = {
+  // Subtle hover effects
+  subtleHover: cn(
+    animationBase.transition,
+    'hover:-translate-y-0.5 hover:scale-[1.01] hover:shadow-sm'
+  ),
+  
+  // Primary button with glow
+  primaryHover: cn(
+    animationBase.transition,
+    'hover:-translate-y-0.5 hover:scale-[1.02] hover:shadow-lg hover:shadow-sf-button/20'
+  ),
+  
+  // Ghost button with scale
+  ghostHover: cn(
+    animationBase.transition,
+    'hover:scale-[1.02] hover:bg-sf-button/5'
+  ),
+  
+  // Icon button with rotation
+  iconHover: cn(
+    animationBase.transitionFast,
+    'hover:scale-110 hover:rotate-3'
+  ),
+  
+  // Interactive element with bounce
+  interactiveHover: cn(
+    animationBase.transition,
+    'hover:scale-105 active:scale-95'
+  ),
+};
+
 // Animation presets for common components
 export const animationPresets = {
   // Topic cards
@@ -216,6 +286,22 @@ export const animationPresets = {
     iconAnimations.scale,
     'active:scale-95'
   ),
+  
+  // Enhanced presets for new components
+  collapsibleCard: cn(
+    animationBase.transitionSlow,
+    'hover:border-sf-button/30 hover:shadow-sm'
+  ),
+  
+  answerButton: cn(
+    animationBase.transition,
+    'hover:scale-105 active:scale-95',
+    'focus:ring-2 focus:ring-sf-button focus:ring-offset-2'
+  ),
+  
+  chevronIcon: cn(
+    'transition-transform duration-200 ease-out'
+  ),
 };
 
 // Utility function to combine animations with conditions
@@ -247,11 +333,13 @@ export const interactionStates = {
 export const animations = {
   base: animationBase,
   button: buttonAnimations,
+  enhancedButton: enhancedButtonAnimations,
   card: cardAnimations,
   input: inputAnimations,
   icon: iconAnimations,
   loading: loadingAnimations,
   stagger: staggerAnimations,
+  reveal: revealAnimations,
   presets: animationPresets,
   conditional: conditionalAnimation,
   staggerDelay: createStaggerDelay,

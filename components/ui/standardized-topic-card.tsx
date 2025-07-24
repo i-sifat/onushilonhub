@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { CheckCircle, BookOpen } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { animations } from '@/lib/utils/animations';
+import { memo, useMemo } from 'react';
 
 export interface StandardizedTopicCardProps {
   topic: {
@@ -33,7 +34,7 @@ export interface StandardizedTopicCardProps {
  * - Responsive design that maintains proportions
  * - Visual consistency when displaying multiple cards in grid layouts
  */
-export const StandardizedTopicCard: React.FC<StandardizedTopicCardProps> = ({
+export const StandardizedTopicCard: React.FC<StandardizedTopicCardProps> = memo(({
   topic,
   section,
   questionCount,
@@ -43,8 +44,8 @@ export const StandardizedTopicCard: React.FC<StandardizedTopicCardProps> = ({
 }) => {
   const pathname = usePathname();
   
-  // Determine the correct route based on section
-  const getTopicRoute = () => {
+  // Memoize route calculation to prevent unnecessary re-computations
+  const route = useMemo(() => {
     const level = pathname.includes('/hsc') ? 'hsc' : pathname.includes('/ssc') ? 'ssc' : 'hsc';
     
     switch (section) {
@@ -59,9 +60,8 @@ export const StandardizedTopicCard: React.FC<StandardizedTopicCardProps> = ({
       default:
         return `/get-started/${topic.slug}`;
     }
-  };
+  }, [pathname, section, topic.slug]);
 
-  const route = getTopicRoute();
   const isActive = pathname === route;
 
   // Enhanced standardized card classes with identical dimensions across all sections
@@ -187,6 +187,6 @@ export const StandardizedTopicCard: React.FC<StandardizedTopicCardProps> = ({
       </Card>
     </Link>
   );
-};
+});
 
 export default StandardizedTopicCard;

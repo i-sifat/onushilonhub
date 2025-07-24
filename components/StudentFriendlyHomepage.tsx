@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { Zap, BookOpen, Target, Users, Sparkles, ArrowRight } from 'lucide-react';
 import EnhancedHeroStatsCard from '@/components/EnhancedHeroStatsCard';
 import DynamicTextRotator from '@/components/ui/dynamic-text-rotator';
+import { cn } from '@/lib/utils';
+import { animations } from '@/lib/utils/animations';
 
 export default function StudentFriendlyHomepage() {
   const dynamicTexts = [
@@ -77,9 +79,18 @@ export default function StudentFriendlyHomepage() {
               {features.map((feature, index) => (
                 <div 
                   key={index}
-                  className="bg-neutral-800/50 border border-sf-text-muted/20 rounded-xl p-4 hover:border-sf-button/30 hover:bg-neutral-800/70 transition-all duration-300 hover:scale-105"
+                  className={cn(
+                    "bg-neutral-800/50 border border-sf-text-muted/20 rounded-xl p-4 group",
+                    "hover:border-sf-button/30 hover:bg-neutral-800/70",
+                    animations.enhancedButton.interactiveHover,
+                    animations.reveal.fadeIn,
+                    `[animation-delay:${300 + index * 100}ms]`
+                  )}
                 >
-                  <feature.icon className="w-8 h-8 text-sf-button mb-2" />
+                  <feature.icon className={cn(
+                    "w-8 h-8 text-sf-button mb-2 transition-all duration-200 ease-out",
+                    "group-hover:scale-110 group-hover:rotate-3"
+                  )} />
                   <h3 className="font-semibold text-sf-text-bold text-sm mb-1">{feature.title}</h3>
                   <p className="text-xs text-sf-text-subtle">{feature.description}</p>
                 </div>
@@ -90,18 +101,35 @@ export default function StudentFriendlyHomepage() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link 
                 href="/get-started" 
-                className="group inline-flex items-center justify-center bg-sf-button hover:bg-sf-button/90 text-sf-bg px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 hover:shadow-lg hover:shadow-sf-button/25 hover:scale-105"
+                className={cn(
+                  "group inline-flex items-center justify-center bg-sf-button text-sf-bg px-8 py-4 rounded-xl font-bold text-lg",
+                  animations.enhancedButton.primaryHover,
+                  "hover:bg-sf-button/90 hover:shadow-lg hover:shadow-sf-button/25"
+                )}
               >
-                <Zap className="w-5 h-5 mr-2 group-hover:animate-bounce" />
+                <Zap className={cn(
+                  "w-5 h-5 mr-2 transition-all duration-200 ease-out",
+                  "group-hover:animate-bounce group-hover:scale-110"
+                )} />
                 Get Started
-                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className={cn(
+                  "w-5 h-5 ml-2 transition-transform duration-200 ease-out",
+                  "group-hover:translate-x-1 group-hover:scale-110"
+                )} />
               </Link>
               
               <Link 
                 href="/board-questions" 
-                className="group inline-flex items-center justify-center bg-transparent border-2 border-sf-button text-sf-button hover:bg-sf-button hover:text-sf-bg px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 hover:scale-105"
+                className={cn(
+                  "group inline-flex items-center justify-center bg-transparent border-2 border-sf-button text-sf-button px-8 py-4 rounded-xl font-bold text-lg",
+                  animations.enhancedButton.subtleHover,
+                  "hover:bg-sf-button hover:text-sf-bg"
+                )}
               >
-                <BookOpen className="w-5 h-5 mr-2" />
+                <BookOpen className={cn(
+                  "w-5 h-5 mr-2 transition-all duration-200 ease-out",
+                  "group-hover:scale-110"
+                )} />
                 Practice Questions
               </Link>
             </div>

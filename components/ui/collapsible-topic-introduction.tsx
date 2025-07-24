@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { animations } from '@/lib/utils/animations';
 
 interface CollapsibleTopicIntroductionProps {
   title: string;
@@ -18,7 +19,7 @@ interface CollapsibleTopicIntroductionProps {
   className?: string;
 }
 
-export const CollapsibleTopicIntroduction: React.FC<CollapsibleTopicIntroductionProps> = ({
+export const CollapsibleTopicIntroduction: React.FC<CollapsibleTopicIntroductionProps> = memo(({
   title,
   banglaDescription,
   types,
@@ -27,54 +28,85 @@ export const CollapsibleTopicIntroduction: React.FC<CollapsibleTopicIntroduction
 }) => {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
 
-  const toggleExpanded = () => {
-    setIsExpanded(!isExpanded);
-  };
+  const toggleExpanded = useCallback(() => {
+    setIsExpanded(prev => !prev);
+  }, []);
+
+  const handleButtonClick = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleExpanded();
+  }, [toggleExpanded]);
 
   return (
     <Card className={cn(
       "border-sf-text-muted/20 overflow-hidden mb-6",
-      "transition-all duration-300 ease-in-out",
-      "hover:border-sf-button/30",
+      animations.presets.collapsibleCard,
       className
     )}>
       {/* Clickable Header */}
       <div 
-        className="p-4 cursor-pointer hover:bg-sf-button/5 transition-colors duration-200"
+        className={cn(
+          "p-4 cursor-pointer transition-all duration-200 ease-out",
+          "hover:bg-sf-button/5 hover:scale-[1.005]",
+          "active:scale-[0.995]"
+        )}
         onClick={toggleExpanded}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="text-2xl">📚</div>
-            <h2 className="text-lg font-semibold text-sf-text-bold">
+            <div className={cn(
+              "text-2xl transition-transform duration-200 ease-out",
+              isExpanded ? "scale-110" : "scale-100"
+            )}>
+              📚
+            </div>
+            <h2 className={cn(
+              "text-lg font-semibold transition-colors duration-200",
+              "text-sf-text-bold hover:text-sf-button"
+            )}>
               {title}
             </h2>
           </div>
           <Button 
             variant="ghost" 
             size="sm"
-            className="p-1 h-8 w-8"
+            className={cn(
+              "p-1 h-8 w-8",
+              animations.enhancedButton.ghostHover
+            )}
             aria-label={isExpanded ? "Collapse topic introduction" : "Expand topic introduction"}
-            onClick={(e) => {
-              e.stopPropagation();
-              toggleExpanded();
-            }}
+            onClick={handleButtonClick}
           >
             {isExpanded ? (
-              <ChevronUp className="h-4 w-4 text-sf-button transition-transform duration-200" />
+              <ChevronUp className={cn(
+                "h-4 w-4 text-sf-button",
+                animations.presets.chevronIcon,
+                "rotate-0"
+              )} />
             ) : (
-              <ChevronDown className="h-4 w-4 text-sf-button transition-transform duration-200" />
+              <ChevronDown className={cn(
+                "h-4 w-4 text-sf-button",
+                animations.presets.chevronIcon,
+                "rotate-0 hover:rotate-180"
+              )} />
             )}
           </Button>
         </div>
       </div>
 
-      {/* Collapsible Content */}
+      {/* Collapsible Content with Enhanced Animations */}
       {isExpanded && (
-        <div className="overflow-hidden transition-all duration-300 ease-in-out animate-in slide-in-from-top-2">
+        <div className={cn(
+          "overflow-hidden",
+          animations.reveal.expandContent
+        )}>
           <div className="px-4 pb-4 space-y-4 border-t border-sf-text-muted/10">
             {/* Bangla Description */}
-            <div className="pt-4">
+            <div className={cn(
+              "pt-4",
+              animations.reveal.fadeIn,
+              "[animation-delay:100ms]"
+            )}>
               <p className="text-sf-text-subtle leading-relaxed text-base">
                 {banglaDescription}
               </p>
@@ -82,7 +114,11 @@ export const CollapsibleTopicIntroduction: React.FC<CollapsibleTopicIntroduction
 
             {/* Types Section */}
             {types && (
-              <div className="space-y-3">
+              <div className={cn(
+                "space-y-3",
+                animations.reveal.fadeIn,
+                "[animation-delay:200ms]"
+              )}>
                 <h3 className="text-md font-semibold text-sf-text-bold">
                   {types.title}
                 </h3>
@@ -91,8 +127,18 @@ export const CollapsibleTopicIntroduction: React.FC<CollapsibleTopicIntroduction
                 </p>
                 <ul className="space-y-2 ml-2">
                   {types.list.map((item, index) => (
-                    <li key={index} className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-sf-button rounded-full flex-shrink-0"></div>
+                    <li 
+                      key={index} 
+                      className={cn(
+                        "flex items-center space-x-2",
+                        animations.reveal.fadeIn,
+                        `[animation-delay:${300 + index * 50}ms]`
+                      )}
+                    >
+                      <div className={cn(
+                        "w-2 h-2 bg-sf-button rounded-full flex-shrink-0",
+                        "transition-all duration-200 hover:scale-125"
+                      )}></div>
                       <span className="text-sf-text-subtle text-sm">{item}</span>
                     </li>
                   ))}
@@ -104,6 +150,6 @@ export const CollapsibleTopicIntroduction: React.FC<CollapsibleTopicIntroduction
       )}
     </Card>
   );
-};
+});
 
 export default CollapsibleTopicIntroduction;

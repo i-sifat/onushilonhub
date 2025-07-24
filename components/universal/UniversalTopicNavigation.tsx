@@ -1,8 +1,10 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback, memo } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import dynamic from 'next/dynamic';
+import { useDebounce, useMemoizedFilter, useMemoizedSort } from '@/lib/utils/performance';
 
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -47,22 +49,32 @@ interface FilterOptions {
 
 
 
+// Memoized topic stats calculation to prevent expensive re-computations
+const statsCache = new Map<string, TopicStats>();
+
 const getTopicStats = (topicSlug: string): TopicStats => {
+  if (statsCache.has(topicSlug)) {
+    return statsCache.get(topicSlug)!;
+  }
+  
   const grammarData = grammarRulesData[topicSlug as keyof typeof grammarRulesData];
   const questionData = questionsData[topicSlug as keyof typeof questionsData];
   
-  return {
+  const stats: TopicStats = {
     ruleCount: grammarData?.rules?.length || 0,
     questionCount: questionData?.questions?.length || 0,
     completionRate: Math.floor(Math.random() * 100), // Mock data - would come from user progress
     averageScore: Math.floor(Math.random() * 40) + 60, // Mock data - would come from user performance
     lastAccessed: new Date(Date.now() - Math.floor(Math.random() * 30) * 24 * 60 * 60 * 1000) // Mock data
   };
+  
+  statsCache.set(topicSlug, stats);
+  return stats;
 };
 
 // Using StandardizedTopicCard for consistent design across all sections
 
-export default function UniversalTopicNavigation({
+const UniversalTopicNavigation = memo(function UniversalTopicNavigation({
   level,
   section = 'get-started',
   showSearch = true,
@@ -78,18 +90,49 @@ export default function UniversalTopicNavigation({
   });
   const [showFiltersPanel, setShowFiltersPanel] = useState(false);
 
+  // Debounce search query to prevent excessive filtering
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
+
+  // Optimized event handlers to prevent unnecessary re-renders
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  }, []);
+
+  const handleFilterChange = useCallback((key: keyof FilterOptions, value: string) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
+  }, []);
+
+  const toggleFiltersPanel = useCallback(() => {
+    setShowFiltersPanel(prev => !prev);
+  }, []);
+
+  const clearAllFilters = useCallback(() => {
+    setSearchQuery('');
+    setFilters({
+      sortBy: 'order',
+      sortOrder: 'asc'
+    });
+  }, []);
+
+  const toggleSortOrder = useCallback(() => {
+    setFilters(prev => ({ 
+      ...prev, 
+      sortOrder: prev.sortOrder === 'asc' ? 'desc' : 'asc' 
+    }));
+  }, []);
+
   // Get topics based on level
   const allTopics = useMemo(() => {
     return getActiveTopics(level);
   }, [level]);
 
-  // Filter and sort topics
+  // Filter and sort topics using debounced search for better performance
   const filteredTopics = useMemo(() => {
     let topics = [...allTopics];
 
-    // Apply search filter
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
+    // Apply search filter with debounced query
+    if (debouncedSearchQuery.trim()) {
+      const query = debouncedSearchQuery.toLowerCase();
       topics = topics.filter(topic => 
         topic.name.toLowerCase().includes(query) ||
         topic.description.toLowerCase().includes(query) ||
@@ -128,7 +171,7 @@ export default function UniversalTopicNavigation({
     });
 
     return topics;
-  }, [allTopics, searchQuery, filters]);
+  }, [allTopics, debouncedSearchQuery, filters]);
 
 
 
@@ -209,7 +252,7 @@ export default function UniversalTopicNavigation({
               <Input
                 placeholder="Search topics, descriptions, or tags..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={handleSearchChange}
                 className="pl-10"
               />
             </div>
@@ -220,7 +263,7 @@ export default function UniversalTopicNavigation({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setShowFiltersPanel(!showFiltersPanel)}
+                onClick={toggleFiltersPanel}
                 className={`flex items-center space-x-2 border-sf-text-muted/20 text-sf-text-subtle hover:bg-sf-button/10 hover:border-sf-button/50 hover:text-sf-button transition-all duration-200 focus:ring-2 focus:ring-sf-button focus:ring-offset-2 focus:ring-offset-sf-bg ${
                   showFiltersPanel ? 'bg-sf-button/10 border-sf-button/50 text-sf-button' : ''
                 }`}
@@ -233,7 +276,7 @@ export default function UniversalTopicNavigation({
                 <div className="flex flex-wrap items-center gap-3">
                   <Select
                     value={filters.sortBy}
-                    onValueChange={(value) => setFilters(prev => ({ ...prev, sortBy: value as FilterOptions['sortBy'] }))}
+                    onValueChange={(value) => handleFilterChange('sortBy', value)}
                   >
                     <SelectTrigger className="w-32">
                       <SelectValue placeholder="Sort by" />
@@ -249,10 +292,7 @@ export default function UniversalTopicNavigation({
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => setFilters(prev => ({ 
-                      ...prev, 
-                      sortOrder: prev.sortOrder === 'asc' ? 'desc' : 'asc' 
-                    }))}
+                    onClick={toggleSortOrder}
                     className="border-sf-text-muted/20 text-sf-text-subtle hover:bg-sf-button/10 hover:border-sf-button/50 hover:text-sf-button transition-all duration-200 focus:ring-2 focus:ring-sf-button focus:ring-offset-2 focus:ring-offset-sf-bg"
                   >
                     {filters.sortOrder === 'asc' ? '↑' : '↓'}
@@ -297,13 +337,7 @@ export default function UniversalTopicNavigation({
           </div>
           <Button
             variant="outline"
-            onClick={() => {
-              setSearchQuery('');
-              setFilters({
-                sortBy: 'order',
-                sortOrder: 'asc'
-              });
-            }}
+            onClick={clearAllFilters}
           >
             Clear all filters
           </Button>
@@ -311,4 +345,6 @@ export default function UniversalTopicNavigation({
       )}
     </div>
   );
-}
+});
+
+export default UniversalTopicNavigation;

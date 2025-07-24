@@ -1,6 +1,8 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, memo } from 'react';
+import dynamic from 'next/dynamic';
+import { useDebounce } from '@/lib/utils/performance';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -74,7 +76,7 @@ const getFilterConfiguration = (topicSlug: QuestionTopicSlug): FilterConfigurati
   };
 };
 
-export default function UniversalQuestionsUI({ 
+const UniversalQuestionsUI = memo(function UniversalQuestionsUI({ 
   topic, 
   topicSlug, 
   questions, 
@@ -91,6 +93,9 @@ export default function UniversalQuestionsUI({
     selectedYear: 'All Years',
     selectedQuestionType: 'All Types'
   });
+
+  // Debounce search term to prevent excessive filtering
+  const debouncedSearchTerm = useDebounce(filters.searchTerm, 300);
 
   // Get filter configuration for current topic
   const filterConfig = useMemo(() => getFilterConfiguration(topicSlug), [topicSlug]);
@@ -114,15 +119,15 @@ export default function UniversalQuestionsUI({
     return 'Direct Question';
   }, []);
 
-  // Filter questions based on all criteria
+  // Filter questions based on all criteria using debounced search for better performance
   const filteredQuestions = useMemo(() => {
     return questions.filter(question => {
-      // Search filter
-      const matchesSearch = !filters.searchTerm || 
-        question.question?.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
-        question.passage?.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
-        (question as any).directSpeech?.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
-        (question as any).indirectSpeech?.toLowerCase().includes(filters.searchTerm.toLowerCase());
+      // Search filter with debounced search term
+      const matchesSearch = !debouncedSearchTerm || 
+        question.question?.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+        question.passage?.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+        (question as any).directSpeech?.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+        (question as any).indirectSpeech?.toLowerCase().includes(debouncedSearchTerm.toLowerCase());
 
       // Board filter
       const matchesBoard = filters.selectedBoard === 'All Boards' || 
@@ -146,7 +151,7 @@ export default function UniversalQuestionsUI({
 
       return matchesSearch && matchesBoard && matchesYear && matchesType;
     });
-  }, [questions, filters, getQuestionType, filterConfig.showQuestionTypeFilter]);
+  }, [questions, debouncedSearchTerm, filters.selectedBoard, filters.selectedYear, filters.selectedQuestionType, getQuestionType, filterConfig.showQuestionTypeFilter]);
 
   // Pagination
   const totalPages = Math.ceil(filteredQuestions.length / itemsPerPage);
@@ -584,4 +589,6 @@ export default function UniversalQuestionsUI({
       </div>
     </div>
   );
-}
+});
+
+export default UniversalQuestionsUI;
