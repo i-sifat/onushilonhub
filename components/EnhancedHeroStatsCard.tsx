@@ -66,7 +66,7 @@ export default function EnhancedHeroStatsCard() {
 
   return (
     <div className={`
-      w-96 h-96 bg-gradient-to-br from-sf-highlight via-sf-button to-sf-highlight 
+      w-96 h-[480px] bg-gradient-to-br from-sf-highlight via-sf-button to-sf-highlight 
       rounded-3xl shadow-2xl transform transition-all duration-1000 ease-out
       hover:scale-105 hover:shadow-3xl hover:rotate-1
       ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}

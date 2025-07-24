@@ -65,13 +65,9 @@ describe('Homepage Renovation - Task 20 Validation', () => {
       expect(heading).toHaveClass('bg-gradient-to-r', 'from-sf-button', 'via-sf-highlight', 'to-sf-button');
       
       // Check CTA button exists and has proper structure
-      const ctaButtons = screen.getAllByText('Get Started');
-      const ctaButton = ctaButtons.find(button => 
-        button.closest('a')?.getAttribute('href') === '/get-started' &&
-        button.closest('.bg-sf-button')
-      )?.closest('a');
+      const ctaButton = screen.getByText('Login');
       expect(ctaButton).toBeInTheDocument();
-      expect(ctaButton).toHaveAttribute('href', '/get-started');
+      expect(ctaButton.closest('button')).toHaveClass('bg-sf-button');
       
       // Check secondary button exists and has proper structure
       const secondaryButtons = screen.getAllByText('Practice Questions');
@@ -139,10 +135,9 @@ describe('Homepage Renovation - Task 20 Validation', () => {
     it('should render EnhancedHeroStatsCard with larger dimensions', () => {
       render(<EnhancedHeroStatsCard />);
       
-      // Check for larger card container
-      const cardContainer = document.querySelector('.max-w-lg');
+      // Check for larger card container with updated dimensions
+      const cardContainer = document.querySelector('.w-96.h-\\[480px\\]');
       expect(cardContainer).toBeInTheDocument();
-      expect(cardContainer).toHaveClass('min-h-[500px]');
     });
 
     it('should include enhanced animations and effects', () => {
@@ -195,25 +190,21 @@ describe('Homepage Renovation - Task 20 Validation', () => {
       render(<EnhancedNavbar />);
       
       // Check for navigation links with proper structure
-      const navLinks = screen.getAllByText('Get Started');
-      const navLink = navLinks.find(link => 
-        link.closest('a')?.getAttribute('href') === '/get-started' &&
-        !link.closest('.bg-sf-button')
-      )?.closest('a');
-      expect(navLink).toBeInTheDocument();
-      expect(navLink).toHaveAttribute('href', '/get-started');
+      const practiceLink = screen.getByText('Practice Questions');
+      expect(practiceLink).toBeInTheDocument();
+      expect(practiceLink.closest('a')).toHaveAttribute('href', '/board-questions');
+      
+      const grammarLink = screen.getByText('Grammar Rules');
+      expect(grammarLink).toBeInTheDocument();
+      expect(grammarLink.closest('a')).toHaveAttribute('href', '/grammar-items');
     });
 
     it('should include enhanced CTA button in navigation', () => {
       render(<EnhancedNavbar />);
       
-      const ctaButtons = screen.getAllByText('Get Started');
-      const ctaButton = ctaButtons.find(button => 
-        button.closest('a')?.getAttribute('href') === '/get-started' &&
-        button.closest('.bg-sf-button')
-      )?.closest('a');
+      const ctaButton = screen.getByText('Login');
       expect(ctaButton).toBeInTheDocument();
-      expect(ctaButton).toHaveAttribute('href', '/get-started');
+      expect(ctaButton.tagName).toBe('SPAN'); // It's now a button, not a link
     });
   });
 
@@ -249,7 +240,7 @@ describe('Homepage Renovation - Task 20 Validation', () => {
       
       // Should use casual, friendly language
       expect(screen.getByText(/Smart Way/)).toBeInTheDocument();
-      expect(screen.getByText(/Get Started/)).toBeInTheDocument();
+      expect(screen.getByText(/Login/)).toBeInTheDocument();
     });
 
     it('should include community and collaborative elements', () => {

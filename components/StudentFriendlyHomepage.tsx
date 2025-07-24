@@ -99,8 +99,7 @@ export default function StudentFriendlyHomepage() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link 
-                href="/get-started" 
+              <button 
                 className={cn(
                   "group inline-flex items-center justify-center bg-sf-button text-sf-bg px-8 py-4 rounded-xl font-bold text-lg",
                   animations.enhancedButton.primaryHover,
@@ -111,12 +110,8 @@ export default function StudentFriendlyHomepage() {
                   "w-5 h-5 mr-2 transition-all duration-200 ease-out",
                   "group-hover:animate-bounce group-hover:scale-110"
                 )} />
-                Get Started
-                <ArrowRight className={cn(
-                  "w-5 h-5 ml-2 transition-transform duration-200 ease-out",
-                  "group-hover:translate-x-1 group-hover:scale-110"
-                )} />
-              </Link>
+                Login
+              </button>
               
               <Link 
                 href="/board-questions" 
@@ -153,7 +148,7 @@ export default function StudentFriendlyHomepage() {
 
           {/* Right: Fixed Dimensions Container for Animated Card */}
           <div className="flex justify-center items-center lg:justify-end">
-            <div className="relative w-96 h-96 flex items-center justify-center">
+            <div className="relative w-96 h-[480px] flex items-center justify-center">
               {/* Glow effect behind card */}
               <div className="absolute inset-0 bg-sf-button/20 rounded-3xl blur-2xl scale-110 animate-pulse"></div>
               <div className="relative w-full h-full">

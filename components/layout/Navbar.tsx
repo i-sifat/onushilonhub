@@ -10,7 +10,6 @@ export default function Navbar() {
   const [lastScrollY, setLastScrollY] = useState(0);
 
   const navLinks = [
-    { href: '/', label: 'Home' },
     { href: '/about', label: 'About Us' },
     { href: '/board-questions', label: 'Board Questions' },
     { href: '/grammar-items', label: 'Grammar Items' },

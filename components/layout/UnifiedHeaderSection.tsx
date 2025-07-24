@@ -27,10 +27,12 @@ export default function UnifiedHeaderSection({
       { icon: BookOpen, value: statistics.topics, label: 'Topics' }
     ];
     
-    if (pageType !== 'grammar' && statistics.rules) {
+    // Show rules for all page types
+    if (statistics.rules) {
       cards.push({ icon: Target, value: statistics.rules, label: 'Rules' });
     }
     
+    // Show questions for non-grammar pages
     if (pageType !== 'grammar' && statistics.questions) {
       cards.push({ icon: Users, value: statistics.questions, label: 'Questions' });
     }

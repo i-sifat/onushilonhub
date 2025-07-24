@@ -67,7 +67,7 @@ export default function UnifiedSelectionCard({
   return (
     <div
       className={cn(
-        "bg-sf-bg border rounded-xl p-8 group",
+        "bg-sf-bg border rounded-xl p-8 group w-full h-full min-h-[500px]",
         available 
           ? cn(
               "border-sf-text-muted/20 cursor-pointer",
