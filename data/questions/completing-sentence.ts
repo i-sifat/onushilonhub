@@ -196,8 +196,8 @@ export const completingSentenceQuestions: CompletingSentenceQuestion[] = [
     ]
   }
 ];
-//
- Export metadata for the topic
+
+// Export metadata for the topic
 export const completingSentenceQuestionsMetadata = {
   lastUpdated: '2024-01-15',
   version: '1.0.0',
