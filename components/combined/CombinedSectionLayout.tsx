@@ -9,12 +9,16 @@ import { GrammarLevel } from '@/types/grammar.types';
 // Generic interfaces for extensibility across different topics
 export interface GenericRule {
   id: number;
-  ruleNo: string;
+  ruleNo?: string;
   title: string;
-  banglaDescription: string;
+  bengali: string;
+  description: string;
+  structures: string[];
   examples?: string[];
   topic?: string; // Made optional to be compatible with existing ModifierRule
   level?: GrammarLevel; // Updated to use GrammarLevel to support 'BOTH'
+  // Legacy support for backward compatibility
+  banglaDescription?: string;
 }
 
 export interface GenericQuestion {
@@ -79,7 +83,7 @@ const RulesPanel: React.FC<RulesPanelProps> = ({
         {rules.map((rule) => {
           const questionCount = questionCounts[rule.id] || 0;
           const isSelected = selectedRuleId === rule.id;
-          
+
           return (
             <button
               key={rule.id}
@@ -115,10 +119,10 @@ const RulesPanel: React.FC<RulesPanelProps> = ({
                     "text-xs leading-relaxed line-clamp-2",
                     isSelected ? "text-sf-button/80" : "text-sf-text-muted"
                   )}>
-                    {rule.banglaDescription}
+                    {rule.bengali} - {rule.description}
                   </p>
                 </div>
-                
+
                 {/* Question Count Badge */}
                 <div className={cn(
                   "flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-200",
@@ -193,7 +197,7 @@ const QuestionsPanel: React.FC<QuestionsPanelProps> = ({
         <div className="p-6">
           <InteractiveAnswerReveal
             title={selectedRule.title}
-            banglaDescription={selectedRule.banglaDescription}
+            banglaDescription={`${selectedRule.bengali} - ${selectedRule.description}`}
             examples={selectedRule.examples || []}
           />
         </div>
@@ -218,7 +222,7 @@ const QuestionsPanel: React.FC<QuestionsPanelProps> = ({
                 No Questions Found
               </h4>
               <p className="text-sf-text-muted max-w-md mx-auto">
-                No practice questions are currently available for this rule. 
+                No practice questions are currently available for this rule.
                 Check back later for updates.
               </p>
             </div>
@@ -245,7 +249,7 @@ const QuestionsPanel: React.FC<QuestionsPanelProps> = ({
                         </span>
                       )}
                     </div>
-                    
+
                     {/* Eye Icon for Answer Toggle */}
                     {question.answer && (
                       <button
@@ -286,12 +290,12 @@ const QuestionsPanel: React.FC<QuestionsPanelProps> = ({
                       </button>
                     )}
                   </div>
-                  
+
                   <div className="prose prose-sm max-w-none">
                     <div className="text-sf-text-subtle leading-relaxed whitespace-pre-wrap">
                       {question.question}
                     </div>
-                    
+
                     {question.answer && visibleAnswers.has(question.id) && (
                       <div className={cn(
                         "mt-4 p-4 bg-success-500/10 border border-success-500/20 rounded-lg",
@@ -336,59 +340,59 @@ const CombinedSectionLayout: React.FC<CombinedSectionLayoutProps> = ({
     }
 
     const counts: Record<number, number> = {};
-    
+
     // Initialize all rules with 0 count
     rules.forEach(rule => {
       counts[rule.id] = 0;
     });
-    
+
     // Count questions for each rule
     questions.forEach(question => {
       // Check if question has direct ruleId property
       if (question.ruleId && counts[question.ruleId] !== undefined) {
         counts[question.ruleId]++;
       }
-      
+
       // For modifier questions, check blanks array for ruleId associations
       if ('blanks' in question && Array.isArray((question as any).blanks)) {
         const blanks = (question as any).blanks;
         const associatedRuleIds = new Set<number>();
-        
+
         blanks.forEach((blank: any) => {
           if (blank.ruleId && counts[blank.ruleId] !== undefined) {
             associatedRuleIds.add(blank.ruleId);
           }
         });
-        
+
         // Count this question for all associated rules
         associatedRuleIds.forEach(ruleId => {
           counts[ruleId]++;
         });
       }
     });
-    
+
     return counts;
   }, [rules, questions, passedQuestionCounts]);
 
   // Get related questions for selected rule
   const relatedQuestions = useMemo(() => {
     if (!selectedRuleId) return [];
-    
+
     // Use passed mapping if available
     if (ruleQuestionMapping && ruleQuestionMapping[selectedRuleId]) {
       return ruleQuestionMapping[selectedRuleId];
     }
-    
+
     // Fallback: filter questions by ruleId or blanks
     const matchingQuestions: typeof questions = [];
-    
+
     questions.forEach(question => {
       // Check direct ruleId
       if (question.ruleId === selectedRuleId) {
         matchingQuestions.push(question);
         return;
       }
-      
+
       // Check blanks array for modifier questions
       if ('blanks' in question && Array.isArray((question as any).blanks)) {
         const blanks = (question as any).blanks;
@@ -398,7 +402,7 @@ const CombinedSectionLayout: React.FC<CombinedSectionLayoutProps> = ({
         }
       }
     });
-    
+
     return matchingQuestions;
   }, [selectedRuleId, questions, ruleQuestionMapping]);
 
@@ -413,7 +417,7 @@ const CombinedSectionLayout: React.FC<CombinedSectionLayoutProps> = ({
     setSelectedRuleId(ruleId);
     // Close mobile panel when rule is selected
     setIsMobilePanelOpen(false);
-    
+
     // Simulate loading time for better UX (in real app, this would be actual data loading)
     setTimeout(() => {
       setIsLoadingQuestions(false);
@@ -484,7 +488,7 @@ const CombinedSectionLayout: React.FC<CombinedSectionLayoutProps> = ({
 
       {/* Mobile Overlay - Only visible when panel is open on mobile */}
       {isMobilePanelOpen && (
-        <div 
+        <div
           className="lg:hidden fixed inset-0 bg-black/50 z-40"
           onClick={toggleMobilePanel}
         />

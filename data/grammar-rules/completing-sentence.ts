@@ -3,14 +3,9 @@
 
 import { GrammarRule, GrammarLevel, GrammarTopicSlug } from '@/types/grammar.types';
 
-export interface CompletingSentenceRule {
-  id: number;
-  ruleNo: string;
-  title: string;
-  banglaDescription: string;  // Changed from 'bengali' to match modifier structure
-  examples: string[];
-  topic?: 'completing-sentence';
-  level?: GrammarLevel;
+export interface CompletingSentenceRule extends GrammarRule {
+  topic: 'completing-sentence';
+  level: GrammarLevel;
 }
 
 export const completingSentenceRules: CompletingSentenceRule[] = [
@@ -18,7 +13,12 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 1,
     ruleNo: "Rule 1",
     title: "That/so that/in order that",
-    banglaDescription: "যাতে - Purpose or result এর জন্য ব্যবহৃত হয়। Present Tense → that/so that/in order that → subject + can/will/may + V1 + obj/ext. Past Tense → that/so that/in order that → subject + could/would/might + V1 + obj/ext.",
+    bengali: "যাতে",
+    description: "Purpose or result এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "Present Tense → that/so that/in order that → subject + can/will/may + V1 + obj/ext",
+      "Past Tense → that/so that/in order that → subject + could/would/might + V1 + obj/ext"
+    ],
     examples: [
       "We eat so that we can survive. (আমরা খাই, যাতে করে আমরা বাঁচতে পারি/লড়াই করতে পারি)",
       "We ate so that we could survive. (আমরা খেয়েছি, যাতে করে আমা বাঁচতে/লড়াই করতে পারতাম)",
@@ -31,7 +31,12 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 2,
     ruleNo: "Rule 2",
     title: "As if/as though",
-    banglaDescription: "এমন… যেন - Comparison or manner এর জন্য ব্যবহৃত হয়। Present Tense → as if/as though → subject + V2 + object. Or Subject + were + object. Past Tense → as if/as though → subject + had + V3 + object. Or Subject + had been + object.",
+    bengali: "এমন… যেন",
+    description: "Comparison or manner এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "Present Tense → as if/as though → subject + V2 + object. Or Subject + were + object",
+      "Past Tense → as if/as though → subject + had + V3 + object. Or Subject + had been + object"
+    ],
     examples: [
       "He talks as if he knew everything. (সে এমনভাবে বলছে যেন সে সবই জানত)",
       "She spoke as if she had known everything. (সে এমনভাবে বলল যেন সবই জানে)"
@@ -43,7 +48,11 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 3,
     ruleNo: "Rule 3",
     title: "Lest/In case",
-    banglaDescription: "যাতে.. না/ নতুবা - Prevention or precaution এর জন্য ব্যবহৃত হয়। Structure: Any Tense → Lest → subject + should/might + V1 + object.",
+    bengali: "যাতে.. না/ নতুবা",
+    description: "Prevention or precaution এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "Any Tense → Lest → subject + should/might + V1 + object"
+    ],
     examples: [
       "Walk fast lest you should miss the train. (দ্রুত হাঁট নতুবা তুমি ট্রেনটি মিস করবে)",
       "I wrote down her address in case I should forget it. (আমি তার ঠিকানা লিখে রেখেছি নতুবা আমি এটি ভুলে যাব)",
@@ -56,7 +65,13 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 4,
     ruleNo: "Rule 4",
     title: "Though/although",
-    banglaDescription: "যদিও - Contrast or concession এর জন্য ব্যবহৃত হয়। 1st Clause (কারণ) → 2nd Clause(ফলাফল). Positive meaningful sentence → Negative meaningful sentence. Negative meaningful sentence → Positive meaningful sentence.",
+    bengali: "যদিও",
+    description: "Contrast or concession এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "1st Clause (কারণ) → 2nd Clause(ফলাফল)",
+      "Positive meaningful sentence → Negative meaningful sentence",
+      "Negative meaningful sentence → Positive meaningful sentence"
+    ],
     examples: [
       "Though he is poor, he is honest. (যদিও সে দরিদ্র, সে সৎ)",
       "Though he knows English, he cannot speak in it. (যদিও সে ইংরেজি জানে, সে এটিতে কথা বলতে পারে না)"
@@ -68,7 +83,11 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 5,
     ruleNo: "Rule 5",
     title: "No sooner had",
-    banglaDescription: "করতে না করতেই - Immediate sequence এর জন্য ব্যবহৃত হয়। Structure: No sooner had + subject + V3 + object → than/before + subject + V2 + object.",
+    bengali: "করতে না করতেই",
+    description: "Immediate sequence এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "No sooner had + subject + V3 + object → than/before + subject + V2 + object"
+    ],
     examples: [
       "No sooner had I reached the station than the train left. (আমি স্টেশনে পৌঁছাতে না পৌঁছাতেই ট্রেনটি চলে গেল।)",
       "No sooner had we entered the room than they started clapping. (আমি কক্ষে প্রবেশ করতে না করতেই তারা হাতে তালি দেয়া শুরু করল)"
@@ -80,7 +99,11 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 6,
     ruleNo: "Rule 6",
     title: "Hardly had",
-    banglaDescription: "করতে না করতেই - Immediate sequence এর জন্য ব্যবহৃত হয়। Structure: Hardly had + subject + V3 + object → before/when + subject + V2 + object.",
+    bengali: "করতে না করতেই",
+    description: "Immediate sequence এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "Hardly had + subject + V3 + object → before/when + subject + V2 + object"
+    ],
     examples: [
       "Hardly had the teacher entered the classroom when the student kept quiet. (শিক্ষক শ্রেণিকক্ষে প্রবেশ করতিই শিক্ষার্থীরা চুপ হয়ে গেল)",
       "Hardly had I seen Sam when he started walking. (আমি সামকে দেখতেই সে হাঁটা ‍শুরু করল)"
@@ -92,7 +115,11 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 7,
     ruleNo: "Rule 7",
     title: "Scarcely had",
-    banglaDescription: "করতে না করতেই - Immediate sequence এর জন্য ব্যবহৃত হয়। Structure: Scarcely had + subject + V3 + object → when + subject + V2 + object.",
+    bengali: "করতে না করতেই",
+    description: "Immediate sequence এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "Scarcely had + subject + V3 + object → when + subject + V2 + object"
+    ],
     examples: [
       "Scarcely had the teacher seen the student when she started studying. (শিক্ষককে দেখতেই শিক্ষার্থীরা পড়তে শুরু করল)",
       "Scarcely had John started the journey when it started raining. (জন ভ্রমণ শুরু করতেই বৃষ্টি শুরু হল)"
@@ -104,7 +131,11 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 8,
     ruleNo: "Rule 8",
     title: "Barely had",
-    banglaDescription: "করতে না করতেই - Immediate sequence এর জন্য ব্যবহৃত হয়। Structure: Barely had + subject + V3 + object → when + subject + V2 + object.",
+    bengali: "করতে না করতেই",
+    description: "Immediate sequence এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "Barely had + subject + V3 + object → when + subject + V2 + object"
+    ],
     examples: [
       "Barely had Arthur started the speech when Russell started questioning. (আর্থার বক্তৃতা শুরু করতেই রাসেল প্রশ্ন করতে শুরু করল)",
       "Barely had Eva started cooking when the doorbell started ringing. (ঈভা রান্না শুরু করতেই ডোরবেল বাজতে লাগল)"
@@ -116,7 +147,11 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 9,
     ruleNo: "Rule 9",
     title: "As Soon As",
-    banglaDescription: "করতেই - Immediate sequence এর জন্য ব্যবহৃত হয়। Structure: As soon as + subject + V2 + object → comma (,) subject + V2 + object.",
+    bengali: "করতেই",
+    description: "Immediate sequence এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "As soon as + subject + V2 + object → comma (,) subject + V2 + object"
+    ],
     examples: [
       "As soon as Rana sat down, the phone rang. (রানা বসতেই ফোন বেজে উঠল)",
       "As soon as he teacher came, there was silence. ( শিক্ষক আসতেই নীরবতা নেমে আসল)"
@@ -128,7 +163,13 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 10,
     ruleNo: "Rule 10",
     title: "Would you mind?",
-    banglaDescription: "আপত্তি করবেন কি? - Polite request এর জন্য ব্যবহৃত হয়। Structure 1: Would you mind → V1 + ing + object. Structure 2: Would you mind + If + somebody + V2 + object/ext. Structure 3: Would you mind + Somebody's + Verb + ing + object/ext.",
+    bengali: "আপত্তি করবেন কি?",
+    description: "Polite request এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "Would you mind → V1 + ing + object",
+      "Would you mind + If + somebody + V2 + object/ext",
+      "Would you mind + Somebody's + Verb + ing + object/ext"
+    ],
     examples: [
       "Would you mind taking a cup of tea? (আপনি কি এক কাপ চা খেতে আপত্তি করবেন?)",
       "Would you mind if I used your mobile now? (আমি আপনার মোবাইল ব্যবহার করলে আপনি কিছু মনে করবেন?)"
@@ -140,7 +181,12 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 11,
     ruleNo: "Rule 11",
     title: "Till/Until",
-    banglaDescription: "পর্যন্ত - Time duration এর জন্য ব্যবহৃত হয়। Structure 1: Present Tense/Future Tense → Till/Until → Present Tense. Structure 2: Past Tense → Till/Until → Past Tense.",
+    bengali: "পর্যন্ত",
+    description: "Time duration এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "Present Tense/Future Tense → Till/Until → Present Tense",
+      "Past Tense → Till/Until → Past Tense"
+    ],
     examples: [
       "Just wait till he comes. (তিনি না আসা পর্যন্ত অপেক্ষা করুন।)",
       "We waited until the train came. (আমরা ট্রেন না আসা পর্যন্ত অপেক্ষা করছিলাম।)"
@@ -152,7 +198,13 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 12,
     ruleNo: "Rule 12",
     title: "In spite of/Despite",
-    banglaDescription: "সত্ত্বেও - Contrast এর জন্য ব্যবহৃত হয়। In spite of/Despite → subject + verb + object. Positive meaningful sentence → Negative meaningful sentence. Negative meaningful sentence → Positive meaningful sentence.",
+    bengali: "সত্ত্বেও",
+    description: "Contrast এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "In spite of/Despite → subject + verb + object",
+      "Positive meaningful sentence → Negative meaningful sentence",
+      "Negative meaningful sentence → Positive meaningful sentence"
+    ],
     examples: [
       "In spite of his poverty he is honest. (দারিদ্র্য সত্ত্বেও তিনি সৎ।)",
       "Despite of his poverty he is donates. (দারিদ্র থাকা সত্ত্বেও তিনি দান করছেন)"
@@ -164,7 +216,12 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 13,
     ruleNo: "Rule 13",
     title: "It is time/It is high time",
-    banglaDescription: "সময় - Urgency or necessity এর জন্য ব্যবহৃত হয়। Structure 1: It is time/It is high time/it is now time → subject + V2 + object. Structure 2: It is time/It is high time/it is now time → to + V1 + object.",
+    bengali: "সময়",
+    description: "Urgency or necessity এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "It is time/It is high time/it is now time → subject + V2 + object",
+      "It is time/It is high time/it is now time → to + V1 + object"
+    ],
     examples: [
       "It is time you worked for your future. (এটাই সময় আপনার ভবিষ্যতের জন্য কাজ করার)",
       "It is high time to work for your future. (এটাই উপযুক্ত সময় আপনার ভবিষ্যতের জন্য কাজ করার)"
@@ -176,7 +233,11 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 14,
     ruleNo: "Rule 14",
     title: "Instead of/In lieu of",
-    banglaDescription: "পরিবর্তে - Alternative এর জন্য ব্যবহৃত হয়। Instead of/In lieu of + noun/gerund → main clause.",
+    bengali: "পরিবর্তে",
+    description: "Alternative এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "Instead of/In lieu of + noun/gerund → main clause"
+    ],
     examples: [
       "Instead of history he took economic. (ইতিহাসের বদলে সে অর্থনীতি নিল)",
       "In lieu of cricket she loves football. (ক্রিকেটের পরিবর্তে সে ফুটবল পছন্দ করে)"
@@ -188,7 +249,12 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 15,
     ruleNo: "Rule 15",
     title: "Since (time)",
-    banglaDescription: "সময় পূর্বে বোঝাতে - Time reference এর জন্য ব্যবহৃত হয়। Structure 1: Present indefinite/Present perfect → since → Past indefinite. Structure 2: Past indefinite → since → Past perfect.",
+    bengali: "সময় পূর্বে বোঝাতে",
+    description: "Time reference এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "Present indefinite/Present perfect → since → Past indefinite",
+      "Past indefinite → since → Past perfect"
+    ],
     examples: [
       "It is ten years since my sister was born. (আমার বোনের জন্মের দশ বছর হলো।)",
       "It was long since I had seen her last. (অনেক সময় হয়ে গেছে আমি তাকে শেষ দেখেছি)"
@@ -200,7 +266,11 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 16,
     ruleNo: "Rule 16",
     title: "So…. that",
-    banglaDescription: "এতই যে - Degree or extent এর জন্য ব্যবহৃত হয়। Structure: Subject + verb + so + adjective/adverb + that + subject + cannot/could not + সঙ্গতিপূর্ণ verb + বাকী অংশ।",
+    bengali: "এতই যে",
+    description: "Degree or extent এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "Subject + verb + so + adjective/adverb + that + subject + cannot/could not + সঙ্গতিপূর্ণ verb + বাকী অংশ"
+    ],
     examples: [
       "The man is so weak that he cannot move his body. (লোকটি এতই দুর্বল যে সে তার শরীরকে নড়াচড়া করতে পারে না।)",
       "He is so expert that he can solve it easily. (তিনি এতই বিশেষজ্ঞ যে তিনি সহজেই এটি সমাধান করতে পারেন।)"
@@ -212,7 +282,11 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 17,
     ruleNo: "Rule 17",
     title: "Would rather",
-    banglaDescription: "তবুও/বরং - Preference এর জন্য ব্যবহৃত হয়। Structure: Subject + would rather + V1 → than + verb/noun.",
+    bengali: "তবুও/বরং",
+    description: "Preference এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "Subject + would rather + V1 → than + verb/noun"
+    ],
     examples: [
       "He would rather die than forgive you. (সে তোমাকে ক্ষমা করার চেয়ে মরবে।)",
       "I would rather die than begging. (আমি ভিক্ষা করার চেয়ে বরং মরে যাব)"
@@ -224,7 +298,11 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 18,
     ruleNo: "Rule 18",
     title: "Without + gerund",
-    banglaDescription: "ছাড়া/ব্যতীত - Absence or lack এর জন্য ব্যবহৃত হয়। Structure: Without + V1 +ing + object + personal subject + verb + প্রয়োজনীয় বাকী অংশ।",
+    bengali: "ছাড়া/ব্যতীত",
+    description: "Absence or lack এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "Without + V1 +ing + object + personal subject + verb + প্রয়োজনীয় বাকী অংশ"
+    ],
     examples: [
       "Without working hard you cannot achieve success. (কঠোর পরিশ্রম ছাড়া আপনি সফলতা অর্জন করতে পারবেন না।)",
       "Without reading more you cannot make a good result. (বেশি না পড়লে তুাম ভালো ফলাফল করতে পারবে না)"
@@ -236,7 +314,11 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 19,
     ruleNo: "Rule 19",
     title: "By + gerund",
-    banglaDescription: "দ্বারা/দিয়ে - Method or means এর জন্য ব্যবহৃত হয়। Structure: By + V1 +ing + object +personal subject + verb + প্রয়োজনীয় বাকী অংশ।",
+    bengali: "দ্বারা/দিয়ে",
+    description: "Method or means এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "By + V1 +ing + object +personal subject + verb + প্রয়োজনীয় বাকী অংশ"
+    ],
     examples: [
       "By working hard you can achieve success. (কঠোর পরিশ্রম করে আপনি সফলতা অর্জন করতে পারেন।)",
       "By reading more you can make a good result. (বেশি বেশি পড়ে ভালো ফলাফল করতে পারবেন।)"
@@ -248,7 +330,11 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 20,
     ruleNo: "Rule 20",
     title: "Unless",
-    banglaDescription: "যদি না - Condition এর জন্য ব্যবহৃত হয়। Structure: Unless যুক্ত incomplete sentence টি বসে → সঙ্গতিপূর্ণ পূর্নাঙ্গ বাক্য বসে।",
+    bengali: "যদি না",
+    description: "Condition এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "Unless যুক্ত incomplete sentence টি বসে → সঙ্গতিপূর্ণ পূর্নাঙ্গ বাক্য বসে"
+    ],
     examples: [
       "Unless you work hard you will fail in life. (আপনি যদি কঠোর পরিশ্রম না করেন তবে আপনি জীবনে ব্যর্থ হবেন।)",
       "Unless you walk fast you will miss the train. (আপনি যদি দ্রুত না হাঁটেন আপনি ট্রেনটি ধরতে ব্যর্থ হবেন।)"
@@ -260,7 +346,11 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 21,
     ruleNo: "Rule 21",
     title: "As long as/So long as",
-    banglaDescription: "যতদিন - Duration condition এর জন্য ব্যবহৃত হয়। Structure: As long as যুক্ত incomplete sentence টি বসে → সঙ্গতিপূর্ণ পূর্নাঙ্গ বাক্য বসে।",
+    bengali: "যতদিন",
+    description: "Duration condition এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "As long as যুক্ত incomplete sentence টি বসে → সঙ্গতিপূর্ণ পূর্নাঙ্গ বাক্য বসে"
+    ],
     examples: [
       "I will fight against injustice as long as I can. (আমি যতদিন পারি অবিচারের বিরুদ্ধে লড়ব।)",
       "You may take my car so long as you drive carefully. (আপনি যতক্ষণ সাবধানে গাড়ি চালান ততক্ষণ আপনি আমার গাড়ি নিতে পারেন।)"
@@ -272,7 +362,11 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 22,
     ruleNo: "Rule 22",
     title: "Because of/on account of/owing to/due to",
-    banglaDescription: "কারণে - Reason or cause এর জন্য ব্যবহৃত হয়। Structure: Because of/on account of/owing to/due to Phrase যুক্ত incomplete sentence টি বসে → সঙ্গতিপূর্ণ পূর্নাঙ্গ বাক্য বসে।",
+    bengali: "কারণে",
+    description: "Reason or cause এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "Because of/on account of/owing to/due to Phrase যুক্ত incomplete sentence টি বসে → সঙ্গতিপূর্ণ পূর্নাঙ্গ বাক্য বসে"
+    ],
     examples: [
       "I could not help him due to my poverty. (আমি দারিদ্র্যের কারণে তাকে সাহায্য করতে পারিনি।)",
       "I could not went to school because of my illness. (আমি অসুস্থতার কারণে স্কুলে যেতে পারিনি।)"
@@ -284,7 +378,13 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 23,
     ruleNo: "Rule 23",
     title: "Not only…. but also",
-    banglaDescription: "এটি না... ওটিও - Addition এর জন্য ব্যবহৃত হয়। Not only এর পরে Subject থাকলে but also এর পরেও Subject বসে। Not only এর পরে Object থাকলে but also এর পরেও Object বসে। Not only এর পরে Verb থাকলে but also এর পরেও Verb বসে।",
+    bengali: "এটি না... ওটিও",
+    description: "Addition এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "Not only এর পরে Subject থাকলে but also এর পরেও Subject বসে",
+      "Not only এর পরে Object থাকলে but also এর পরেও Object বসে",
+      "Not only এর পরে Verb থাকলে but also এর পরেও Verb বসে"
+    ],
     examples: [
       "Not only Rita but also Ritu will call me. (শুধু রিতাই নয় রিতুও আমাকে ডাকবে।)",
       "She is not only kind but also submissive. (তিনি শুধু দয়ালুই নন, অনুগতও বটে।)"
@@ -296,7 +396,12 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 24,
     ruleNo: "Rule 24",
     title: "Too.... to/Enough…. to",
-    banglaDescription: "এতই..... যে - Degree of ability এর জন্য ব্যবহৃত হয়। Structure 1: Subject + verb + too + adjective → to + V1 + object/ext. Structure 2: Subject + verb+ too+ adjective → for ব্যাক্তি বাচক subject এর objective form+ to+ V1+ obj/ext.",
+    bengali: "এতই..... যে",
+    description: "Degree of ability এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "Subject + verb + too + adjective → to + V1 + object/ext",
+      "Subject + verb+ too+ adjective → for ব্যাক্তি বাচক subject এর objective form+ to+ V1+ obj/ext"
+    ],
     examples: [
       "He is too weak to walk. (তিনি হাঁটতে খুব দুর্বল।)",
       "The Sum is too hard for me to solve it. (অংকটি সমাধান করা আমার জন্য খুব কঠিন)"
@@ -308,7 +413,11 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 25,
     ruleNo: "Rule 25",
     title: "Let alone",
-    banglaDescription: "কেউ কোন কাজ করতে অসমর্থ - Inability emphasis এর জন্য ব্যবহৃত হয়। Let alone যুক্ত incomplete sentence টি বসে → (meaningful word or phrase).",
+    bengali: "কেউ কোন কাজ করতে অসমর্থ",
+    description: "Inability emphasis এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "Let alone যুক্ত incomplete sentence টি বসে → (meaningful word or phrase)"
+    ],
     examples: [
       "He cannot pass in the third division, let alone the first division. (সে তৃতীয় বিভাগেই পাশ করতে পারে না, আবার প্রথম বিভাগ!)",
       "He cannot carry 1 kg, let alone 10 kg. (সে ১ কেজিই বহন করতে পারে না, আবার ১০ কেজি!)"
@@ -320,7 +429,11 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 26,
     ruleNo: "Rule 26",
     title: "Provided/provided that/providing that",
-    banglaDescription: "যদি অর্থে - Condition এর জন্য ব্যবহৃত হয়। Structure: …… provided/provided that/providing that → (meaningful sentence).",
+    bengali: "যদি অর্থে",
+    description: "Condition এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "…… provided/provided that/providing that → (meaningful sentence)"
+    ],
     examples: [
       "He will shine in life provided that he works hard. (সে জীবনে উজ্জ্বল হবে যদি সে কঠোর পরিশ্রম করে।)",
       "The plane will take off provided the weather is good. (আবহাওয়া ভালো থাকলে প্লেন টেক অফ করবে।)"
@@ -332,7 +445,11 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 27,
     ruleNo: "Rule 27",
     title: "So much/so many",
-    banglaDescription: "অনেক - Quantity emphasis এর জন্য ব্যবহৃত হয়। Structure: So much/ so many যুক্ত incomplete sentence টি বসে → that + 1st subject + can/cannot + verb + প্রয়োজনীয় বাকী অংশ।",
+    bengali: "অনেক",
+    description: "Quantity emphasis এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "So much/ so many যুক্ত incomplete sentence টি বসে → that + 1st subject + can/cannot + verb + প্রয়োজনীয় বাকী অংশ"
+    ],
     examples: [
       "You have so much intelligence that you can get a job. (আপনার এতই বুদ্ধি আছে যে আপনি একটি চাকরি পেতে পারেন।)",
       "There are so many problems that I cannot solve them. (অনেক সমস্যা আছে যে আমি সমাধান করতে পারি না।)"
@@ -344,7 +461,12 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 28,
     ruleNo: "Rule 28",
     title: "By the time",
-    banglaDescription: "যততক্ষণে - Time reference এর জন্য ব্যবহৃত হয়। Structure 1: Main clause + by the time + Dependent clause. Structure 2: By the time + Dependent clause + Main clause.",
+    bengali: "যততক্ষণে",
+    description: "Time reference এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "Main clause + by the time + Dependent clause",
+      "By the time + Dependent clause + Main clause"
+    ],
     examples: [
       "I will be in bed by the time you get home. (যতক্ষণে তুমি বাসায় ফিরবে আমি বিছানায় থাকব।)",
       "By the time that the guards realised what was happening, the gang were already inside the bank. (যদক্ষণে প্রহরী বুঝতে পারল যে কি হচ্ছে, দলটি ব্যাংকে ঢুকে পড়ল।)"
@@ -356,7 +478,11 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 29,
     ruleNo: "Rule 29",
     title: "In the event",
-    banglaDescription: "কারণে - Circumstance এর জন্য ব্যবহৃত হয়। Structure: Results clause + in the event + Reason clause.",
+    bengali: "কারণে",
+    description: "Circumstance এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "Results clause + in the event + Reason clause"
+    ],
     examples: [
       "I got very nervous about the exam in the event that it might be very difficult. (আমি পরীক্ষা সম্পর্কে খুব ঘাবড়ে গিয়েছিলাম যে এটি খুব কঠিন হতে পারে।)"
     ],
@@ -367,7 +493,12 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 30,
     ruleNo: "Rule 30",
     title: "Now that",
-    banglaDescription: "এখন যেহেতু - Current reason এর জন্য ব্যবহৃত হয়। Structure 1: Now that + cause clause + Effect clause. Structure 2: Effect clause + now that + cause clause.",
+    bengali: "এখন যেহেতু",
+    description: "Current reason এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "Now that + cause clause + Effect clause",
+      "Effect clause + now that + cause clause"
+    ],
     examples: [
       "Now that John is married, he has become much more responsible. (এখন যেহেতু জন বিবাহিত, তিনি অনেক বেশি দায়িত্বশীল হয়ে উঠেছেন।)",
       "I can enjoy myself now that the exams are over. (এখন যেহেতু পরীক্ষা শেষ, আমি এখন নিজেকে উপভোগ করতে পারি।)"
@@ -379,7 +510,13 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 31,
     ruleNo: "Rule 31",
     title: "Relative pronoun",
-    banglaDescription: "সম্পর্কবাচক সর্বনাম - Who, which, that, where এর জন্য ব্যবহৃত হয়। Structure 1: Subject+ who/which/what/that etc. + verb + object → verb +object. Structure 2: Subject + verb + object → that/who/which/what etc. → verb +object. Structure 3: That/Wh-word+ subject+ verb+ object → verb Object.",
+    bengali: "সম্পর্কবাচক সর্বনাম",
+    description: "Who, which, that, where এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "Subject+ who/which/what/that etc. + verb + object → verb +object",
+      "Subject + verb + object → that/who/which/what etc. → verb +object",
+      "That/Wh-word+ subject+ verb+ object → verb Object"
+    ],
     examples: [
       "Riva who is a little girl is my student. (ছোট মেয়ে রিভা আমার ছাত্রী।)",
       "London is the place where I was born. (লন্ডন হচ্ছে সেই জায়গা যেখানে আমি জন্মহগ্রহণ করেছিলাম।)",
@@ -392,7 +529,13 @@ export const completingSentenceRules: CompletingSentenceRule[] = [
     id: 32,
     ruleNo: "Rule 32",
     title: "Conditional Sentence (If)",
-    banglaDescription: "যদি - Condition এর জন্য ব্যবহৃত হয়। First Conditional: If + subject + V1 + object → subject + can/should/will/may + V1 + object. Second Conditional: If + subject + V2 + object → subject + could/would/might + V1 + object. Third Conditional: If + subject + had + V3 + object → subject + could have/should have/would have/might have + V3 + object.",
+    bengali: "যদি",
+    description: "Condition এর জন্য ব্যবহৃত হয়।",
+    structures: [
+      "First Conditional: If + subject + V1 + object → subject + can/should/will/may + V1 + object",
+      "Second Conditional: If + subject + V2 + object → subject + could/would/might + V1 + object",
+      "Third Conditional: If + subject + had + V3 + object → subject + could have/should have/would have/might have + V3 + object"
+    ],
     examples: [
       "If she gets good grades she will go to university. (ভালো নম্বর পেলে সে বিশ্ববিদ্যালয়ে যাবে)",
       "If I had the time I would learn Italian. (আমার সময় থাকলে আমি ইতালিয়ান শিখতাম।)",

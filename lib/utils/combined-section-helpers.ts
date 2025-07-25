@@ -121,7 +121,9 @@ export function validateCombinedSectionData<TRule extends GenericRule, TQuestion
   rules.forEach((rule, index) => {
     if (!rule.id) errors.push(`Rule at index ${index} is missing id`);
     if (!rule.title) errors.push(`Rule at index ${index} is missing title`);
-    if (!rule.banglaDescription) errors.push(`Rule at index ${index} is missing banglaDescription`);
+    if (!rule.bengali) errors.push(`Rule at index ${index} is missing bengali`);
+    if (!rule.description) errors.push(`Rule at index ${index} is missing description`);
+    if (!rule.structures || !Array.isArray(rule.structures)) errors.push(`Rule at index ${index} is missing structures array`);
   });
   
   // Validate questions

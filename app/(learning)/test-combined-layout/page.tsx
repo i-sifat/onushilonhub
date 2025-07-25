@@ -1,17 +1,16 @@
 'use client';
 
-import React from 'react';
-import CombinedSectionLayout from '@/components/combined/CombinedSectionLayout';
-import { ModifierRule } from '@/data/grammar-rules/modifier';
-import { ModifierQuestion } from '@/data/questions/modifier';
+import CombinedSectionLayout, { GenericRule, GenericQuestion } from '@/components/combined/CombinedSectionLayout';
 
 // Test data to avoid TypeScript errors in the main data files
-const testRules: ModifierRule[] = [
+const testRules: GenericRule[] = [
   {
     id: 1,
     ruleNo: "Rule 1",
     title: "Use adjective to pre-modify the noun",
-    banglaDescription: "Adjective noun-এর গুণ বা বৈশিষ্ট্য বর্ণনা করে। অতএব, noun-এর পূর্বে adjective বসিয়ে noun-কে pre-modify করতে হয়।",
+    bengali: "বিশেষণ দিয়ে নাম শব্দের পূর্ব-পরিবর্তন",
+    description: "Adjective noun-এর গুণ বা বৈশিষ্ট্য বর্ণনা করে। অতএব, noun-এর পূর্বে adjective বসিয়ে noun-কে pre-modify করতে হয়।",
+    structures: ["Adjective + Noun"],
     examples: ["Cricket is an [international] game. (Dhaka-2023)", "He was a [noble] man in our history. (Rajshahi-2023)"],
     topic: 'modifier',
     level: 'HSC'
@@ -20,7 +19,9 @@ const testRules: ModifierRule[] = [
     id: 2,
     ruleNo: "Rule 2",
     title: "Use Determiner to pre-modify the noun",
-    banglaDescription: "Determiner noun-এর পরিমাণ বা নির্দিষ্টতা নির্দেশ করে। সুতরাং, noun-এর পূর্বে determiner বসিয়ে noun-কে pre-modify করতে হয়।",
+    bengali: "নির্ধারক দিয়ে নাম শব্দের পূর্ব-পরিবর্তন",
+    description: "Determiner noun-এর পরিমাণ বা নির্দিষ্টতা নির্দেশ করে। সুতরাং, noun-এর পূর্বে determiner বসিয়ে noun-কে pre-modify করতে হয়।",
+    structures: ["Determiner + Noun"],
     examples: ["[Each] team consists of eleven players. (Dhaka-2023)", "[This] substance is found in the water of the tube well. (Dhaka-2019)"],
     topic: 'modifier',
     level: 'HSC'
@@ -29,14 +30,16 @@ const testRules: ModifierRule[] = [
     id: 3,
     ruleNo: "Rule 3",
     title: "Use Intensifier to pre-modify the adjective",
-    banglaDescription: "Intensifier (e.g., very, too, so, quite) adjective-এর তীব্রতা বা মাত্রা বৃদ্ধি বা হ্রাস করে। তাই, adjective-এর পূর্বে intensifier বসিয়ে adjective-কে pre-modify করতে হয়।",
+    bengali: "তীব্রতাবাচক দিয়ে বিশেষণের পূর্ব-পরিবর্তন",
+    description: "Intensifier (e.g., very, too, so, quite) adjective-এর তীব্রতা বা মাত্রা বৃদ্ধি বা হ্রাস করে। তাই, adjective-এর পূর্বে intensifier বসিয়ে adjective-কে pre-modify করতে হয়।",
+    structures: ["Intensifier + Adjective"],
     examples: ["He was [so] kind that he risked his life. (Rajshahi-2023)", "It was a [very] weak boy who was drowning. (Rajshahi-2023)"],
     topic: 'modifier',
     level: 'HSC'
   }
 ];
 
-const testQuestions: ModifierQuestion[] = [
+const testQuestions: GenericQuestion[] = [
   {
     id: "q1",
     topic: 'modifier',
@@ -81,7 +84,7 @@ export default function TestCombinedLayoutPage() {
             Testing the responsive two-panel layout with rule selection and question display.
           </p>
         </div>
-        
+
         <div className="h-[800px] border border-sf-text-muted/20 rounded-xl overflow-hidden">
           <CombinedSectionLayout
             topic="Modifier"
