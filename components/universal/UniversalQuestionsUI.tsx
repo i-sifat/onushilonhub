@@ -209,21 +209,33 @@ const UniversalQuestionsUI = memo(function UniversalQuestionsUI({
   const renderQuestionContent = useCallback((question: Question) => {
     const questionAny = question as any;
 
-    // Handle passage with blanks
-    if (question.passage && question.blanks) {
-      let passageWithBlanks = question.passage;
+    // Handle passage with blanks (modifier, completing sentence, etc.)
+    if ((question.passage || question.question) && question.blanks) {
+      let passageWithBlanks = question.passage || question.question;
       
       question.blanks.forEach((blank: any) => {
         const key = `${question.id}-${blank.id}`;
         const isAnswerVisible = showAnswers[key];
-        const blankPattern = new RegExp(`\\[${blank.id}\\]`, 'g');
+        
+        // Handle different blank formats: [a], (a) ---, (a)---
+        const blankPatterns = [
+          new RegExp(`\\[${blank.id}\\]`, 'g'),
+          new RegExp(`\\(${blank.id}\\)\\s*---`, 'g'),
+          new RegExp(`\\(${blank.id}\\)---`, 'g')
+        ];
         
         const answer = blank.ans || blank.answer || '';
         const blankElement = isAnswerVisible 
           ? `<span class="inline-flex items-center bg-success-500/20 text-success-600 border border-success-500/30 px-2 py-1 rounded text-sm font-medium cursor-pointer hover:bg-success-500/30 hover:text-success-700 hover:border-success-500/50 hover:scale-105 hover:-translate-y-0.5 hover:shadow-sm hover:shadow-success-500/10 transition-all duration-200 ease-out active:scale-95" data-blank="${blank.id}" data-question="${question.id}">${answer}</span>`
-          : `<span class="inline-flex items-center bg-sf-button/20 text-sf-button border border-sf-button/30 px-2 py-1 rounded text-sm font-medium cursor-pointer hover:bg-sf-button/30 hover:text-sf-button hover:border-sf-button/50 hover:scale-105 hover:-translate-y-0.5 hover:shadow-sm hover:shadow-sf-button/10 transition-all duration-200 ease-out active:scale-95" data-blank="${blank.id}" data-question="${question.id}">[${blank.id}]</span>`;
+          : `<span class="inline-flex items-center bg-sf-button/20 text-sf-button border border-sf-button/30 px-2 py-1 rounded text-sm font-medium cursor-pointer hover:bg-sf-button/30 hover:text-sf-button hover:border-sf-button/50 hover:scale-105 hover:-translate-y-0.5 hover:shadow-sm hover:shadow-sf-button/10 transition-all duration-200 ease-out active:scale-95" data-blank="${blank.id}" data-question="${question.id}">(${blank.id}) ___</span>`;
         
-        passageWithBlanks = passageWithBlanks.replace(blankPattern, blankElement);
+        // Try each pattern until one matches
+        for (const pattern of blankPatterns) {
+          if (pattern.test(passageWithBlanks)) {
+            passageWithBlanks = passageWithBlanks.replace(pattern, blankElement);
+            break;
+          }
+        }
       });
 
       return (

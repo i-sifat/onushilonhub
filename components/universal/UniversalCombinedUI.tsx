@@ -32,8 +32,6 @@ interface FilterState {
   searchTerm: string;
   selectedBoard: string;
   selectedYear: string;
-  selectedRuleId: number | string | null;
-  selectedCategory: string;
 }
 
 const BOARDS = [
@@ -46,9 +44,7 @@ const YEARS = [
   '2019', '2018', '2017', '2016', '2015'
 ];
 
-const CATEGORIES = [
-  'All Categories', 'Basic', 'Intermediate', 'Advanced', 'Complex'
-];
+// Removed CATEGORIES - no longer needed
 
 export default function UniversalCombinedUI({ 
   topic, 
@@ -63,9 +59,7 @@ export default function UniversalCombinedUI({
   const [filters, setFilters] = useState<FilterState>({
     searchTerm: '',
     selectedBoard: 'All Boards',
-    selectedYear: 'All Years',
-    selectedRuleId: null,
-    selectedCategory: 'All Categories'
+    selectedYear: 'All Years'
   });
 
   // Update filter state
@@ -86,9 +80,13 @@ export default function UniversalCombinedUI({
           count++;
         } else if (question.blanks && Array.isArray(question.blanks)) {
           // For questions with blanks (like modifier questions)
-          count += question.blanks.filter((blank: any) => 
-            blank.ruleId === rule.id || blank.rule === rule.id
-          ).length;
+          // Check if any blank in this question is associated with this rule
+          const hasMatchingBlank = question.blanks.some((blank: any) => 
+            blank.ruleId === rule.id
+          );
+          if (hasMatchingBlank) {
+            count++;
+          }
         }
       });
       
@@ -101,11 +99,11 @@ export default function UniversalCombinedUI({
   // Filter questions based on all criteria
   const filteredQuestions = useMemo(() => {
     return questions.filter(question => {
-      // Rule filter
-      const matchesRule = filters.selectedRuleId === null || 
-        question.ruleId === filters.selectedRuleId ||
+      // Rule filter - use selectedRuleId state instead of filters
+      const matchesRule = selectedRuleId === null || 
+        question.ruleId === selectedRuleId ||
         (question.blanks && question.blanks.some((blank: any) => 
-          blank.ruleId === filters.selectedRuleId || blank.rule === filters.selectedRuleId
+          blank.ruleId === selectedRuleId
         ));
 
       // Search filter
@@ -125,22 +123,16 @@ export default function UniversalCombinedUI({
         question.year?.toString() === filters.selectedYear ||
         question.id?.includes(filters.selectedYear);
 
-      // Category filter (based on difficulty or rule complexity)
-      const matchesCategory = filters.selectedCategory === 'All Categories' ||
-        question.difficulty?.toLowerCase() === filters.selectedCategory.toLowerCase();
-
-      return matchesRule && matchesSearch && matchesBoard && matchesYear && matchesCategory;
+      return matchesRule && matchesSearch && matchesBoard && matchesYear;
     });
-  }, [questions, filters]);
+  }, [questions, filters, selectedRuleId]);
 
   // Clear all filters
   const clearFilters = useCallback(() => {
     setFilters({
       searchTerm: '',
       selectedBoard: 'All Boards',
-      selectedYear: 'All Years',
-      selectedRuleId: null,
-      selectedCategory: 'All Categories'
+      selectedYear: 'All Years'
     });
     setSelectedRuleId(null);
   }, []);
@@ -150,9 +142,8 @@ export default function UniversalCombinedUI({
     return filters.searchTerm || 
            filters.selectedBoard !== 'All Boards' || 
            filters.selectedYear !== 'All Years' || 
-           filters.selectedRuleId !== null ||
-           filters.selectedCategory !== 'All Categories';
-  }, [filters]);
+           selectedRuleId !== null;
+  }, [filters, selectedRuleId]);
 
   // Get question metadata from ID
   const getQuestionMetadata = useCallback((questionId: string) => {
@@ -191,45 +182,168 @@ export default function UniversalCombinedUI({
     const questionAny = question as any;
 
     // Handle passage with blanks (modifier, completing sentence, etc.)
-    if (question.passage && question.blanks) {
-      let passageWithBlanks = question.passage;
+    if ((question.passage || question.question) && question.blanks) {
+      const fullPassage = question.passage || question.question;
       
-      question.blanks.forEach((blank: any) => {
-        const key = `${question.id}-${blank.id}`;
-        const isAnswerVisible = showAnswers[key];
-        const blankPattern = new RegExp(`\\[${blank.id}\\]`, 'g');
+      // If a rule is selected, filter to show only sentences with blanks related to that rule
+      if (selectedRuleId) {
+        // Get blanks that match the selected rule
+        const relevantBlanks = question.blanks.filter((blank: any) => 
+          blank.ruleId === selectedRuleId
+        );
         
-        const answer = blank.ans || blank.answer || '';
-        const blankElement = isAnswerVisible 
-          ? `<span class="inline-flex items-center bg-success-500/20 text-success-600 border border-success-500/30 px-2 py-1 rounded text-sm font-medium cursor-pointer hover:bg-success-500/30 hover:text-success-700 hover:border-success-500/50 hover:scale-105 hover:-translate-y-0.5 hover:shadow-sm hover:shadow-success-500/10 transition-all duration-200 ease-out active:scale-95" data-blank="${blank.id}" data-question="${question.id}">${answer}</span>`
-          : `<span class="inline-flex items-center bg-sf-button/20 text-sf-button border border-sf-button/30 px-2 py-1 rounded text-sm font-medium cursor-pointer hover:bg-sf-button/30 hover:text-sf-button hover:border-sf-button/50 hover:scale-105 hover:-translate-y-0.5 hover:shadow-sm hover:shadow-sf-button/10 transition-all duration-200 ease-out active:scale-95" data-blank="${blank.id}" data-question="${question.id}">[${blank.id}]</span>`;
+        if (relevantBlanks.length === 0) {
+          // No blanks for this rule in this question, don't show it
+          return null;
+        }
         
-        passageWithBlanks = passageWithBlanks.replace(blankPattern, blankElement);
-      });
-
-      return (
-        <div className="space-y-4">
-          <div>
-            <h4 className="text-md font-semibold text-sf-text-bold mb-3">Passage:</h4>
-            <div 
-              className="text-sf-text-subtle leading-relaxed cursor-pointer"
-              dangerouslySetInnerHTML={{ __html: passageWithBlanks }}
-              onClick={(e) => {
-                const target = e.target as HTMLElement;
-                const blankId = target.getAttribute('data-blank');
-                const questionId = target.getAttribute('data-question');
-                if (blankId && questionId) {
-                  toggleAnswer(questionId, blankId);
-                }
-              }}
-            />
-          </div>
+        // Split passage into sentences and filter for relevant ones
+        const sentences = fullPassage.split(/(?<=[.!?])\s+/);
+        const relevantSentences: string[] = [];
+        
+        sentences.forEach(sentence => {
+          // Check if this sentence contains any of the relevant blanks
+          const hasRelevantBlank = relevantBlanks.some((blank: any) => {
+            const blankPatterns = [
+              new RegExp(`\\[${blank.id}\\]`),
+              new RegExp(`\\(${blank.id}\\)\\s*---`),
+              new RegExp(`\\(${blank.id}\\)---`)
+            ];
+            return blankPatterns.some(pattern => pattern.test(sentence));
+          });
           
-          <div className="text-xs text-sf-text-muted">
-            <p>💡 Click on any blank to reveal the answer</p>
+          if (hasRelevantBlank) {
+            relevantSentences.push(sentence);
+          }
+        });
+        
+        // Process only the relevant sentences
+        let filteredPassage = relevantSentences.join(' ');
+        
+        // Only process blanks that are relevant to the selected rule
+        relevantBlanks.forEach((blank: any) => {
+          const key = `${question.id}-${blank.id}`;
+          const isAnswerVisible = showAnswers[key];
+          
+          const blankPatterns = [
+            new RegExp(`\\[${blank.id}\\]`, 'g'),
+            new RegExp(`\\(${blank.id}\\)\\s*---`, 'g'),
+            new RegExp(`\\(${blank.id}\\)---`, 'g')
+          ];
+          
+          const answer = blank.ans || blank.answer || '';
+          
+          // When a rule is selected, show both the blank and the answer with eye icon
+          const blankElement = `
+            <span class="inline-flex items-center gap-2 bg-sf-highlight/10 border border-sf-button/30 px-3 py-2 rounded-lg text-sm font-medium">
+              <span class="text-sf-button font-semibold">(${blank.id})</span>
+              <button 
+                class="inline-flex items-center gap-1 px-2 py-1 rounded text-xs transition-all duration-200 ${
+                  isAnswerVisible 
+                    ? 'bg-success-500/20 text-success-600 hover:bg-success-500/30' 
+                    : 'bg-sf-button/20 text-sf-button hover:bg-sf-button/30'
+                }"
+                data-blank="${blank.id}" 
+                data-question="${question.id}"
+                title="${isAnswerVisible ? 'Hide Answer' : 'Show Answer'}"
+              >
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  ${isAnswerVisible 
+                    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"/>'
+                    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>'
+                  }
+                </svg>
+                ${isAnswerVisible ? answer : '___'}
+              </button>
+            </span>
+          `;
+          
+          // Try each pattern until one matches
+          for (const pattern of blankPatterns) {
+            if (pattern.test(filteredPassage)) {
+              filteredPassage = filteredPassage.replace(pattern, blankElement);
+              break;
+            }
+          }
+        });
+
+        return (
+          <div className="space-y-4">
+            <div>
+              <h4 className="text-md font-semibold text-sf-text-bold mb-3">
+                Relevant Sentences for Rule {selectedRuleId}:
+              </h4>
+              <div 
+                className="text-sf-text-subtle leading-relaxed cursor-pointer bg-sf-highlight/5 p-4 rounded-lg border-l-4 border-sf-button"
+                dangerouslySetInnerHTML={{ __html: filteredPassage }}
+                onClick={(e) => {
+                  const target = e.target as HTMLElement;
+                  const blankId = target.getAttribute('data-blank');
+                  const questionId = target.getAttribute('data-question');
+                  if (blankId && questionId) {
+                    toggleAnswer(questionId, blankId);
+                  }
+                }}
+              />
+            </div>
+            
+            <div className="text-xs text-sf-text-muted">
+              <p>💡 Click on any blank to reveal the answer • Showing only sentences with Rule {selectedRuleId} blanks</p>
+            </div>
           </div>
-        </div>
-      );
+        );
+      } else {
+        // No rule selected, show full passage with all blanks
+        let passageWithBlanks = fullPassage;
+        
+        question.blanks.forEach((blank: any) => {
+          const key = `${question.id}-${blank.id}`;
+          const isAnswerVisible = showAnswers[key];
+          
+          const blankPatterns = [
+            new RegExp(`\\[${blank.id}\\]`, 'g'),
+            new RegExp(`\\(${blank.id}\\)\\s*---`, 'g'),
+            new RegExp(`\\(${blank.id}\\)---`, 'g')
+          ];
+          
+          const answer = blank.ans || blank.answer || '';
+          const blankElement = isAnswerVisible 
+            ? `<span class="inline-flex items-center bg-success-500/20 text-success-600 border border-success-500/30 px-2 py-1 rounded text-sm font-medium cursor-pointer hover:bg-success-500/30 hover:text-success-700 hover:border-success-500/50 hover:scale-105 hover:-translate-y-0.5 hover:shadow-sm hover:shadow-success-500/10 transition-all duration-200 ease-out active:scale-95" data-blank="${blank.id}" data-question="${question.id}">${answer}</span>`
+            : `<span class="inline-flex items-center bg-sf-button/20 text-sf-button border border-sf-button/30 px-2 py-1 rounded text-sm font-medium cursor-pointer hover:bg-sf-button/30 hover:text-sf-button hover:border-sf-button/50 hover:scale-105 hover:-translate-y-0.5 hover:shadow-sm hover:shadow-sf-button/10 transition-all duration-200 ease-out active:scale-95" data-blank="${blank.id}" data-question="${question.id}">(${blank.id}) ___</span>`;
+          
+          // Try each pattern until one matches
+          for (const pattern of blankPatterns) {
+            if (pattern.test(passageWithBlanks)) {
+              passageWithBlanks = passageWithBlanks.replace(pattern, blankElement);
+              break;
+            }
+          }
+        });
+
+        return (
+          <div className="space-y-4">
+            <div>
+              <h4 className="text-md font-semibold text-sf-text-bold mb-3">Full Passage:</h4>
+              <div 
+                className="text-sf-text-subtle leading-relaxed cursor-pointer"
+                dangerouslySetInnerHTML={{ __html: passageWithBlanks }}
+                onClick={(e) => {
+                  const target = e.target as HTMLElement;
+                  const blankId = target.getAttribute('data-blank');
+                  const questionId = target.getAttribute('data-question');
+                  if (blankId && questionId) {
+                    toggleAnswer(questionId, blankId);
+                  }
+                }}
+              />
+            </div>
+            
+            <div className="text-xs text-sf-text-muted">
+              <p>💡 Click on any blank to reveal the answer • Select a rule to filter sentences</p>
+            </div>
+          </div>
+        );
+      }
     }
 
     // Handle narration questions (direct/indirect speech)
@@ -345,7 +459,7 @@ export default function UniversalCombinedUI({
         </p>
       </div>
     );
-  }, [showAnswers, toggleAnswer]);
+  }, [showAnswers, toggleAnswer, selectedRuleId]);
 
   return (
     <div className="space-y-6">
@@ -382,7 +496,7 @@ export default function UniversalCombinedUI({
           )}
         </div>
 
-        <div className="grid grid-cols-5 gap-3">
+        <div className="grid grid-cols-3 gap-3">
           <div className="relative">
             <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-3 w-3 text-sf-text-muted" />
             <input
@@ -411,33 +525,6 @@ export default function UniversalCombinedUI({
           >
             {YEARS.map(year => (
               <option key={year} value={year}>{year}</option>
-            ))}
-          </select>
-
-          <select
-            value={filters.selectedCategory}
-            onChange={(e) => updateFilter('selectedCategory', e.target.value)}
-            className="px-2 py-2 text-sm border border-sf-text-muted/20 rounded bg-sf-bg text-sf-text-subtle focus:outline-none focus:ring-1 focus:ring-sf-button"
-          >
-            {CATEGORIES.map(category => (
-              <option key={category} value={category}>{category}</option>
-            ))}
-          </select>
-
-          <select
-            value={filters.selectedRuleId || ''}
-            onChange={(e) => {
-              const value = e.target.value || null;
-              updateFilter('selectedRuleId', value);
-              setSelectedRuleId(value);
-            }}
-            className="px-2 py-2 text-sm border border-sf-text-muted/20 rounded bg-sf-bg text-sf-text-subtle focus:outline-none focus:ring-1 focus:ring-sf-button"
-          >
-            <option value="">All Rules</option>
-            {rules.map(rule => (
-              <option key={rule.id} value={rule.id}>
-                {rule.ruleNo || `Rule ${rule.id}`} - {rule.title.substring(0, 25)}...
-              </option>
             ))}
           </select>
         </div>
@@ -469,7 +556,10 @@ export default function UniversalCombinedUI({
                   }`}
                 >
                   <div
-                    onClick={() => setSelectedRuleId(selectedRuleId === rule.id ? null : rule.id)}
+                    onClick={() => {
+                      const newRuleId = selectedRuleId === rule.id ? null : rule.id;
+                      setSelectedRuleId(newRuleId);
+                    }}
                     className="cursor-pointer p-3"
                   >
                     <div className="flex items-start justify-between mb-2">
@@ -495,54 +585,7 @@ export default function UniversalCombinedUI({
                     )}
                   </div>
 
-                  {selectedRuleId === rule.id && (
-                    <div className="border-t border-sf-button/20 p-3">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => toggleRuleExpansion(rule.id)}
-                        className="w-full text-xs"
-                      >
-                        {isExpanded ? (
-                          <>
-                            <ChevronUp className="h-3 w-3 mr-1" />
-                            Hide Details
-                          </>
-                        ) : (
-                          <>
-                            <ChevronDown className="h-3 w-3 mr-1" />
-                            Show Details
-                          </>
-                        )}
-                      </Button>
-                      
-                      {isExpanded && (
-                        <div className="mt-3 space-y-2">
-                          <p className="text-xs text-sf-text-subtle leading-relaxed">
-                            {rule.description}
-                          </p>
-                          
-                          {rule.structures && rule.structures.length > 0 && (
-                            <div>
-                              <p className="text-xs font-medium text-sf-text-bold mb-1">Structures:</p>
-                              <div className="space-y-1">
-                                {rule.structures.slice(0, 2).map((structure, index) => (
-                                  <p key={index} className="text-xs text-sf-text-muted font-mono">
-                                    {structure}
-                                  </p>
-                                ))}
-                                {rule.structures.length > 2 && (
-                                  <p className="text-xs text-sf-text-muted">
-                                    +{rule.structures.length - 2} more...
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  )}
+
                 </div>
               );
             })}
@@ -565,14 +608,8 @@ export default function UniversalCombinedUI({
                 {selectedRule.title}
               </h4>
               
-              {selectedRule.bengali && (
-                <p className="text-sf-text-muted mb-2 text-sm">
-                  <span className="font-medium">Bengali:</span> {selectedRule.bengali}
-                </p>
-              )}
-              
               <p className="text-sf-text-subtle mb-4 leading-relaxed">
-                <span className="font-medium">Usage:</span> {selectedRule.description}
+                {selectedRule.banglaDescription}
               </p>
 
               {selectedRule.structures && selectedRule.structures.length > 0 && (

@@ -6,7 +6,7 @@ import { QuestionData, QuestionLevel, QuestionTopicSlug } from '@/types/question
 // Import all questions
 import { completingSentenceQuestions, completingSentenceQuestionsMetadata } from '@/data/questions/completing-sentence';
 import { connectorsQuestions, connectorsQuestionsMetadata } from '@/data/questions/connectors';
-// import { modifierQuestions, modifierQuestionsMetadata } from '@/data/questions/modifier';
+import { modifierQuestions, modifierQuestionsMetadata } from '@/data/questions/modifier';
 import { narrationQuestions, narrationQuestionsMetadata } from '@/data/questions/narration';
 import { transformationQuestions, transformationQuestionsMetadata } from '@/data/questions/transformation';
 import { useOfVerbsQuestions, useOfVerbsQuestionsMetadata } from '@/data/questions/use-of-verbs';
@@ -18,7 +18,7 @@ import { synonymAntonymQuestions, synonymAntonymQuestionsMetadata } from '@/data
 export {
   completingSentenceQuestions,
   connectorsQuestions,
-  // modifierQuestions,
+  modifierQuestions,
   narrationQuestions,
   transformationQuestions,
   useOfVerbsQuestions,
@@ -31,7 +31,7 @@ export {
 export {
   completingSentenceQuestionsMetadata,
   connectorsQuestionsMetadata,
-  // modifierQuestionsMetadata,
+  modifierQuestionsMetadata,
   narrationQuestionsMetadata,
   transformationQuestionsMetadata,
   useOfVerbsQuestionsMetadata,
@@ -66,18 +66,18 @@ export const questionsData: Record<QuestionTopicSlug, QuestionData> = {
       yearRange: connectorsQuestionsMetadata.yearRange
     }
   },
-  // 'modifier': {
-  //   topic: 'Modifier',
-  //   slug: 'modifier',
-  //   level: 'HSC',
-  //   questions: modifierQuestions,
-  //   metadata: {
-  //     lastUpdated: modifierQuestionsMetadata.lastUpdated,
-  //     version: modifierQuestionsMetadata.version,
-  //     totalQuestions: modifierQuestionsMetadata.totalQuestions,
-  //     yearRange: modifierQuestionsMetadata.yearRange
-  //   }
-  // },
+  'modifier': {
+    topic: 'Modifier',
+    slug: 'modifier',
+    level: 'HSC',
+    questions: modifierQuestions,
+    metadata: {
+      lastUpdated: modifierQuestionsMetadata.lastUpdated,
+      version: modifierQuestionsMetadata.version,
+      totalQuestions: modifierQuestionsMetadata.totalQuestions,
+      yearRange: modifierQuestionsMetadata.yearRange
+    }
+  },
   'narration': {
     topic: 'Narration',
     slug: 'narration',

@@ -95,6 +95,7 @@ export function calculateQuestionCounts<TRule extends GenericRule, TQuestion ext
 /**
  * Filters rules and questions by level
  * Rules with level 'BOTH' are included for both HSC and SSC
+ * Rules without a level property are included for all levels (backward compatibility)
  */
 export function filterByLevel<TRule extends GenericRule, TQuestion extends GenericQuestion>(
   rules: TRule[],
@@ -102,7 +103,7 @@ export function filterByLevel<TRule extends GenericRule, TQuestion extends Gener
   level: 'HSC' | 'SSC'
 ): { rules: TRule[]; questions: TQuestion[] } {
   return {
-    rules: rules.filter(rule => rule.level === level || rule.level === 'BOTH'),
+    rules: rules.filter(rule => !rule.level || rule.level === level || rule.level === 'BOTH'),
     questions: questions.filter(question => question.level === level)
   };
 }

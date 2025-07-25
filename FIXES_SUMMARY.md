@@ -3,11 +3,14 @@
 ## Issues Resolved
 
 ### 1. Modifier Questions Not Showing in Question Section
-**Problem**: Questions weren't appearing when rules were selected because the system was looking for `question.ruleId` but the actual data structure has `ruleId` in the `blanks` array.
+**Problem**: Questions weren't appearing when rules were selected due to two issues:
+1. The system was looking for `question.ruleId` but the actual data structure has `ruleId` in the `blanks` array
+2. The `filterByLevel()` function was filtering out modifier rules because they don't have individual `level` properties
 
 **Solution**: 
 - Updated `createRuleQuestionMapping()` in `lib/utils/combined-section-helpers.ts`
 - Added logic to check both direct `ruleId` properties and `blanks` array
+- Fixed `filterByLevel()` to include rules without level properties (backward compatibility)
 - Now properly associates questions with rules based on their blank items
 
 ### 2. Rule Tapping Not Filtering Associated Questions
