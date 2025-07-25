@@ -7,6 +7,7 @@ import { GenericRule, GenericQuestion } from '@/components/combined/CombinedSect
 /**
  * Creates a rule-question mapping based on ruleId property
  * This is a generic approach that works with any topic
+ * For modifier questions, it checks the blanks array for ruleId associations
  */
 export function createRuleQuestionMapping<TRule extends GenericRule, TQuestion extends GenericQuestion>(
   rules: TRule[],
@@ -21,8 +22,28 @@ export function createRuleQuestionMapping<TRule extends GenericRule, TQuestion e
   
   // Group questions by ruleId
   questions.forEach(question => {
+    // Check if question has direct ruleId property
     if (question.ruleId && mapping[question.ruleId] !== undefined) {
       mapping[question.ruleId].push(question);
+    }
+    
+    // For modifier questions, check blanks array for ruleId associations
+    if ('blanks' in question && Array.isArray((question as any).blanks)) {
+      const blanks = (question as any).blanks;
+      const associatedRuleIds = new Set<number>();
+      
+      blanks.forEach((blank: any) => {
+        if (blank.ruleId && mapping[blank.ruleId] !== undefined) {
+          associatedRuleIds.add(blank.ruleId);
+        }
+      });
+      
+      // Add question to all associated rules
+      associatedRuleIds.forEach(ruleId => {
+        if (!mapping[ruleId].includes(question)) {
+          mapping[ruleId].push(question);
+        }
+      });
     }
   });
   
@@ -45,8 +66,26 @@ export function calculateQuestionCounts<TRule extends GenericRule, TQuestion ext
   
   // Count questions for each rule
   questions.forEach(question => {
+    // Check if question has direct ruleId property
     if (question.ruleId && counts[question.ruleId] !== undefined) {
       counts[question.ruleId]++;
+    }
+    
+    // For modifier questions, check blanks array for ruleId associations
+    if ('blanks' in question && Array.isArray((question as any).blanks)) {
+      const blanks = (question as any).blanks;
+      const associatedRuleIds = new Set<number>();
+      
+      blanks.forEach((blank: any) => {
+        if (blank.ruleId && counts[blank.ruleId] !== undefined) {
+          associatedRuleIds.add(blank.ruleId);
+        }
+      });
+      
+      // Count this question for all associated rules
+      associatedRuleIds.forEach(ruleId => {
+        counts[ruleId]++;
+      });
     }
   });
   

@@ -33,6 +33,8 @@ interface CombinedSectionLayoutProps<TRule extends GenericRule = GenericRule, TQ
   level: 'HSC' | 'SSC';
   rules: TRule[];
   questions: TQuestion[];
+  ruleQuestionMapping?: Record<number, TQuestion[]>;
+  questionCounts?: Record<number, number>;
   className?: string;
 }
 
@@ -144,6 +146,19 @@ const QuestionsPanel: React.FC<QuestionsPanelProps> = ({
   isLoading = false,
   className
 }) => {
+  const [visibleAnswers, setVisibleAnswers] = useState<Set<string>>(new Set());
+
+  const toggleAnswerVisibility = useCallback((questionId: string) => {
+    setVisibleAnswers(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(questionId)) {
+        newSet.delete(questionId);
+      } else {
+        newSet.add(questionId);
+      }
+      return newSet;
+    });
+  }, []);
   if (isLoading) {
     return (
       <div className={cn("h-full flex items-center justify-center", className)}>
@@ -230,6 +245,46 @@ const QuestionsPanel: React.FC<QuestionsPanelProps> = ({
                         </span>
                       )}
                     </div>
+                    
+                    {/* Eye Icon for Answer Toggle */}
+                    {question.answer && (
+                      <button
+                        onClick={() => toggleAnswerVisibility(question.id)}
+                        className={cn(
+                          "p-2 rounded-lg border transition-all duration-200",
+                          "hover:scale-105 active:scale-95 flex items-center gap-2",
+                          visibleAnswers.has(question.id)
+                            ? "bg-sf-button/10 border-sf-button/30 text-sf-button shadow-sm"
+                            : "bg-sf-text-muted/10 border-sf-text-muted/20 text-sf-text-muted hover:border-sf-text-muted/40 hover:bg-sf-text-muted/20"
+                        )}
+                        title={visibleAnswers.has(question.id) ? "Hide Answer" : "Show Answer"}
+                      >
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          {visibleAnswers.has(question.id) ? (
+                            // Eye slash icon (hide)
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
+                            />
+                          ) : (
+                            // Eye icon (show)
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                            />
+                          )}
+                        </svg>
+                      </button>
+                    )}
                   </div>
                   
                   <div className="prose prose-sm max-w-none">
@@ -237,8 +292,12 @@ const QuestionsPanel: React.FC<QuestionsPanelProps> = ({
                       {question.question}
                     </div>
                     
-                    {question.answer && (
-                      <div className="mt-4 p-4 bg-success-500/10 border border-success-500/20 rounded-lg">
+                    {question.answer && visibleAnswers.has(question.id) && (
+                      <div className={cn(
+                        "mt-4 p-4 bg-success-500/10 border border-success-500/20 rounded-lg",
+                        "transition-all duration-300 ease-in-out",
+                        animations.reveal.fadeIn
+                      )}>
                         <h5 className="text-sm font-semibold text-success-600 mb-2">Answer:</h5>
                         <div className="text-sm text-success-700 leading-relaxed">
                           {question.answer}
@@ -262,14 +321,20 @@ const CombinedSectionLayout: React.FC<CombinedSectionLayoutProps> = ({
   level,
   rules,
   questions,
+  ruleQuestionMapping,
+  questionCounts: passedQuestionCounts,
   className
 }) => {
   const [selectedRuleId, setSelectedRuleId] = useState<number | undefined>();
   const [isMobilePanelOpen, setIsMobilePanelOpen] = useState(false);
   const [isLoadingQuestions, setIsLoadingQuestions] = useState(false);
 
-  // Calculate question counts for each rule
+  // Use passed question counts or calculate them
   const questionCounts = useMemo(() => {
+    if (passedQuestionCounts) {
+      return passedQuestionCounts;
+    }
+
     const counts: Record<number, number> = {};
     
     // Initialize all rules with 0 count
@@ -277,25 +342,65 @@ const CombinedSectionLayout: React.FC<CombinedSectionLayoutProps> = ({
       counts[rule.id] = 0;
     });
     
-    // For now, we'll use a simple approach - in the next task we'll implement proper matching
-    // This is just to show the UI structure
+    // Count questions for each rule
     questions.forEach(question => {
+      // Check if question has direct ruleId property
       if (question.ruleId && counts[question.ruleId] !== undefined) {
         counts[question.ruleId]++;
+      }
+      
+      // For modifier questions, check blanks array for ruleId associations
+      if ('blanks' in question && Array.isArray((question as any).blanks)) {
+        const blanks = (question as any).blanks;
+        const associatedRuleIds = new Set<number>();
+        
+        blanks.forEach((blank: any) => {
+          if (blank.ruleId && counts[blank.ruleId] !== undefined) {
+            associatedRuleIds.add(blank.ruleId);
+          }
+        });
+        
+        // Count this question for all associated rules
+        associatedRuleIds.forEach(ruleId => {
+          counts[ruleId]++;
+        });
       }
     });
     
     return counts;
-  }, [rules, questions]);
+  }, [rules, questions, passedQuestionCounts]);
 
   // Get related questions for selected rule
   const relatedQuestions = useMemo(() => {
     if (!selectedRuleId) return [];
     
-    // For now, return questions that have matching ruleId
-    // In the next task, we'll implement proper rule-question matching
-    return questions.filter(question => question.ruleId === selectedRuleId);
-  }, [selectedRuleId, questions]);
+    // Use passed mapping if available
+    if (ruleQuestionMapping && ruleQuestionMapping[selectedRuleId]) {
+      return ruleQuestionMapping[selectedRuleId];
+    }
+    
+    // Fallback: filter questions by ruleId or blanks
+    const matchingQuestions: typeof questions = [];
+    
+    questions.forEach(question => {
+      // Check direct ruleId
+      if (question.ruleId === selectedRuleId) {
+        matchingQuestions.push(question);
+        return;
+      }
+      
+      // Check blanks array for modifier questions
+      if ('blanks' in question && Array.isArray((question as any).blanks)) {
+        const blanks = (question as any).blanks;
+        const hasMatchingRule = blanks.some((blank: any) => blank.ruleId === selectedRuleId);
+        if (hasMatchingRule) {
+          matchingQuestions.push(question);
+        }
+      }
+    });
+    
+    return matchingQuestions;
+  }, [selectedRuleId, questions, ruleQuestionMapping]);
 
   // Get selected rule
   const selectedRule = useMemo(() => {

@@ -18,6 +18,8 @@ export default function HSCModifierCombinedPage() {
           level={config.level}
           rules={config.rules}
           questions={config.questions}
+          ruleQuestionMapping={config.ruleQuestionMapping}
+          questionCounts={config.questionCounts}
         />
       </div>
     </SafeAreaWrapper>

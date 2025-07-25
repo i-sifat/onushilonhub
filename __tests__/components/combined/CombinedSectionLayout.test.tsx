@@ -220,6 +220,16 @@ describe('CombinedSectionLayout', () => {
     const firstRule = screen.getByText('Use adjective to pre-modify the noun');
     fireEvent.click(firstRule.closest('button')!);
     
+    // Wait for questions to load and find the eye icon
+    await waitFor(() => {
+      const eyeButton = screen.getByTitle('Show Answer');
+      expect(eyeButton).toBeInTheDocument();
+    });
+    
+    // Click the eye icon to show the answer
+    const eyeButton = screen.getByTitle('Show Answer');
+    fireEvent.click(eyeButton);
+    
     await waitFor(() => {
       expect(screen.getByText('Answer:')).toBeInTheDocument();
       expect(screen.getByText('(a) international')).toBeInTheDocument();
