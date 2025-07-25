@@ -196,3 +196,14 @@ export const completingSentenceQuestions: CompletingSentenceQuestion[] = [
     ]
   }
 ];
+//
+ Export metadata for the topic
+export const completingSentenceQuestionsMetadata = {
+  lastUpdated: '2024-01-15',
+  version: '1.0.0',
+  totalQuestions: 8,
+  yearRange: '2024',
+  boards: ['Dhaka', 'Rajshahi', 'Cumilla', 'Jashore', 'Barishal', 'Chattogram', 'Dinajpur', 'Mymensingh'],
+  levels: ['HSC'],
+  topics: ['completing-sentence']
+};
